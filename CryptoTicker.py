@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-#install cron
 #*/2 * * * * /usr/bin/python3 /home/pi/Projects/inky/ink_BTC.py --type what --colour red --target usd
 
 import argparse
@@ -35,14 +34,13 @@ while True:
 	if args.target is not None:
 		target = args.target
 
-
 	url = url + base + "-" + target
 
-	print("reading: " + url)
-    output = check_output(['/usr/bin/curl', url])
+#	print("reading: " + url)
+    output = check_output(['/usr/bin/curl', '-s', url])
     #print(output)
 
-    now = datetime.datetime.now() 
+#    now = datetime.datetime.now() 
 
     #response = urlopen(url)
     #data = response.read()
