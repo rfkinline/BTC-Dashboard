@@ -11,7 +11,6 @@ import sys
 import datetime
 import time
 
-
 from PIL import Image, ImageFont, ImageDraw
 from font_hanken_grotesk import HankenGroteskBold, HankenGroteskMedium
 from font_intuitive import Intuitive
