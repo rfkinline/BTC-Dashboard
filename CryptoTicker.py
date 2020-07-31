@@ -127,7 +127,7 @@ while True:
 
     text2_w, text2_h = hanken_medium_font.getsize(text2)
     text2_x = int((inky_display.WIDTH - text2_w) / 2)
-    text2_y = hello_h + (2 * padding)
+    text2_y = row1_h + (2 * padding)
     draw.text((text2_x, text2_y), text2, inky_display.BLACK, font=fredoka_font)
 
     text22_w, text22_h = hanken_medium_font.getsize(text22)
