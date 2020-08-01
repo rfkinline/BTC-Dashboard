@@ -3,7 +3,11 @@
 
 #install cron
 #*/2 * * * * /usr/bin/python3 /home/pi/Projects/inky/ink_BTC.py --type what --colour red --target usd
-# python3 ink_BTC.py --type phat --colour yellow --target USD
+#install inky 
+#https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
+
+# python3 ticker.py --type phat --colour yellow --target USD
+
 
 
 import requests
@@ -26,13 +30,14 @@ qtybtc = 1
 qtyeth = 2
 qtyada = 3
 qtyxio = 4
-qtyfrm = 5
+qtyamp = 5
 qtyban = 6
 qtyakr = 7
 qtyubt = 8
 qtyswa = 9
 base = 0
 basemax = str(round(0, 2))
+summemax = str(round(0, 2))
 
 while True:
 # Command line arguments to set display type and colour, and enter your name
@@ -52,7 +57,8 @@ while True:
         akr = requests.get('https://api.coingecko.com/api/v3/coins/akropolis').json()
         akr = { 'price_usd': akr['market_data']['current_price']['usd'] }
         priceakr = float(akr['price_usd'])
-       ubt = requests.get('https://api.coingecko.com/api/v3/coins/unibright').json()
+
+        ubt = requests.get('https://api.coingecko.com/api/v3/coins/unibright').json()
         ubt = { 'price_usd': ubt['market_data']['current_price']['usd'] }
         priceubt = float(ubt['price_usd'])
 
@@ -60,9 +66,9 @@ while True:
         ban = { 'price_usd': ban['market_data']['current_price']['usd'] }
         priceban = float(ban['price_usd'])
 
-        frm = requests.get('https://api.coingecko.com/api/v3/coins/ferrum-network').json()
-        frm = { 'price_usd': frm['market_data']['current_price']['usd'] }
-        pricefrm = float(frm['price_usd'])
+        amp = requests.get('https://api.coingecko.com/api/v3/coins/ampleforth').json()
+        amp = { 'price_usd': amp['market_data']['current_price']['usd'] }
+        priceamp = float(amp['price_usd'])
 
         xio = requests.get('https://api.coingecko.com/api/v3/coins/xio').json()
         xio = { 'price_usd': xio['market_data']['current_price']['usd'] }
@@ -82,14 +88,18 @@ while True:
         pricebtc = float(btc['price_usd'])
 
 
-        summe = int(pricebtc*qtybtc + priceeth*qtyeth + priceada*qtyada + pricexio*qtyxio + pricefrm*qtyfrm + priceban*qtyban + priceubt*qtyubt + priceakr*qtyakr + priceswa*qtyswa)
+        summe = int(pricebtc*qtybtc + priceeth*qtyeth + priceada*qtyada + pricexio*qtyxio + priceamp*qtyamp + priceban*qtyban + priceubt*qtyubt + priceakr*qtyakr + priceswa*qtyswa)
 
         base = str(round(summe / pricebtc, 2))
         if (base >= basemax):
                 basemax = base
 
-        summe = summe / 1000
-        print( pricebtc,priceeth,priceada,pricefrm,pricexio,priceban,priceubt,priceakr,summe)
+        summe = str(round(summe / 1000, 2))
+
+        if (summe >= summemax):
+                summemax = summe
+
+        print( pricebtc,priceeth,priceada,priceamp,pricexio,priceban,priceubt,priceakr,summe)
 #       if (summe >= base):
 #         base = summe
 
@@ -122,9 +132,10 @@ while True:
             # Grab the text to be displayed
         text1 = " "
         #text1 = now.strftime("%Y-%m-%d %H:%M")
-        text2 = " " + str(base) + " - " + str(basemax)
+        text2 =  str(base) + " - " + str(basemax)
         text22 = " "
-        text3 =  str(summe)
+        text3 =  str(summe) + " - " + str(summemax)
+
      # Top and bottom y-coordinates for the white strip
 
         y_top = int(inky_display.HEIGHT * (5.0 / 10.0))
