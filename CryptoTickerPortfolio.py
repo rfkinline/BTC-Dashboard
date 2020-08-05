@@ -78,7 +78,7 @@ while True:
 	base = str(round(summe / pricebtc, 2))
 	if (base >= basemax):
 		basemax = base
-		with open('demo.csv', 'w', newline='') as csvfile:
+		with open('configticker.csv', 'w', newline='') as csvfile:
 			savwriter = csv.writer(csvfile, delimiter=';')
 			text2=["basemax"] + [basemax] + [basemaxtime]
 			savwriter.writerow(text2)
@@ -90,7 +90,7 @@ while True:
 
 	if (summe >= summemax):
 		summemax = summe
-		with open('demo.csv', 'w', newline='') as csvfile:
+		with open('configticker.csv', 'w', newline='') as csvfile:
 			savwriter = csv.writer(csvfile, delimiter=';')
 			text2=["summemax"] + [summemax] + [basemaxtime]
 			savwriter.writerow(text2)
