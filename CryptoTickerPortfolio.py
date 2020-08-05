@@ -1,19 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#install cron
-#*/2 * * * * /usr/bin/python3 /home/pi/Projects/inky/ink_BTC.py --type what --colour red --target usd
-# python3 ink_BTC.py --type phat --colour yellow --target USD
-
-# best performing coin
-
-import numpy as np
 import pandas as pd
 import requests
 import json
 import time
 import argparse
-from subprocess import check_output
 import sys
 import datetime
 import csv
