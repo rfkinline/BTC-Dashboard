@@ -2,14 +2,16 @@ Instructions for cointickerportfolio.py
 
 
 What I am currently working on:
-1. display: best performing coin (24hrs)
-2. use larger display (3.5")
-3. error: when 404 on url, then the values are updated incorrectly (16.18 - 8.53)
-4. It looks like the display stops working after a few hours
-5. Improve GUI
-6. Plot some data?
+1. include: best performing coin (24hrs), total marketcap, profit of portfolio
+2. error: when 404 on url, then the values are updated incorrectly (16.18 - 8.53)
+3. Improve GUI
+4. Plot some data?
 
-# install inky for the display
+# install for HyperPixel 4.0 (display)
+Only follow these instructions. It will save you a lot of time:
+https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
+
+# install for Phat/What (display)
 https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
 
 
@@ -35,3 +37,6 @@ crontab -e
 
 insert the following code at the end:
 @reboot python3 /home/pi/CryptoTickerPortfolio.py &
+
+# C Button on display
+To stop the program, click on the "C" button. 
