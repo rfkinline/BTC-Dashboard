@@ -18,6 +18,8 @@ https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
 # to read-write the csv files install Pandas
 sudo apt-get install python3-pandas
 
+additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
+
 # Configticker.csv
 Create a file called configticker.csv with the following content (just copy and paste):<br>
 summemax;0.1;2011-08-05 10:58<br>
@@ -36,7 +38,7 @@ Column Qty: quantity in your portfolio<br>
 crontab -e
 
 insert the following code at the end:<br>
-@reboot python3 /home/pi/CryptoTickerPortfolio.py
+@reboot DISPLAY=:0 python3 /home/pi/CryptoTickerPortfolio.py
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
