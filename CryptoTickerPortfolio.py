@@ -10,8 +10,11 @@ import csv
 pricebtc = 0
 base = 0
 summe = 0
+summepurchase = 0
+sellcoin = ' '
+sellcoinsav = ' '
 now = datetime.datetime.now()
-df = pd.read_csv('portfolio.csv', delimiter=';', names = ['Coin', 'Qty'])
+df = pd.read_csv('portfolio.csv', delimiter=';', names = ['Coin', 'Qty', 'Purchase'])
 tf = pd.read_csv('configticker.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
 
 for i in range(len(tf)) :
@@ -56,19 +59,23 @@ class CryptoTicker:
 		down_label.grid(row=4, column=1)
 
 		investment = 86.44
-		currency = "${:,.2f}".format(investment)
+		currency = "${:,.2f}T".format(investment)
 		text9 = "Investment: " + str(currency)
 		invperc = summe / investment
 		currency = "{:,.0%}".format(invperc)
 		text10 = "Change___: " + str(currency)
 		down_label = Label(text=(text9 + '\n' + text10), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=4, column=2)
-		
-#		time2 = time.strftime('%H:%M:%S')
-#		clock = Label(root, font=('Helvetica', 12))
-#		clock.grid(row=5, column=1)
-#		clock.config(text=time2)
 
+		down_label = Label(text=('Take Profit: '), anchor=SE, width = 19, height=2, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
+		down_label.grid(row=5, column=1)
+
+		text11 = str(sellcoinsav)
+		currency = "{:,.0%}".format(sellcoinpercsav)
+		text12 = str(currency)
+		down_label = Label(text=(text11 + ' ' + text12), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',25, 'bold'))
+		down_label.grid(row=5, column=2)
+		
 		down_label.after(90000,CryptoTicker.labels)
 
 	def close(self):
@@ -76,6 +83,9 @@ class CryptoTicker:
 
 def hwg():
 	global summe
+	global sellcoinpercsav
+	global sellcoinsav
+	global summepurchase
 	global basemaxtime
 	global basemax
 	global summemax
@@ -92,10 +102,17 @@ def hwg():
 #		print("in")
 		for i in range(len(df)) :
 			qtycoin = float(df.loc[i,"Qty"])
+			purchasecoin =  float(df.loc[i,"Purchase"])
 			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).json()
 			ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 			pricecoin = float(ren['price_usd'])
-			summe = summe + qtycoin * pricecoin    #		print (qtycoin,pricecoin,summe)
+			summepurchase = summepurchase + qtycoin * purchasecoin
+			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
+			if (sellcoinperc > 4):
+				sellcoinsav = df.loc[i,"Coin"]
+				sellcoinpercsav = sellcoinperc
+			summe = summe + qtycoin * pricecoin    
+#			print (qtycoin,pricecoin,summe)
 			if df.loc[i,"Coin"] == "bitcoin":
 				pricebtc = pricecoin
 			if df.loc[i,"Coin"] == "ampleforth":
@@ -127,9 +144,9 @@ def hwg():
 		summemax = summe
 
 
-	currency = "${:,.2f}".format(summemax)
+	currency = "${:,.2f}T".format(summemax)
 	summemaxprint = str(currency)
-	currency = "${:,.2f}".format(summe)
+	currency = "${:,.2f}T".format(summe)
 	summeprint    = str(currency)
 	basemaxprint  = str(basemax)
 	baseprint     = str(base)
