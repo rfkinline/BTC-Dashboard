@@ -1,4 +1,4 @@
-<h1>Instructions for cointickerportfolio.py</h1>
+<h1>Instructions for CryptoTickerPortfolio.py</h1>
 
 <img src="https://i.ibb.co/Q6K2mxV/ct.jpg" alt="ct" border="0"></a>
 
