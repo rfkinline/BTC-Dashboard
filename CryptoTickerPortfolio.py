@@ -69,7 +69,7 @@ class CryptoTicker:
 #		clock.grid(row=5, column=1)
 #		clock.config(text=time2)
 
-		down_label.after(20000,CryptoTicker.labels)
+		down_label.after(90000,CryptoTicker.labels)
 
 	def close(self):
 		root.destroy()

@@ -1,5 +1,6 @@
 Instructions for cointickerportfolio.py
 
+https://ibb.co/55RNcJ3
 
 What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, profit of portfolio
