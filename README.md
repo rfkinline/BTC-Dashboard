@@ -1,13 +1,11 @@
 Instructions for cointickerportfolio.py
 
-![Alt text](https://ibb.co/55RNcJ3 "Optional title")
 <img src="https://i.ibb.co/Q6K2mxV/ct.jpg" alt="ct" border="0"></a>
 
 What I am currently working on:
-1. include: best performing coin (24hrs), total marketcap, profit of portfolio
-2. error: when 404 on url, then the values are updated incorrectly (16.18 - 8.53)
-3. Improve GUI
-4. Plot some data?
+1. include: best performing coin (24hrs), total marketcap, when to take profit
+2. Improve GUI
+3. Plot some data?
 
 # install for HyperPixel 4.0 (display)
 Only follow these instructions. It will save you a lot of time:
