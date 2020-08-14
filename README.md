@@ -1,6 +1,7 @@
 Instructions for cointickerportfolio.py
 
-https://ibb.co/55RNcJ3
+![Alt text](https://ibb.co/55RNcJ3 "Optional title")
+<img src="https://i.ibb.co/Q6K2mxV/ct.jpg" alt="ct" border="0"></a>
 
 What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, profit of portfolio
