@@ -1,4 +1,4 @@
-Instructions for cointickerportfolio.py
+<h1>Instructions for cointickerportfolio.py</h1>
 
 <img src="https://i.ibb.co/Q6K2mxV/ct.jpg" alt="ct" border="0"></a>
 
@@ -7,11 +7,11 @@ What I am currently working on:
 2. Improve GUI
 3. Plot some data?
 
-# install for HyperPixel 4.0 (display)
+# Install for HyperPixel 4.0 (3.5" display)
 Only follow these instructions. It will save you a lot of time:
 https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
 
-# install for Phat/What (display)
+# Install for Phat/What (paper display)
 https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
 
 
