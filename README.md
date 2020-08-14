@@ -1,6 +1,6 @@
 <h1>Instructions for CryptoTickerPortfolio.py</h1>
 
-<img src="https://i.ibb.co/Q6K2mxV/ct.jpg" alt="ct" border="0"></a>
+<img src="https://i.ibb.co/BnjTZg3/ct.jpg" width="400" alt="ct" border="0"></a>
 
 What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, when to take profit
@@ -36,7 +36,9 @@ Column Qty: quantity in your portfolio<br>
 crontab -e
 
 insert the following code at the end:<br>
-@reboot python3 /home/pi/CryptoTickerPortfolio.py &
+@reboot python3 /home/pi/CryptoTickerPortfolio.py
+
+additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
 # C Button on display
 To stop the program, click on the "C" button. 
