@@ -34,8 +34,9 @@ You need to do this only onece at the start. After that, the program will mainta
 
 # Portfolio.csv
 Create a file called portfolio.csv that includes your portfolio<br>
-Column coin: this will be used to complete the CoinGecko URL: https://api.coingecko.com/api/v3/coins/ampleforth<br>
+Column coin: this will be used to complete the CoinGecko URL: https://api.coingecko.com/api/v3/coins/ampleforth Check this URL before using it. For exmple REN is republic-network<br>
 Column Qty: quantity in your portfolio<br>
+Column Purchase: price of the coin at the time you purchased it<br>
 
 # to let the program automatically start after reboot
 crontab -e
