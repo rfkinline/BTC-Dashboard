@@ -85,8 +85,11 @@ class CryptoTicker:
 
 def bright():
 	gpio.set_PWM_dutycycle(19, 255)
-	time.sleep(300)
-	gpio.set_PWM_dutycycle(19, 40)
+#	time.sleep(300)
+#	gpio.set_PWM_dutycycle(19, 40)
+
+def dark():
+	gpio.set_PWM_dutycycle(19, 30)
 
 def hwg():
 	global summe
@@ -161,7 +164,7 @@ def hwg():
 	print(summeprint)
 #	summe = 0
 
-bright()
+dark()
 root = Tk()
 root.configure(cursor='none')
 root.attributes('-fullscreen', True)
