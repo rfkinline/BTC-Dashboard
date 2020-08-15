@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from tkinter import *
+import pigpio
 import pandas as pd
 import requests
 import time
@@ -7,6 +8,7 @@ import sys
 import datetime
 import csv
 
+gpio = pigpio.pi()
 pricebtc = 0
 base = 0
 summe = 0
@@ -81,6 +83,11 @@ class CryptoTicker:
 	def close(self):
 		root.destroy()
 
+def bright():
+	gpio.set_PWM_dutycycle(19, 255)
+	time.sleep(300)
+	gpio.set_PWM_dutycycle(19, 40)
+
 def hwg():
 	global summe
 	global sellcoinpercsav
@@ -122,7 +129,6 @@ def hwg():
 
 	base = float(round(summe / pricebtc, 2))
 	if (base > basemax):
-
 		with open('configticker.csv', 'a', newline='') as csvfile:
 			basemaxtime = datetime.datetime.now()
 			savwriter = csv.writer(csvfile, delimiter=';')
@@ -131,6 +137,7 @@ def hwg():
 			text2=["summemax"] + [summemax] + [summemaxtime]
 			savwriter.writerow(text2)
 		basemax = base
+		bright()
 
 	summe = summe / 1000
 	if (summe > summemax):
@@ -142,6 +149,7 @@ def hwg():
 			text2=["summemax"] + [summemax] + [summemaxtime]
 			savwriter.writerow(text2)
 		summemax = summe
+		bright()
 
 
 	currency = "${:,.2f}T".format(summemax)
@@ -153,6 +161,7 @@ def hwg():
 	print(summeprint)
 #	summe = 0
 
+bright()
 root = Tk()
 root.configure(cursor='none')
 root.attributes('-fullscreen', True)
