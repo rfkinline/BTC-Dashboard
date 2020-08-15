@@ -1,4 +1,4 @@
-<h1 style="color:red;">NEW FEATURE</h1>
+<div class="text-white bg-red mb-2">NEW FEATURE</div>
 The display will be dimmed to 20% until an event happens (ie all-time high)
 
 <h1>Instructions for CryptoTickerPortfolio.py</h1>
