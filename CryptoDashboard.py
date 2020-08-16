@@ -17,7 +17,7 @@ sellcoin = ' '
 sellcoinsav = ' '
 now = datetime.datetime.now()
 df = pd.read_csv('portfolio.csv', delimiter=';', names = ['Coin', 'Qty', 'Purchase'])
-tf = pd.read_csv('configticker.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
+tf = pd.read_csv('ConfigCryptoDashboard.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
 
 for i in range(len(tf)) :
 	if tf.loc[i,"Name"] == "summemax":
@@ -33,7 +33,7 @@ class CryptoTicker:
 		self.close_button = Button(text="C", command=self.close)
 		self.close_button.grid(row=0, column=0)
 
-		self.label = Label(master, text="CryptoTicker",justify=LEFT, width=20, font=('Helvetica',32, 'bold'), fg = 'blue')
+		self.label = Label(master, text="Crypto Dashboard",justify=LEFT, width=20, font=('Helvetica',32, 'bold'), fg = 'blue')
 		self.label.grid(row=0, column=1, columnspan=2)
 
 	def labels():
@@ -132,7 +132,7 @@ def hwg():
 
 	base = float(round(summe / pricebtc, 2))
 	if (base > basemax):
-		with open('configticker.csv', 'a', newline='') as csvfile:
+		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
 			basemaxtime = datetime.datetime.now()
 			savwriter = csv.writer(csvfile, delimiter=';')
 			text2=["basemax"] + [basemax] + [basemaxtime]
@@ -144,7 +144,7 @@ def hwg():
 
 	summe = summe / 1000
 	if (summe > summemax):
-		with open('configticker.csv', 'a', newline='') as csvfile:
+		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
 			summemaxtime = datetime.datetime.now()
 			savwriter = csv.writer(csvfile, delimiter=';')
 			text2=["basemax"] + [basemax] + [basemaxtime]

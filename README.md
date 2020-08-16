@@ -23,8 +23,8 @@ sudo apt-get install python3-pandas
 
 additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
 
-# ConfigDashboard.csv
-Create a file called configDashboard.csv with the following content (just copy and paste):<br>
+# ConfigCryptoDashboard.csv
+Create a file called ConfigCryptoDashboard.csv with the following content (just copy and paste):<br>
 summemax;0.1;2011-08-05 10:58<br>
 basemax;0.01;2011-08-05 10:58<br>
 
