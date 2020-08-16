@@ -1,7 +1,7 @@
 <h1>NEW FEATURE</h1>
 The display will be dimmed to 20% until an event happens (ie all-time high)
 
-<h1>Instructions for CryptoTickerPortfolio.py</h1>
+<h1>Instructions for CryptoDashboard.py</h1>
 
 <img src="https://i.ibb.co/BnjTZg3/ct.jpg" width="400" alt="ct" border="0"></a>
 
@@ -23,8 +23,8 @@ sudo apt-get install python3-pandas
 
 additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
 
-# Configticker.csv
-Create a file called configticker.csv with the following content (just copy and paste):<br>
+# ConfigDashboard.csv
+Create a file called configDashboard.csv with the following content (just copy and paste):<br>
 summemax;0.1;2011-08-05 10:58<br>
 basemax;0.01;2011-08-05 10:58<br>
 
@@ -43,7 +43,7 @@ crontab -e
 
 insert the following code at the end:<br>
 @reboot DISPLAY=:0 sudo pigpiod
-@reboot DISPLAY=:0 python3 /home/pi/CryptoTickerPortfolio.py
+@reboot DISPLAY=:0 python3 /home/pi/CryptoDashboard.py
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
