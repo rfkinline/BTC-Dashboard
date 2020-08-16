@@ -20,7 +20,7 @@ summe = 0
 now = datetime.datetime.now()
 
 df = pd.read_csv('portfolio.csv', delimiter=';', names = ['Coin', 'Qty'])
-tf = pd.read_csv('configticker.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
+tf = pd.read_csv('ConfigCryptoDashboard.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
 for i in range(len(tf)) :
 	if tf.loc[i,"Name"] == "summemax":
 		summemax = float(tf.loc[i,"Value"])
@@ -69,8 +69,7 @@ while True:
 	base = float(round(summe / pricebtc, 2))
 
 	if (base > basemax):
-
-		with open('configticker.csv', 'w', newline='') as csvfile:
+		with open('ConfigCryptoDashboard.csv', 'w', newline='') as csvfile:
 			basemaxtime = datetime.datetime.now()
 			savwriter = csv.writer(csvfile, delimiter=';')
 			text2=["basemax"] + [basemax] + [basemaxtime]
@@ -83,7 +82,7 @@ while True:
 
 	if (summe > summemax):
 		summemaxtime = datetime.datetime.now()
-		with open('configticker.csv', 'w', newline='') as csvfile:
+		with open('ConfigCryptoDashboard.csv', 'w', newline='') as csvfile:
 			savwriter = csv.writer(csvfile, delimiter=';')
 			text2=["summemax"] + [summemax] + [summemaxtime]
 			savwriter.writerow(text2)
