@@ -1,15 +1,19 @@
 <h1>NEW FEATURE</h1>
 The display will be dimmed to 20% until an event happens (ie all-time high)
 
+<h1>Hardware</h1>
+- Standard Raspberry Pi 3
+- Hyperpixel display (as seen in image below) or Phat/What paper displays
+- OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
+
 <h1>Instructions for CryptoDashboard.py</h1>
 
 <img src="https://i.ibb.co/s22NsyW/IMG-20200817-094113.jpg" alt="" border="0"></a><br>
 <img src="https://i.ibb.co/0YZDJhP/IMG-20200817-0941132.jpg" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
 
 What I am currently working on:
-1. include: best performing coin (24hrs), total marketcap, when to take profit
+1. include: best performing coin (24hrs), total marketcap, incorporate other indicators
 2. Improve GUI
-3. Plot some data?
 
 # Install for HyperPixel 4.0 (3.5" display)
 Only follow these instructions. It will save you a lot of time:
