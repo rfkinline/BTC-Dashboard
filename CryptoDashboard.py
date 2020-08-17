@@ -13,6 +13,7 @@ pricebtc = 0
 base = 0
 summe = 0
 summepurchase = 0
+sellcoinpercsav = 0
 sellcoin = ' '
 sellcoinsav = ' '
 now = datetime.datetime.now()
@@ -38,20 +39,25 @@ class CryptoTicker:
 
 	def labels():
 		hwg()
+
+		investment = 86.44
+		investbtc = investment * 1000 / purchasebtc
+		currency = "{:,.2f}".format(investbtc)
 		text1 = str(basemaxtime) #.strftime("%Y-%m-%d %H:%M")
 		text2 =  "Portfolio (BTC): " + str(baseprint)
 		text3 =  "Max BTC____: " + str(basemaxprint)
-		down_label = Label(text=(text2 + '\n' + text3 ),anchor=NW, width = 19, height=2, justify=LEFT,font=('Helvetica',25))
+		text3a =  "BTC at start__: " + str(currency)
+		down_label = Label(text=(text2 + '\n' + text3a + '\n' + text3 ),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=1)
 		
 		text5 = "Portfolio____: " + str(summeprint)
 		text6 = "Max Portfolio: " + str(summemaxprint)
-		down_label = Label(text=(text5 + '\n' + text6), anchor=NW, width = 19, height=2, justify=LEFT,font=('Helvetica',25))
+		down_label = Label(text=(text5 + '\n' + text6), anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=2)
 
 		text4 = "Max $ date: " + str(summemaxtime)
 		down_label = Label(text=(text4), anchor=NW, width = 39, height=2, justify=LEFT,font=('Helvetica',12))
-		down_label.grid(row=3, column=1)
+		down_label.grid(row=3, column=2)
 		
 		currency = "${:,.2f}".format(priceamp)
 		text7 = "AMPL: " + str(currency)
@@ -60,7 +66,6 @@ class CryptoTicker:
 		down_label = Label(text=(text7 + '\n' + text8), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=4, column=1)
 
-		investment = 86.44
 		currency = "${:,.2f}T".format(investment)
 		text9 = "Investment: " + str(currency)
 		invperc = summe / investment
@@ -106,6 +111,7 @@ def hwg():
 	global summemaxtime
 	global pricebtc
 	global priceamp
+	global purchasebtc
 
 #	while True:
 	try:
@@ -125,6 +131,7 @@ def hwg():
 #			print (qtycoin,pricecoin,summe)
 			if df.loc[i,"Coin"] == "bitcoin":
 				pricebtc = pricecoin
+				purchasebtc = purchasecoin
 			if df.loc[i,"Coin"] == "ampleforth":
 				priceamp = pricecoin
 	except:

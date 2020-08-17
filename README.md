@@ -3,7 +3,7 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 
 <h1>Instructions for CryptoDashboard.py</h1>
 
-<img src="https://i.ibb.co/BnjTZg3/ct.jpg" width="400" alt="ct" border="0"></a>
+<img src="https://i.ibb.co/s22NsyW/IMG-20200817-094113.jpg" alt="" border="0"></a>
 
 What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, when to take profit
