@@ -2,9 +2,9 @@
 The display will be dimmed to 20% until an event happens (ie all-time high)
 
 <h1>Hardware</h1>
-- Standard Raspberry Pi 3
-- Hyperpixel display (as seen in image below) or Phat/What paper displays
-- OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
+<li>Standard Raspberry Pi 3
+<li>Hyperpixel display (as seen in image below) or Phat/What paper displays
+<li>OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
 
 <h1>Instructions for CryptoDashboard.py</h1>
 
