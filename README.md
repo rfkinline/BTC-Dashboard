@@ -16,7 +16,7 @@ What I am currently working on:
 2. Improve GUI
 
 # Display
-CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built of the Phat or What paper display.<br>
+CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built on the Phat or What paper display.<br>
 
 <p><b>A) Install for HyperPixel 4.0 (3.5" display)</b><br>
     Only follow these instructions. It will save you a lot of time:<br>
@@ -25,11 +25,6 @@ CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is
 <p><b>B) Install for Phat/What (paper display)</b><br>
     https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat</p>
 
-
-# to read-write the csv files install Pandas
-sudo apt-get install python3-pandas
-
-additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
 
 # ConfigCryptoDashboard.csv
 Create a file called ConfigCryptoDashboard.csv with the following content (just copy and paste):<br>
@@ -46,7 +41,14 @@ Column coin: this will be used to complete the CoinGecko URL: https://api.coinge
 Column Qty: quantity in your portfolio<br>
 Column Purchase: price of the coin at the time you purchased it<br>
 
-# to let the program automatically start after reboot
+# Install PANDAS
+to read-write the csv files you need to istall PANDAS:<br>
+sudo apt-get install python3-pandas
+
+additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
+
+
+# Let the program automatically start after reboot
 crontab -e
 
 insert the following code at the end:<br>
@@ -55,5 +57,5 @@ insert the following code at the end:<br>
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
-# C Button on display
+# There is a C Button on HyperPixel display
 To stop the program, click on the "C" button. 
