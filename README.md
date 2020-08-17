@@ -42,18 +42,18 @@ Column Qty: quantity in your portfolio<br>
 Column Purchase: price of the coin at the time you purchased it<br>
 
 # Install PANDAS
-to read-write the csv files you need to istall PANDAS:<br>
-sudo apt-get install python3-pandas
+to read-write the csv files you need to install PANDAS:<br>
+> sudo apt-get install python3-pandas
 
 additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
 
 
 # Let the program automatically start after reboot
-crontab -e
+> crontab -e
 
 insert the following code at the end:<br>
-@reboot DISPLAY=:0 sudo pigpiod
-@reboot DISPLAY=:0 python3 /home/pi/CryptoDashboard.py
+> @reboot DISPLAY=:0 sudo pigpiod
+> @reboot DISPLAY=:0 python3 /home/pi/CryptoDashboard.py
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
