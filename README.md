@@ -16,13 +16,14 @@ What I am currently working on:
 2. Improve GUI
 
 # Display
-CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built of the Phat or What paper display.
-    A Install for HyperPixel 4.0 (3.5" display)<br>
-    Only follow these instructions. It will save you a lot of time:<br>
-    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
+CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built of the Phat or What paper display.<br>
 
-    B Install for Phat/What (paper display)
-    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
+<p>    A Install for HyperPixel 4.0 (3.5" display)<br>
+    Only follow these instructions. It will save you a lot of time:<br>
+    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4</p>
+
+<p>    B Install for Phat/What (paper display)<br>
+    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat</p>
 
 
 # to read-write the csv files install Pandas
