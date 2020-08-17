@@ -1,4 +1,4 @@
-<h1>NEW FEATURE</h1>
+<h3>NEW FEATURE</h3>
 The display will be dimmed to 20% until an event happens (ie all-time high)
 
 <h1>Hardware</h1>
@@ -15,12 +15,14 @@ What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, incorporate other indicators
 2. Improve GUI
 
-# Install for HyperPixel 4.0 (3.5" display)
-Only follow these instructions. It will save you a lot of time:
-https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
+# Display
+CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built of the Phat or What paper display.
+    A Install for HyperPixel 4.0 (3.5" display)<br>
+    Only follow these instructions. It will save you a lot of time:<br>
+    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
 
-# Install for Phat/What (paper display)
-https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
+    B Install for Phat/What (paper display)
+    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
 
 
 # to read-write the csv files install Pandas

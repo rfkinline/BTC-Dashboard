@@ -9,8 +9,9 @@ import datetime
 import csv
 
 gpio = pigpio.pi()
+investment = 86.44
 pricebtc = 0
-base = 0
+btc = 0
 summe = 0
 summepurchase = 0
 sellcoinpercsav = 0
@@ -24,9 +25,9 @@ for i in range(len(tf)) :
 	if tf.loc[i,"Name"] == "summemax":
 		summemax = float(tf.loc[i,"Value"])
 		summemaxtime = str(tf.loc[i,"Zeit"])
-	if tf.loc[i,"Name"] == "basemax":
-		basemax = float(tf.loc[i,"Value"])
-		basemaxtime = str(tf.loc[i,"Zeit"])
+	if tf.loc[i,"Name"] == "btcmax":
+		btcmax = float(tf.loc[i,"Value"])
+		btcmaxtime = str(tf.loc[i,"Zeit"])
 
 class CryptoTicker:
 	def __init__(self, master):
@@ -40,22 +41,21 @@ class CryptoTicker:
 	def labels():
 		hwg()
 
-		investment = 86.44
 		investbtc = investment * 1000 / purchasebtc
 		currency = "{:,.2f}".format(investbtc)
-		text1 = str(basemaxtime) #.strftime("%Y-%m-%d %H:%M")
-		text2 =  "Portfolio (BTC): " + str(baseprint)
-		text3 =  "Max BTC____: " + str(basemaxprint)
-		text3a =  "BTC at start__: " + str(currency)
+		text1 = str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
+		text2 =  "Portfolio____: " + u'\u20bf' + str(btcprint)
+		text3 =  "Portfolio ATH: " + u'\u20bf' + str(btcmaxprint)
+		text3a =  "Portfolio Start: " + u'\u20bf' + str(currency)
 		down_label = Label(text=(text2 + '\n' + text3a + '\n' + text3 ),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=1)
 		
 		text5 = "Portfolio____: " + str(summeprint)
-		text6 = "Max Portfolio: " + str(summemaxprint)
+		text6 = "Portfolio ATH: " + str(summemaxprint)
 		down_label = Label(text=(text5 + '\n' + text6), anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=2)
 
-		text4 = "Max $ date: " + str(summemaxtime)
+		text4 = "ATH $ date: " + str(summemaxtime)
 		down_label = Label(text=(text4), anchor=NW, width = 39, height=2, justify=LEFT,font=('Helvetica',12))
 		down_label.grid(row=3, column=2)
 		
@@ -101,12 +101,12 @@ def hwg():
 	global sellcoinpercsav
 	global sellcoinsav
 	global summepurchase
-	global basemaxtime
-	global basemax
+	global btcmaxtime
+	global btcmax
 	global summemax
 	global summeprint
-	global baseprint
-	global basemaxprint
+	global btcprint
+	global btcmaxprint
 	global summemaxprint
 	global summemaxtime
 	global pricebtc
@@ -137,41 +137,47 @@ def hwg():
 	except:
 			print("Error reading Coin URL", df.loc[i,"Coin"])
 
-	base = float(round(summe / pricebtc, 2))
-	if (base > basemax):
+	btc = float(round(summe / pricebtc, 2))
+	if (btc > btcmax):
 		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
-			basemaxtime = datetime.datetime.now()
+			btcmaxtime = datetime.datetime.now()
 			savwriter = csv.writer(csvfile, delimiter=';')
-			text2=["basemax"] + [basemax] + [basemaxtime]
+			text2=["btcmax"] + [btcmax] + [btcmaxtime]
 			savwriter.writerow(text2)
 			text2=["summemax"] + [summemax] + [summemaxtime]
 			savwriter.writerow(text2)
-		basemax = base
+		btcmax = btc
 		bright()
+	else:
+		dark()
 
 	summe = summe / 1000
 	if (summe > summemax):
 		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
 			summemaxtime = datetime.datetime.now()
 			savwriter = csv.writer(csvfile, delimiter=';')
-			text2=["basemax"] + [basemax] + [basemaxtime]
+			text2=["btcmax"] + [btcmax] + [btcmaxtime]
 			savwriter.writerow(text2)
 			text2=["summemax"] + [summemax] + [summemaxtime]
 			savwriter.writerow(text2)
 		summemax = summe
 		bright()
-
+	else:
+		dark()
 
 	currency = "${:,.2f}T".format(summemax)
 	summemaxprint = str(currency)
+	
+	currency = "{:,.2f}".format(btcmax)
+	btcmaxprint = str(currency)
+	
 	currency = "${:,.2f}T".format(summe)
 	summeprint    = str(currency)
-	basemaxprint  = str(basemax)
-	baseprint     = str(base)
+	
+	btcprint     = str(btc)
 	print(summeprint)
 #	summe = 0
 
-dark()
 root = Tk()
 root.configure(cursor='none')
 root.attributes('-fullscreen', True)
