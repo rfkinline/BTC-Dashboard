@@ -3,7 +3,8 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 
 <h1>Instructions for CryptoDashboard.py</h1>
 
-<img src="https://i.ibb.co/s22NsyW/IMG-20200817-094113.jpg" alt="" border="0"></a>
+<img src="https://i.ibb.co/s22NsyW/IMG-20200817-094113.jpg" alt="" border="0"></a><br>
+<img src="https://i.ibb.co/0YZDJhP/IMG-20200817-0941132.jpg" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
 
 What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, when to take profit
