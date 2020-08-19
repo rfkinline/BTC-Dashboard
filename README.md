@@ -8,13 +8,17 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 
 ##Instructions for CryptoDashboard.py
 
-<img src="https://i.ibb.co/s22NsyW/IMG-20200817-094113.jpg" alt="" border="0"></a><br>
-<img src="https://i.ibb.co/0YZDJhP/IMG-20200817-0941132.jpg" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
+<img src="https://i.ibb.co/5LGyp0C/ct3a.jpg" alt="" border="0"></a><br>
+<img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
 
 ## What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, incorporate other indicators
 2. Improve GUI
 3. Minimize hardcoded variables
+4. Eventually move away from TKinter. It is too complicated. iE kivy, QT, GTK
+5. Indicators like: Mayer Multiple or Number of coins with more than 15% gain, divided by coins more than 15% loss (7 days), ???
+6. Marketcap: total, DeFi
+7. Coinbase Index
 
 ## Display
 CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built on the Phat or What paper display.<br>
