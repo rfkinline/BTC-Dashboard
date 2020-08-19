@@ -45,14 +45,16 @@ class CryptoTicker:
 		currency = "{:,.2f}".format(investbtc)
 		text1 = str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
 		text2 =  "Portfolio____: " + u'\u20bf' + str(btcprint)
-		text3 =  "Portfolio ATH: " + u'\u20bf' + str(btcmaxprint)
 		text3a =  "Portfolio Start: " + u'\u20bf' + str(currency)
+		text3 =  "Portfolio ATH: " + u'\u20bf' + str(btcmaxprint)
 		down_label = Label(text=(text2 + '\n' + text3a + '\n' + text3 ),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=1)
 		
+		currency = "${:,.2f}T".format(investment)
 		text5 = "Portfolio____: " + str(summeprint)
+		text9 = "Portfolio Start: " + str(currency)
 		text6 = "Portfolio ATH: " + str(summemaxprint)
-		down_label = Label(text=(text5 + '\n' + text6), anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
+		down_label = Label(text=(text5 + '\n' + text9 + '\n' + text6), anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=2)
 
 		text4 = "ATH $ date: " + str(summemaxtime)
@@ -66,15 +68,13 @@ class CryptoTicker:
 		down_label = Label(text=(text7 + '\n' + text8), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=4, column=1)
 
-		currency = "${:,.2f}T".format(investment)
-		text9 = "Investment: " + str(currency)
 		invperc = summe / investment
 		currency = "{:,.0%}".format(invperc)
-		text10 = "Change___: " + str(currency)
-		down_label = Label(text=(text9 + '\n' + text10), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
+		text10 = "RoI: " + str(currency)
+		down_label = Label(text=(text10), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=4, column=2)
 
-		down_label = Label(text=('Take Profit: '), anchor=SE, width = 19, height=2, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
+		down_label = Label(text=('Take Profit: '), anchor=NW, width = 19, height=2, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
 		down_label.grid(row=5, column=1)
 
 		text11 = str(sellcoinsav)
@@ -82,16 +82,15 @@ class CryptoTicker:
 		text12 = str(currency)
 		down_label = Label(text=(text11 + ' ' + text12), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=5, column=2)
-		
-		down_label.after(90000,CryptoTicker.labels)
+
+# This is where you set the update time. 1000 - 1 sec	
+		down_label.after(180000,CryptoTicker.labels)
 
 	def close(self):
 		root.destroy()
 
 def bright():
 	gpio.set_PWM_dutycycle(19, 255)
-#	time.sleep(300)
-#	gpio.set_PWM_dutycycle(19, 40)
 
 def dark():
 	gpio.set_PWM_dutycycle(19, 30)

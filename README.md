@@ -14,6 +14,7 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 ## What I am currently working on:
 1. include: best performing coin (24hrs), total marketcap, incorporate other indicators
 2. Improve GUI
+3. Minimize hardcoded variables
 
 ## Display
 CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built on the Phat or What paper display.<br>
