@@ -6,7 +6,7 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 <li>Hyperpixel display (as seen in image below) or Phat/What paper displays
 <li>OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
 
-##Instructions for CryptoDashboard.py
+## Instructions for CryptoDashboard.py
 
 <img src="https://i.ibb.co/5LGyp0C/ct3a.jpg" alt="" border="0"></a><br>
 <img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
