@@ -19,6 +19,8 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 5. Indicators like: Mayer Multiple or Number of coins with more than 15% gain, divided by coins more than 15% loss (7 days), ???
 6. Marketcap: total, DeFi
 7. Coinbase Index
+8. Investment value dilema. I chose to hardcode the value of the investment in USD and BTC as othrwise there will be the dilema: at what exchange rate to the USD and BTC was the coin / token purchased? It makes everything complicated and therefore those 2 numbers are hardcoded. In case you prefer to calculate them, then add a column "purchase price in BTC" to the portfolio. The column purchase price in the portfolio is needed so the program can calculate the "take profit" of a coin
+9. Clean up code and document in code
 
 ## Display
 CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built on the Phat or What paper display.<br>

@@ -9,11 +9,13 @@ import datetime
 import csv
 
 gpio = pigpio.pi()
-investment = 86.44
+
+investusd = 8.44
+investbtc = 0.77
 pricebtc = 0
 btc = 0
 summe = 0
-summepurchase = 0
+#summepurchase = 0
 sellcoinpercsav = 0
 sellcoin = ' '
 sellcoinsav = ' '
@@ -41,7 +43,7 @@ class CryptoTicker:
 	def labels():
 		hwg()
 
-		investbtc = investment * 1000 / purchasebtc
+#		investbtc = summepurchase * 1000 / purchasebtc
 		currency = "{:,.2f}".format(investbtc)
 		text1 = str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
 		text2 =  "Portfolio____: " + u'\u20bf' + str(btcprint)
@@ -50,7 +52,7 @@ class CryptoTicker:
 		down_label = Label(text=(text2 + '\n' + text3a + '\n' + text3 ),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=1)
 		
-		currency = "${:,.2f}T".format(investment)
+		currency = "${:,.2f}T".format(investusd)
 		text5 = "Portfolio____: " + str(summeprint)
 		text9 = "Portfolio Start: " + str(currency)
 		text6 = "Portfolio ATH: " + str(summemaxprint)
@@ -68,13 +70,13 @@ class CryptoTicker:
 		down_label = Label(text=(text7 + '\n' + text8), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=4, column=1)
 
-		invperc = summe / investment
+		invperc = summe / investusd
 		currency = "{:,.0%}".format(invperc)
 		text10 = "RoI: " + str(currency)
-		down_label = Label(text=(text10), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
+		down_label = Label(text=(text10), width = 19, bg='#111118', justify=LEFT,relief=RAISED, font=('Helvetica',25,'bold'), fg='white')
 		down_label.grid(row=4, column=2)
 
-		down_label = Label(text=('Take Profit: '), anchor=NW, width = 19, height=2, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
+		down_label = Label(text=('Take Profit: '), anchor=SE, width = 19, height=2, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
 		down_label.grid(row=5, column=1)
 
 		text11 = str(sellcoinsav)
@@ -82,6 +84,7 @@ class CryptoTicker:
 		text12 = str(currency)
 		down_label = Label(text=(text11 + ' ' + text12), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=5, column=2)
+
 
 # This is where you set the update time. 1000 - 1 sec	
 		down_label.after(180000,CryptoTicker.labels)
@@ -99,7 +102,7 @@ def hwg():
 	global summe
 	global sellcoinpercsav
 	global sellcoinsav
-	global summepurchase
+	# global summepurchase
 	global btcmaxtime
 	global btcmax
 	global summemax
@@ -121,7 +124,7 @@ def hwg():
 			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).json()
 			ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 			pricecoin = float(ren['price_usd'])
-			summepurchase = summepurchase + qtycoin * purchasecoin
+#			summepurchase = summepurchase + qtycoin * purchasecoin
 			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
 			if (sellcoinperc > 4):
 				sellcoinsav = df.loc[i,"Coin"]
@@ -151,6 +154,7 @@ def hwg():
 		dark()
 
 	summe = summe / 1000
+#	summepurchase = summepurchase / 1000
 	if (summe > summemax):
 		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
 			summemaxtime = datetime.datetime.now()
