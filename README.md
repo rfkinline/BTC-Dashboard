@@ -8,11 +8,11 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 
 ## Instructions for CryptoDashboard.py
 
-<img src="https://i.ibb.co/5LGyp0C/ct3a.jpg" alt="" border="0"></a><br>
+<img src="https://i.ibb.co/r0BzBfF/IMG-20200821-195719.jpg" alt="" border="0"></a><br>
 <img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
 
 ## What I am currently working on:
-1. include: best performing coin (24hrs), total marketcap, incorporate other indicators
+1. include: total marketcap, incorporate other indicators
 2. Improve GUI
 3. Minimize hardcoded variables
 4. Eventually move away from TKinter. It is too complicated. iE kivy, QT, GTK

@@ -15,6 +15,7 @@ investbtc = 0.77
 pricebtc = 0
 btc = 0
 summe = 0
+onlyonce = 0
 #summepurchase = 0
 sellcoinpercsav = 0
 sellcoin = ' '
@@ -22,6 +23,7 @@ sellcoinsav = ' '
 now = datetime.datetime.now()
 df = pd.read_csv('portfolio.csv', delimiter=';', names = ['Coin', 'Qty', 'Purchase'])
 tf = pd.read_csv('ConfigCryptoDashboard.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
+result=[]
 
 for i in range(len(tf)) :
 	if tf.loc[i,"Name"] == "summemax":
@@ -76,13 +78,23 @@ class CryptoTicker:
 		down_label = Label(text=(text10), width = 19, bg='#111118', justify=LEFT,relief=RAISED, font=('Helvetica',25,'bold'), fg='white')
 		down_label.grid(row=4, column=2)
 
-		down_label = Label(text=('Take Profit: '), anchor=SE, width = 19, height=2, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
+# Row 5 to 9 = top 4 performing coins (profit)
+		down_label = Label(text=('Portfolio top 4 profit:'), anchor=NW, width = 19, height=4, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
 		down_label.grid(row=5, column=1)
 
-		text11 = str(sellcoinsav)
-		currency = "{:,.0%}".format(sellcoinpercsav)
-		text12 = str(currency)
-		down_label = Label(text=(text11 + ' ' + text12), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',25, 'bold'))
+        text11=str(res.Coin.iloc[0])
+        currencya = "{:,.0%}".format(res.result.iloc[0])
+		text11a = str(currencya)
+        text12=str(res.Coin.iloc[1])
+        currencyb = "{:,.0%}".format(res.result.iloc[1])
+		text12a = str(currencyb)
+        text13=str(res.Coin.iloc[2])
+        currencyc = "{:,.0%}".format(res.result.iloc[2])
+		text13a = str(currencyc)
+        text14=str(res.Coin.iloc[3])
+        currencyd = "{:,.0%}".format(res.result.iloc[3])
+		text14a = str(currencyd)
+		down_label = Label(text=(text11 + ' ' + text11a + '\n' +  text12 + ' ' + text12a + '\n' + text13 + ' ' + text13a + '\n' +  text14 + ' ' + text14a), anchor=NW, width = 19, height=4, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=5, column=2)
 
 
@@ -100,6 +112,7 @@ def dark():
 
 def hwg():
 	global summe
+	global res
 	global sellcoinpercsav
 	global sellcoinsav
 	# global summepurchase
@@ -107,6 +120,7 @@ def hwg():
 	global btcmax
 	global summemax
 	global summeprint
+	global onlyonce
 	global btcprint
 	global btcmaxprint
 	global summemaxprint
@@ -136,8 +150,18 @@ def hwg():
 				purchasebtc = purchasecoin
 			if df.loc[i,"Coin"] == "ampleforth":
 				priceamp = pricecoin
+			result.append(sellcoinperc)
+
 	except:
 			print("Error reading Coin URL", df.loc[i,"Coin"])
+
+	if onlyonce == 0:
+		df["result"] = result
+		onlyonce = onlyonce + 1
+
+	res = df.nlargest(4,'result')
+#    print(res)
+#    print(res.Coin.iloc[0])
 
 	btc = float(round(summe / pricebtc, 2))
 	if (btc > btcmax):
