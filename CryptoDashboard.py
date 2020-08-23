@@ -78,24 +78,43 @@ class CryptoTicker:
 		down_label = Label(text=(text10), width = 19, bg='#111118', justify=LEFT,relief=RAISED, font=('Helvetica',25,'bold'), fg='white')
 		down_label.grid(row=4, column=2)
 
-# Row 5 to 9 = top 4 performing coins (profit)
-		down_label = Label(text=('Portfolio top 4 profit:'), anchor=NW, width = 19, height=4, justify=RIGHT,font=('Helvetica',25, 'bold'), fg="red")
+# Row 5 to 9 = bottom/top 4 performing coins (profit)
+		text98 = "Losers"
+		down_label = Label(text=(text98), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=1)
-
-        text11=str(res.Coin.iloc[0])
-        currencya = "{:,.0%}".format(res.result.iloc[0])
-		text11a = str(currencya)
-        text12=str(res.Coin.iloc[1])
-        currencyb = "{:,.0%}".format(res.result.iloc[1])
-		text12a = str(currencyb)
-        text13=str(res.Coin.iloc[2])
-        currencyc = "{:,.0%}".format(res.result.iloc[2])
-		text13a = str(currencyc)
-        text14=str(res.Coin.iloc[3])
-        currencyd = "{:,.0%}".format(res.result.iloc[3])
-		text14a = str(currencyd)
-		down_label = Label(text=(text11 + ' ' + text11a + '\n' +  text12 + ' ' + text12a + '\n' + text13 + ' ' + text13a + '\n' +  text14 + ' ' + text14a), anchor=NW, width = 19, height=4, justify=LEFT,font=('Helvetica',25))
+		text99 = "Winners"
+		down_label = Label(text=(text99), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=2)
+
+        text11=str(loose.Coin.iloc[0])
+        currencya = "{:,.0%}".format(loose.result.iloc[0])
+		text11a = str(currencya)
+        text12=str(loose.Coin.iloc[1])
+        currencyb = "{:,.0%}".format(loose.result.iloc[1])
+		text12a = str(currencyb)
+        text13=str(loose.Coin.iloc[2])
+        currencyc = "{:,.0%}".format(loose.result.iloc[2])
+		text13a = str(currencyc)
+        text14=str(loose.Coin.iloc[3])
+        currencyd = "{:,.0%}".format(loose.result.iloc[3])
+		text14a = str(currencyd)
+		down_label = Label(text=(text11 + ': ' + text11a + '\n' +  text12 + ': ' + text12a + '\n' + text13 + ': ' + text13a + '\n' +  text14 + ': ' + text14a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20), fg='red')
+		down_label.grid(row=6, column=1)
+
+        text21=str(win.coin.iloc[0])
+        currencya = "{:,.0%}".format(win.result.iloc[0])
+		text21a = str(currencya)
+        text22=str(win.Coin.iloc[1])
+        currencyb = "{:,.0%}".format(win.result.iloc[1])
+		text22a = str(currencyb)
+        text23=str(win.Coin.iloc[2])
+        currencyc = "{:,.0%}".format(win.result.iloc[2])
+		text23a = str(currencyc)
+        text24=str(win.Coin.iloc[3])
+        currencyd = "{:,.0%}".format(win.result.iloc[3])
+		text24a = str(currencyd)
+		down_label = Label(text=(text21 + ': ' + text21a + '\n' +  text22 + ': ' + text22a + '\n' + text23 + ': ' + text23a + '\n' +  text24 + ': ' + text24a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20), fg='green')
+		down_label.grid(row=6, column=2)
 
 
 # This is where you set the update time. 1000 - 1 sec	
@@ -112,7 +131,8 @@ def dark():
 
 def hwg():
 	global summe
-	global res
+	global win
+	global loose
 	global sellcoinpercsav
 	global sellcoinsav
 	# global summepurchase
@@ -138,28 +158,29 @@ def hwg():
 			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).json()
 			ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 			pricecoin = float(ren['price_usd'])
-#			summepurchase = summepurchase + qtycoin * purchasecoin
 			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
-			if (sellcoinperc > 4):
-				sellcoinsav = df.loc[i,"Coin"]
-				sellcoinpercsav = sellcoinperc
 			summe = summe + qtycoin * pricecoin    
 #			print (qtycoin,pricecoin,summe)
 			if df.loc[i,"Coin"] == "bitcoin":
 				pricebtc = pricecoin
 				purchasebtc = purchasecoin
-			if df.loc[i,"Coin"] == "ampleforth":
-				priceamp = pricecoin
+#			if df.loc[i,"Coin"] == "ampleforth":
+#				priceamp = pricecoin
 			result.append(sellcoinperc)
 
 	except:
 			print("Error reading Coin URL", df.loc[i,"Coin"])
 
+	ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin).json()
+	ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
+	priceamp = float(ren['price_usd'])
+
 	if onlyonce == 0:
 		df["result"] = result
 		onlyonce = onlyonce + 1
 
-	res = df.nlargest(4,'result')
+	win = df.nlargest(4,'result')
+	loose = df.nsmallest(4,'result')
 #    print(res)
 #    print(res.Coin.iloc[0])
 
