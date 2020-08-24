@@ -12,6 +12,7 @@ gpio = pigpio.pi()
 
 investusd = 8.44
 investbtc = 0.77
+specialcoin = 'ampleforth'
 pricebtc = 0
 btc = 0
 summe = 0
@@ -98,7 +99,7 @@ class CryptoTicker:
         text14=str(loose.Coin.iloc[3])
         currencyd = "{:,.0%}".format(loose.result.iloc[3])
 		text14a = str(currencyd)
-		down_label = Label(text=(text11 + ': ' + text11a + '\n' +  text12 + ': ' + text12a + '\n' + text13 + ': ' + text13a + '\n' +  text14 + ': ' + text14a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20), fg='red')
+		down_label = Label(text=(text11 + ': ' + text11a + '\n' +  text12 + ': ' + text12a + '\n' + text13 + ': ' + text13a + '\n' +  text14 + ': ' + text14a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20, 'bold'), fg='red')
 		down_label.grid(row=6, column=1)
 
         text21=str(win.coin.iloc[0])
@@ -113,7 +114,7 @@ class CryptoTicker:
         text24=str(win.Coin.iloc[3])
         currencyd = "{:,.0%}".format(win.result.iloc[3])
 		text24a = str(currencyd)
-		down_label = Label(text=(text21 + ': ' + text21a + '\n' +  text22 + ': ' + text22a + '\n' + text23 + ': ' + text23a + '\n' +  text24 + ': ' + text24a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20), fg='green')
+		down_label = Label(text=(text21 + ': ' + text21a + '\n' +  text22 + ': ' + text22a + '\n' + text23 + ': ' + text23a + '\n' +  text24 + ': ' + text24a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20, 'bold'), fg='green')
 		down_label.grid(row=6, column=2)
 
 
@@ -170,10 +171,12 @@ def hwg():
 
 	except:
 			print("Error reading Coin URL", df.loc[i,"Coin"])
-
-	ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin).json()
-	ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
-	priceamp = float(ren['price_usd'])
+	try:
+		ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin).json()
+		ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
+		priceamp = float(ren['price_usd'])
+	except:
+			print("Error reading Coin URL", specialcoin)
 
 	if onlyonce == 0:
 		df["result"] = result
