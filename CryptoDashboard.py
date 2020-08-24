@@ -122,6 +122,7 @@ class CryptoTicker:
 		down_label.after(180000,CryptoTicker.labels)
 
 	def close(self):
+		onlyonce = 0
 		root.destroy()
 
 def bright():
@@ -136,9 +137,9 @@ def hwg():
 	global loose
 	global sellcoinpercsav
 	global sellcoinsav
-	# global summepurchase
 	global btcmaxtime
 	global btcmax
+	global result
 	global summemax
 	global summeprint
 	global onlyonce
@@ -150,27 +151,31 @@ def hwg():
 	global priceamp
 	global purchasebtc
 
-#	while True:
 	try:
-#		print("in")
+# here we pull the data from coingecko
+		result=[]
+		win=[]
+		lose=[]
 		for i in range(len(df)) :
 			qtycoin = float(df.loc[i,"Qty"])
 			purchasecoin =  float(df.loc[i,"Purchase"])
 			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).json()
 			ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 			pricecoin = float(ren['price_usd'])
-			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
+#	accumulating the value of the portfolio
 			summe = summe + qtycoin * pricecoin    
 #			print (qtycoin,pricecoin,summe)
 			if df.loc[i,"Coin"] == "bitcoin":
 				pricebtc = pricecoin
 				purchasebtc = purchasecoin
-#			if df.loc[i,"Coin"] == "ampleforth":
-#				priceamp = pricecoin
+#	now we add the increase/decrease of the coin in relation to the pourchase value
+			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
 			result.append(sellcoinperc)
-
 	except:
+#	it happens sometimes that coingecko is not reachable. that is where this exception will be called
 			print("Error reading Coin URL", df.loc[i,"Coin"])
+
+#	This process is to get the price of our specialcoin
 	try:
 		ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin).json()
 		ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
@@ -178,15 +183,13 @@ def hwg():
 	except:
 			print("Error reading Coin URL", specialcoin)
 
-	if onlyonce == 0:
-		df["result"] = result
-		onlyonce = onlyonce + 1
-
+#	collecting top gainers and losers
+    df["result"] = 0
+    df["result"] = result
 	win = df.nlargest(4,'result')
 	loose = df.nsmallest(4,'result')
-#    print(res)
-#    print(res.Coin.iloc[0])
 
+# this section to store the max value of the portfolio in usd and btc
 	btc = float(round(summe / pricebtc, 2))
 	if (btc > btcmax):
 		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
@@ -200,9 +203,7 @@ def hwg():
 		bright()
 	else:
 		dark()
-
 	summe = summe / 1000
-#	summepurchase = summepurchase / 1000
 	if (summe > summemax):
 		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
 			summemaxtime = datetime.datetime.now()
@@ -218,13 +219,10 @@ def hwg():
 
 	currency = "${:,.2f}T".format(summemax)
 	summemaxprint = str(currency)
-	
 	currency = "{:,.2f}".format(btcmax)
 	btcmaxprint = str(currency)
-	
 	currency = "${:,.2f}T".format(summe)
 	summeprint    = str(currency)
-	
 	btcprint     = str(btc)
 	print(summeprint)
 #	summe = 0
