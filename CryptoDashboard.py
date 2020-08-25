@@ -81,38 +81,38 @@ class CryptoTicker:
 
 # Row 5 to 9 = bottom/top 4 performing coins (profit)
 		text98 = "Losers"
-		down_label = Label(text=(text98), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',20))
+		down_label = Label(text=(text98), anchor=SW, width = 19, height=1, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=1)
 		text99 = "Winners"
-		down_label = Label(text=(text99), anchor=SW, width = 19, height=2, justify=LEFT,font=('Helvetica',20))
+		down_label = Label(text=(text99), anchor=SW, width = 19, height=1, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=2)
 
-        text11=str(loose.Coin.iloc[0])
-        currencya = "{:,.0%}".format(loose.result.iloc[0])
+		text11=str(loose.Coin.iloc[0])
+		currencya = "{:,.0%}".format(loose.result.iloc[0])
 		text11a = str(currencya)
-        text12=str(loose.Coin.iloc[1])
-        currencyb = "{:,.0%}".format(loose.result.iloc[1])
+		text12=str(loose.Coin.iloc[1])
+		currencyb = "{:,.0%}".format(loose.result.iloc[1])
 		text12a = str(currencyb)
-        text13=str(loose.Coin.iloc[2])
-        currencyc = "{:,.0%}".format(loose.result.iloc[2])
+		text13=str(loose.Coin.iloc[2])
+		currencyc = "{:,.0%}".format(loose.result.iloc[2])
 		text13a = str(currencyc)
-        text14=str(loose.Coin.iloc[3])
-        currencyd = "{:,.0%}".format(loose.result.iloc[3])
+		text14=str(loose.Coin.iloc[3])
+		currencyd = "{:,.0%}".format(loose.result.iloc[3])
 		text14a = str(currencyd)
 		down_label = Label(text=(text11 + ': ' + text11a + '\n' +  text12 + ': ' + text12a + '\n' + text13 + ': ' + text13a + '\n' +  text14 + ': ' + text14a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20, 'bold'), fg='red')
 		down_label.grid(row=6, column=1)
 
-        text21=str(win.coin.iloc[0])
-        currencya = "{:,.0%}".format(win.result.iloc[0])
+		text21=str(win.Coin.iloc[0])
+		currencya = "{:,.0%}".format(win.result.iloc[0])
 		text21a = str(currencya)
-        text22=str(win.Coin.iloc[1])
-        currencyb = "{:,.0%}".format(win.result.iloc[1])
+		text22=str(win.Coin.iloc[1])
+		currencyb = "{:,.0%}".format(win.result.iloc[1])
 		text22a = str(currencyb)
-        text23=str(win.Coin.iloc[2])
-        currencyc = "{:,.0%}".format(win.result.iloc[2])
+		text23=str(win.Coin.iloc[2])
+		currencyc = "{:,.0%}".format(win.result.iloc[2])
 		text23a = str(currencyc)
-        text24=str(win.Coin.iloc[3])
-        currencyd = "{:,.0%}".format(win.result.iloc[3])
+		text24=str(win.Coin.iloc[3])
+		currencyd = "{:,.0%}".format(win.result.iloc[3])
 		text24a = str(currencyd)
 		down_label = Label(text=(text21 + ': ' + text21a + '\n' +  text22 + ': ' + text22a + '\n' + text23 + ': ' + text23a + '\n' +  text24 + ': ' + text24a), anchor=NW, width = 19, relief=RAISED, height=4, justify=LEFT,font=('Helvetica',20, 'bold'), fg='green')
 		down_label.grid(row=6, column=2)
@@ -122,13 +122,15 @@ class CryptoTicker:
 		down_label.after(180000,CryptoTicker.labels)
 
 	def close(self):
-		onlyonce = 0
+#		onlyonce = 0
 		root.destroy()
 
 def bright():
+# settings for bright screen. 255 = max	
 	gpio.set_PWM_dutycycle(19, 255)
 
 def dark():
+# brightness setting. 30 is dimmed display.
 	gpio.set_PWM_dutycycle(19, 30)
 
 def hwg():
@@ -181,11 +183,11 @@ def hwg():
 		ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 		priceamp = float(ren['price_usd'])
 	except:
-			print("Error reading Coin URL", specialcoin)
+		print("Error reading Coin URL", specialcoin)
 
 #	collecting top gainers and losers
-    df["result"] = 0
-    df["result"] = result
+	df["result"] = 0
+	df["result"] = result
 	win = df.nlargest(4,'result')
 	loose = df.nsmallest(4,'result')
 
