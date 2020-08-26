@@ -17,7 +17,11 @@ pricebtc = 0
 btc = 0
 summe = 0
 onlyonce = 0
-#summepurchase = 0
+summemax = 0
+summemaxtime = 0
+btcmax = 0
+btcmaxtime = 0
+btcmaxtemp = 0
 sellcoinpercsav = 0
 sellcoin = ' '
 sellcoinsav = ' '
@@ -28,11 +32,17 @@ result=[]
 
 for i in range(len(tf)) :
 	if tf.loc[i,"Name"] == "summemax":
-		summemax = float(tf.loc[i,"Value"])
-		summemaxtime = str(tf.loc[i,"Zeit"])
+		summemaxtemp = float(tf.loc[i,"Value"])
+		summemaxtimetemp = str(tf.loc[i,"Zeit"])
+		if summemax < summemaxtemp:
+			summemax = summemaxtemp
+			summemaxtime = summemaxtimetemp
 	if tf.loc[i,"Name"] == "btcmax":
-		btcmax = float(tf.loc[i,"Value"])
-		btcmaxtime = str(tf.loc[i,"Zeit"])
+		btcmaxtemp = float(tf.loc[i,"Value"])
+		btcmaxtimetemp = str(tf.loc[i,"Zeit"])
+		if btcmax < btcmaxtemp:
+			btcmax = btcmaxtemp
+			btcmaxtime = btcmaxtimetemp
 
 class CryptoTicker:
 	def __init__(self, master):
