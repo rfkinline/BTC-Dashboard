@@ -25,6 +25,7 @@ btcmaxtemp = 0
 sellcoinpercsav = 0
 sellcoin = ' '
 sellcoinsav = ' '
+
 now = datetime.datetime.now()
 df = pd.read_csv('portfolio.csv', delimiter=';', names = ['Coin', 'Qty', 'Purchase'])
 tf = pd.read_csv('ConfigCryptoDashboard.csv', delimiter=';', names = ['Name', 'Value', 'Zeit'])
@@ -132,7 +133,6 @@ class CryptoTicker:
 		down_label.after(180000,CryptoTicker.labels)
 
 	def close(self):
-#		onlyonce = 0
 		root.destroy()
 
 def bright():
@@ -237,7 +237,6 @@ def hwg():
 	summeprint    = str(currency)
 	btcprint     = str(btc)
 	print(summeprint)
-#	summe = 0
 
 root = Tk()
 root.configure(cursor='none')

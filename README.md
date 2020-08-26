@@ -2,7 +2,7 @@
 The display will be dimmed to 20% until an event happens (ie all-time high)
 
 # Hardware
-<li>Standard Raspberry Pi 3
+<li>Standard Raspberry Pi 3 or 4
 <li>Hyperpixel 3.5" display (as seen in image below) or Phat/What paper displays
 <li>OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
 
@@ -13,14 +13,12 @@ The display will be dimmed to 20% until an event happens (ie all-time high)
 
 ## What I am currently working on:
 1. include: total marketcap, incorporate other indicators
-2. Improve GUI
-3. Minimize hardcoded variables
-4. Eventually move away from TKinter. It is too complicated. iE kivy, QT, GTK
-5. Indicators like: Mayer Multiple or Number of coins with more than 15% gain, divided by coins more than 15% loss (7 days), ???
-6. Marketcap: total, DeFi
-7. Coinbase Index
-8. Investment value dilema. I chose to hardcode the value of the investment in USD and BTC as othrwise there will be the dilema: at what exchange rate to the USD and BTC was the coin / token purchased? It makes everything complicated and therefore those 2 numbers are hardcoded. In case you prefer to calculate them, then add a column "purchase price in BTC" to the portfolio. The column purchase price in the portfolio is needed so the program can calculate the "take profit" of a coin
-9. Clean up code and document in code
+2. Minimize hardcoded variables
+3. Eventually move away from TKinter. It is too complicated. iE kivy, QT, GTK
+4. Include indicators like: Mayer Multiple or Number of coins with more than 15% gain, divided by coins more than 15% loss (7 days), ???
+5. Include Marketcap: total, DeFi
+6. Include Coinbase Index
+7. Investment-value dilema. I chose to hardcode the value of the investment in USD and BTC as othrwise there will be the dilema: at what exchange rate to the USD and BTC was the coin / token purchased? It makes everything complicated and therefore those 2 numbers are hardcoded. In case you prefer to calculate them, then add a column "purchase price in BTC" to the portfolio. The column purchase price in the portfolio is needed so the program can calculate the "take profit" of a coin
 
 ## Display
 CryptoDashboard is using the HyperPixel display and CryptoDashboard-Phat-What is built on the Phat or What paper display.<br>
