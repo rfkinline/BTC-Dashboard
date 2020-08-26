@@ -1,4 +1,4 @@
-# Crypt Dashboard
+# Crypto Dashboard
 The dashboard is an up-to-date tracking of your portfolio. Instead of having to use apps like Blockfolio you use this code that runs on a Pi with a LCD display. It includes:<br>
 <li> Value of portfolio in BTC and USD as well as current, beginning and all-time-high
 <li> Current price of Bitcoin and a selected coin in USD
