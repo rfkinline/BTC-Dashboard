@@ -1,15 +1,21 @@
-# NEW FEATURE
-The display will be dimmed to 20% until an event happens (ie all-time high)
-
-# Hardware
-<li>Standard Raspberry Pi 3 or 4
-<li>Hyperpixel 3.5" display (as seen in image below) or Phat/What paper displays
-<li>OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
-
-## Instructions for CryptoDashboard.py
+# Crypt Dashboard
+The dashboard is a display of your portfolio. Instead of having to use apps like Blockfolio you use this code that runs on a Pi with a LCD display and you see a constant performance of your portfolio. It includes:<br>
+<l1> Value of portfolio in BTC and USD as well as current, beginning and all-time-high
+<li> Current price of Bitcoin and a selected coin in USD
+<li> Return on investment of portfolio
+<li> top 4 losers and top 4 gainers in your portfolio
 
 <img src="https://i.ibb.co/vmLq42j/ct.jpg" alt="ct" border="0"><br>
 <img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>Dimmed display when nothing is happening
+
+
+## NEW FEATURE
+The display will be dimmed to 20% until an event happens (ie all-time high)
+
+## Hardware
+<li>Standard Raspberry Pi 3 or 4
+<li>Hyperpixel 3.5" display (as seen in image below) or Phat/What paper displays
+<li>OS depends on the display you chose. For Phat/What use standard OS, for Hyperpixel follow instructions below (Install for Hyperpixel)
 
 ## What I am currently working on:
 1. include: total marketcap, incorporate other indicators
