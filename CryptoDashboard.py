@@ -165,13 +165,16 @@ def hwg():
 
 	try:
 # here we pull the data from coingecko
+		priceamp = 0
+		pricebtc = 0
+		pricecoin = 0
 		result=[]
 		win=[]
 		lose=[]
 		for i in range(len(df)) :
 			qtycoin = float(df.loc[i,"Qty"])
 			purchasecoin =  float(df.loc[i,"Purchase"])
-			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).json()
+			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"], timeout=5.00).json()
 			ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 			pricecoin = float(ren['price_usd'])
 #	accumulating the value of the portfolio
@@ -186,16 +189,15 @@ def hwg():
 	except:
 #	it happens sometimes that coingecko is not reachable. that is where this exception will be called
 		print("Error reading Coin URL", df.loc[i,"Coin"])
-		pricebtc = 0
-		pricecoin = 0
+
 #	This process is to get the price of our specialcoin
 	try:
-		ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin).json()
+		ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin, timeout=5.00).json()
 		ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
 		priceamp = float(ren['price_usd'])
 	except:
 		print("Error reading Coin URL", specialcoin)
-		priceamp = 0
+
 
 #	collecting top gainers and losers
 	df["result"] = 0
