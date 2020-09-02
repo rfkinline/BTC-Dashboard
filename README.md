@@ -46,7 +46,7 @@ You need to do this only once at the start. After that, the program will maintai
 
 ## Portfolio.csv
 Create a file called portfolio.csv that includes your portfolio<br>
-Column coin: this will be used to complete the CoinGecko URL: https://api.coingecko.com/api/v3/coins/ampleforth Check this URL before using it. For example REN will only work if you use: republic-network<br>
+Column coin: this will be used to complete the CoinGecko URL: https://api.coingecko.com/api/v3/coins/ampleforth Check this URL before using it (in Coingecko search in the source code for "api-symbol"). For example REN will only work if you use: republic-network<br>
 Column Qty: quantity in your portfolio<br>
 Column Purchase: price of the coin at the time you purchased it<br>
 

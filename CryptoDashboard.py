@@ -174,9 +174,14 @@ def hwg():
 		for i in range(len(df)) :
 			qtycoin = float(df.loc[i,"Qty"])
 			purchasecoin =  float(df.loc[i,"Purchase"])
-			ren = requests.get('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"], timeout=5.00).json()
-			ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
-			pricecoin = float(ren['price_usd'])
+
+			mkr = requests.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + df.loc[i,"Coin"], timeout=5.00)
+			gecko = mkr.json()
+			
+			for status in gecko:
+				sellcoinperc=float(status['price_change_percentage_24h'])
+				pricecoin = float(status['current_price'])
+
 #	accumulating the value of the portfolio
 			summe = summe + qtycoin * pricecoin    
 #			print (qtycoin,pricecoin,summe)
@@ -184,7 +189,8 @@ def hwg():
 				pricebtc = pricecoin
 				purchasebtc = purchasecoin
 #	now we add the increase/decrease of the coin in relation to the pourchase value
-			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
+#			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
+			sellcoinperc = sellcoinperc / 100
 			result.append(sellcoinperc)
 	except:
 #	it happens sometimes that coingecko is not reachable. that is where this exception will be called
@@ -197,7 +203,6 @@ def hwg():
 		priceamp = float(ren['price_usd'])
 	except:
 		print("Error reading Coin URL", specialcoin)
-
 
 #	collecting top gainers and losers
 	df["result"] = 0
