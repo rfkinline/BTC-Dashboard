@@ -91,10 +91,10 @@ class CryptoTicker:
 		down_label.grid(row=4, column=2)
 
 # Row 5 to 9 = bottom/top 4 performing coins (profit)
-		text98 = "Losers"
+		text98 = "Losers last 24hrs"
 		down_label = Label(text=(text98), anchor=SW, width = 19, height=1, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=1)
-		text99 = "Winners"
+		text99 = "Winners last 24hrs"
 		down_label = Label(text=(text99), anchor=SW, width = 19, height=1, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=2)
 
