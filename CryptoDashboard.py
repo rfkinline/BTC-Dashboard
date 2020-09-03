@@ -177,6 +177,30 @@ def hwg():
 
 			mkr = requests.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + df.loc[i,"Coin"], timeout=5.00)
 			gecko = mkr.json()
+# "id":"dash"
+# "symbol":"dash"
+# "name":"Dash"
+# "image":https://assets.coingecko.com/coins/images/19/large/dash-logo.png?1548385930
+# "current_price":77.71
+# "market_cap":754634637
+# "market_cap_rank":31
+# "fully_diluted_valuation":null
+# "total_volume":330371413
+# “high_24h":83.68,"low_24h":77.36
+# "price_change_24h":-5.59646068
+# "price_change_percentage_24h":-6.71763
+# "market_cap_change_24h":-47463423.19708491
+# "market_cap_change_percentage_24h":-5.91741
+# "circulating_supply":9688935.17191693
+# "total_supply":18920000.0
+# "max_supply":null,"ath":1493.59
+# "ath_change_percentage":-94.7853
+# "ath_date":"2017-12-20T00:00:00.000Z"
+# "atl":0.213899
+# "atl_change_percentage":36312.62015
+# "atl_date":"2014-02-14T00:00:00.000Z"
+# "roi":null
+# "last_updated":"2020-09-03T13:06:04.156Z"
 			
 			for status in gecko:
 				sellcoinperc=float(status['price_change_percentage_24h'])
