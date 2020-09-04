@@ -94,10 +94,12 @@ class CryptoTicker:
 		down_label.grid(row=4, column=2)
 
 # Row 5 to 9 = bottom/top 4 performing coins (profit)
-		text98 = "Losers last 24hrs"
+#a		text98 = "Losers last 24hrs"
+		text98 = "Losers"
 		down_label = Label(text=(text98), anchor=SW, width = 19, height=1, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=1)
-		text99 = "Winners last 24hrs"
+#a		text99 = "Winners last 24hrs"
+		text99 = "Winners"
 		down_label = Label(text=(text99), anchor=SW, width = 19, height=1, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=2)
 
@@ -179,7 +181,8 @@ def hwg():
 			qtycoin = float(df.loc[i,"Qty"])
 			purchasecoin =  float(df.loc[i,"Purchase"])
 			pricecoin = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['current_price']['usd'])
-			sellcoinperc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['price_change_percentage_24h'])
+#a			sellcoinperc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['price_change_percentage_24h'])
+
 # "id":"dash"
 # "symbol":"dash"
 # "name":"Dash"
@@ -212,8 +215,8 @@ def hwg():
 				pricebtc = pricecoin
 				purchasebtc = purchasecoin
 #	now we add the increase/decrease of the coin in relation to the pourchase value
-#			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
-			sellcoinperc = sellcoinperc / 100
+			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
+#a			sellcoinperc = sellcoinperc / 100
 			result.append(sellcoinperc)
 	except:
 #	it happens sometimes that coingecko is not reachable. that is where this exception will be called

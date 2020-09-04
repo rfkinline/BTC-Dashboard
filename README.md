@@ -6,7 +6,7 @@ The dashboard is an up-to-date tracking of your portfolio. Instead of having to 
 <li> Top 4 losers and top 4 gainers in your portfolio
 <li> The display dims down when nothing is happening
 
-<img src="https://i.ibb.co/vmLq42j/ct.jpg" alt="ct" border="0"><br>
+<img src="https://i.ibb.co/9sxxNMt/Untitled-1.jpg" alt="ct" border="0"><br>
 <img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>
 
 
@@ -16,7 +16,7 @@ The dashboard is an up-to-date tracking of your portfolio. Instead of having to 
 <li>The OS depends on the display you chose. For Phat/What use the standard OS, for Hyperpixel follow the instructions described below (Install for Hyperpixel)
 
 ## What I am currently working on:
-1. include: total marketcap, incorporate other indicators
+1. include other indicators
 2. Minimize hardcoded variables
 3. Eventually move away from TKinter. It is too complicated. iE kivy, QT, GTK
 4. Include indicators like: Mayer Multiple or Number of coins with more than 15% gain, divided by coins more than 15% loss (7 days), ???
