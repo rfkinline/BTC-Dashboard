@@ -7,6 +7,8 @@ import time
 import sys
 import datetime
 import csv
+from urllib.request import urlopen
+from json import loads
 
 gpio = pigpio.pi()
 
@@ -86,8 +88,9 @@ class CryptoTicker:
 
 		invperc = summe / investusd
 		currency = "{:,.0%}".format(invperc)
-		text10 = "RoI: " + str(currency)
-		down_label = Label(text=(text10), width = 19, bg='#111118', justify=LEFT,relief=RAISED, font=('Helvetica',25,'bold'), fg='white')
+		text10b = "RoI: " + str(currency)
+		text10 = "Index: " + str(fearindex)
+		down_label = Label(text=(text10 + '\n' + text10b), anchor=W, width = 19, bg='#111118', justify=LEFT,relief=RAISED, font=('Helvetica',25,'bold'), fg='white')
 		down_label.grid(row=4, column=2)
 
 # Row 5 to 9 = bottom/top 4 performing coins (profit)
@@ -156,6 +159,7 @@ def hwg():
 	global summeprint
 	global onlyonce
 	global btcprint
+	global fearindex
 	global btcmaxprint
 	global summemaxprint
 	global summemaxtime
@@ -174,9 +178,8 @@ def hwg():
 		for i in range(len(df)) :
 			qtycoin = float(df.loc[i,"Qty"])
 			purchasecoin =  float(df.loc[i,"Purchase"])
-
-			mkr = requests.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + df.loc[i,"Coin"], timeout=5.00)
-			gecko = mkr.json()
+			pricecoin = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['current_price']['usd'])
+			sellcoinperc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['price_change_percentage_24h'])
 # "id":"dash"
 # "symbol":"dash"
 # "name":"Dash"
@@ -202,10 +205,6 @@ def hwg():
 # "roi":null
 # "last_updated":"2020-09-03T13:06:04.156Z"
 			
-			for status in gecko:
-				sellcoinperc=float(status['price_change_percentage_24h'])
-				pricecoin = float(status['current_price'])
-
 #	accumulating the value of the portfolio
 			summe = summe + qtycoin * pricecoin    
 #			print (qtycoin,pricecoin,summe)
@@ -222,11 +221,16 @@ def hwg():
 
 #	This process is to get the price of our specialcoin
 	try:
-		ren = requests.get('https://api.coingecko.com/api/v3/coins/' + specialcoin, timeout=5.00).json()
-		ren = { 'price_usd': ren['market_data']['current_price']['usd'] }
-		priceamp = float(ren['price_usd'])
+		priceamp = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin).read())['market_data']['current_price']['usd'])
 	except:
 		print("Error reading Coin URL", specialcoin)
+
+	try:
+#	get the fearindex
+		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
+	except:
+		print("Error reading Fearindex URL")
+
 
 #	collecting top gainers and losers
 	df["result"] = 0
