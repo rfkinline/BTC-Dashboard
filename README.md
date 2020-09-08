@@ -3,7 +3,8 @@ The dashboard is an up-to-date tracking of your portfolio. Instead of having to 
 <li> Value of portfolio in BTC and USD as well as current, beginning and all-time-high
 <li> Current price of Bitcoin and a selected coin in USD
 <li> Return on investment of portfolio
-<li> Top 4 losers and top 4 gainers in your portfolio
+<li> Bitcoin Fear & Greed Index
+<li> Top 4 losers and top 4 gainers in your portfolio or last 24 hours
 <li> The display dims down when nothing is happening
 
 <img src="https://i.ibb.co/9sxxNMt/Untitled-1.jpg" alt="ct" border="0"><br>
