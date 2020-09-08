@@ -22,8 +22,7 @@ The dashboard is an up-to-date tracking of your portfolio. Instead of having to 
 3. Eventually move away from TKinter. It is too complicated. iE kivy, QT, GTK
 4. Include indicators like: Mayer Multiple or Number of coins with more than 15% gain, divided by coins more than 15% loss (7 days), ???
 5. Include Marketcap: total, DeFi
-6. Include Coinbase Index
-7. Investment-value dilemma. I chose to hardcode the value of the investment in USD and BTC as otherwise there will be the dilema: at what exchange rate to the USD and BTC was the coin / token purchased? It makes everything complicated and therefore those 2 numbers are hardcoded. In case you prefer to calculate them, then add a column "purchase price in BTC" to the portfolio. The column purchase price in the portfolio is needed so the program can calculate the "take profit" of a coin
+6. Investment-value dilemma. I chose to hardcode the value of the investment in USD and BTC as otherwise there will be the dilema: at what exchange rate to the USD and BTC was the coin / token purchased? It makes everything complicated and therefore those 2 numbers are hardcoded. In case you prefer to calculate them, then add a column "purchase price in BTC" to the portfolio. The column purchase price in the portfolio is needed so the program can calculate the "take profit" of a coin
 
 ## Display
 CryptoDashboard.py was created for the HyperPixel display and CryptoDashboard-Phat-What.py was created for the Phat or What paper display.<br>
