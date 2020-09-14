@@ -89,7 +89,7 @@ class CryptoTicker:
 		invperc = summe / investusd
 		currency = "{:,.0%}".format(invperc)
 		text10b = "RoI: " + str(currency)
-		text10 = "Index: " + str(fearindex)
+		text10 = "Index: " + str(fearindex) + " / " + str(fearindexvalue)
 		down_label = Label(text=(text10 + '\n' + text10b), anchor=W, width = 19, bg='#111118', justify=LEFT,relief=RAISED, font=('Helvetica',25,'bold'), fg='white')
 		down_label.grid(row=4, column=2)
 
@@ -162,6 +162,7 @@ def hwg():
 	global onlyonce
 	global btcprint
 	global fearindex
+	global fearindexvalue
 	global btcmaxprint
 	global summemaxprint
 	global summemaxtime
@@ -192,7 +193,8 @@ def hwg():
 # "market_cap_rank":31
 # "fully_diluted_valuation":null
 # "total_volume":330371413
-# “high_24h":83.68,"low_24h":77.36
+# “high_24h":83.68
+# "low_24h":77.36
 # "price_change_24h":-5.59646068
 # "price_change_percentage_24h":-6.71763
 # "market_cap_change_24h":-47463423.19708491
@@ -231,6 +233,7 @@ def hwg():
 	try:
 #	get the fearindex
 		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
+		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
 	except:
 		print("Error reading Fearindex URL")
 
