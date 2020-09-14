@@ -14,7 +14,8 @@ gpio = pigpio.pi()
 
 investusd = 8.44
 investbtc = 0.77
-specialcoin = 'ampleforth'
+specialcoin1 = 'lend'
+specialcoin2 = 'ethereum'
 pricebtc = 0
 btc = 0
 summe = 0
@@ -79,10 +80,10 @@ class CryptoTicker:
 		down_label = Label(text=(text4), anchor=NW, width = 39, height=2, justify=LEFT,font=('Helvetica',12))
 		down_label.grid(row=3, column=2)
 		
-		currency = "${:,.2f}".format(priceamp)
-		text7 = "AMPL: " + str(currency)
-		currency = "${:,.2f}".format(pricebtc)
-		text8 = "BTC_: " + str(currency)
+		currency = "${:,.2f}".format(pricespec1)
+		text7 = str(specialcoin1) + ": " + str(currency)
+		currency = "${:,.2f}".format(pricespec2)
+		text8 = str(specialcoin2) + ": " + str(currency)
 		down_label = Label(text=(text7 + '\n' + text8), anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25, 'bold'))
 		down_label.grid(row=4, column=1)
 
@@ -167,12 +168,14 @@ def hwg():
 	global summemaxprint
 	global summemaxtime
 	global pricebtc
-	global priceamp
+	global pricespec1
+	global pricespec2
 	global purchasebtc
 
 	try:
 # here we pull the data from coingecko
-		priceamp = 0
+		pricespec1 = 0
+		pricespec2 = 0
 		pricebtc = 0
 		pricecoin = 0
 		result=[]
@@ -226,7 +229,8 @@ def hwg():
 
 #	This process is to get the price of our specialcoin
 	try:
-		priceamp = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin).read())['market_data']['current_price']['usd'])
+		pricespec1 = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin1).read())['market_data']['current_price']['usd'])
+		pricespec2 = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin2).read())['market_data']['current_price']['usd'])
 	except:
 		print("Error reading Coin URL", specialcoin)
 
