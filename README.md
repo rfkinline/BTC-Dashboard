@@ -1,20 +1,21 @@
-# Crypto Dashboard
+# DeFi Dashboard
 The dashboard is an up-to-date tracking of your portfolio. Instead of having to use apps like Blockfolio you use this code that runs on a Pi with a LCD display. It includes:<br>
 <li> Value of portfolio in BTC and USD as well as current, beginning and all-time-high
 <li> Current price of Bitcoin and a selected coin in USD
 <li> Return on investment of portfolio
 <li> Bitcoin Fear & Greed Index
-<li> Top 4 losers and top 4 gainers in your portfolio or last 24 hours
 <li> The display dims down when nothing is happening
 
 <img src="https://i.ibb.co/9sxxNMt/Untitled-1.jpg" alt="ct" border="0"><br>
 <img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>
 
+ROTATE DISPLAY
+
 
 ## Hardware
 <li>Standard Raspberry Pi 3 or 4
-<li>Hyperpixel 3.5" display (as seen in image above) or Phat/What paper display
-<li>The OS depends on the display you chose. For Phat/What use the standard OS, for Hyperpixel follow the instructions described below (Install for Hyperpixel)
+<li>Hyperpixel 3.5" display 
+<li>Don't use the default OS supplied by Raspberry. Follow the instructions described below (Install for Hyperpixel)
 
 ## What I am currently working on:
 1. include other indicators
@@ -25,15 +26,14 @@ The dashboard is an up-to-date tracking of your portfolio. Instead of having to 
 6. Investment-value dilemma. I chose to hardcode the value of the investment in USD and BTC as otherwise there will be the dilema: at what exchange rate to the USD and BTC was the coin / token purchased? It makes everything complicated and therefore those 2 numbers are hardcoded. In case you prefer to calculate them, then add a column "purchase price in BTC" to the portfolio. The column purchase price in the portfolio is needed so the program can calculate the "take profit" of a coin
 
 ## Display
-CryptoDashboard.py was created for the HyperPixel display and CryptoDashboard-Phat-What.py was created for the Phat or What paper display.<br>
-
-<p><b>A) Install for HyperPixel 4.0 (3.5" display)</b><br>
+<b>Install for HyperPixel 4.0 (3.5" display)</b><br>
     Only follow these instructions. It will save you a lot of time:<br>
-    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4</p>
+    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
 
-<p><b>B) Install for Phat/What (paper display)</b><br>
-    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat</p>
-
+To rotate the display: <br>
+> sudo nano /boot/config.txt
+change display_rotate=1 to display_rotate=2<br>
+now reboot the machine and the display should be vertical.
 
 ## ConfigCryptoDashboard.csv
 Create a file called ConfigCryptoDashboard.csv with the following content (just copy and paste):<br>
