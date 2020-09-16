@@ -126,6 +126,8 @@ def hwg():
 		for i in range(len(df)) :
 			qtycoin = float(df.loc[i,"Qty"])
 			purchasecoin =  float(df.loc[i,"Purchase"])
+			https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken
+
 			pricecoin = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['current_price']['usd'])
 #a			sellcoinperc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['price_change_percentage_24h'])
 
@@ -173,6 +175,7 @@ def hwg():
 	try:
 		pricespec1 = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin1).read())['market_data']['current_price']['usd'])
 		pricespec2 = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin2).read())['market_data']['current_price']['usd'])
+
 	except:
 		print("Error reading Coin URL", specialcoin1)
 
@@ -180,8 +183,12 @@ def hwg():
 #	get the fearindex
 		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
 		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
+
+		standardgasprice = float(loads(urlopen('https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken').read())['result']['SafeGasPrice'])
+		fastgasprice = float(loads(urlopen('https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken').read())['result']['FastGasPrice'])
+
 	except:
-		print("Error reading Fearindex URL")
+		print("Error reading Fearindex or gasprice URL")
 
 
 #	collecting top gainers and losers
