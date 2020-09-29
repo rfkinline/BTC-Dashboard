@@ -7,7 +7,7 @@ import requests
 import sys
 import datetime
 #import csv
-from urllib2 import urlopen
+from urllib.request import urlopen
 from json import loads
 
 gpio = pigpio.pi()
@@ -40,8 +40,8 @@ class BTCTicker:
 		text10 = "Findex: " + str(fearindex)
 		text11 = "Fvalue: " + str(fearindexvalue)
 	
-		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
-		down_label.grid(row=2, column=2)
+		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9 + '\n' + text10 + '\n' + text11),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
+		down_label.grid(row=2, column=1)
 		
         
 #		text1 = "str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
@@ -78,20 +78,20 @@ def hwg():
 #	get the fearindex
 		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
 		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
-		print(feaindex)
+		print(fearindex)
 	except:
 		print("Error reading Fearindex")
 	try:
 
 #	get blockchain data https://blockchair.com/api/docs#link_M03
 # next_retarget_time_estimate
-		pricebtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['market_price_usd'])
-		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['market_price_usd_change_24h_percentage'])
-		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['market_cap_usd'])
-		suggested_transaction_fee = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['suggested_transaction_fee_per_byte_sat'])
-		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['hashrate_24h'])
-		mempool = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['mempool_transactions'])
-		blocks = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['blocks'])
+		pricebtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd'])
+		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd_change_24h_percentage'])
+		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_cap_usd'])
+		suggested_transaction_fee = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['suggested_transaction_fee_per_byte_sat'])
+		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['hashrate_24h'])
+		mempool = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['mempool_transactions'])
+		blocks = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['blocks'])
 		
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		satsusd = 1 / pricebtc * 100000000
@@ -100,7 +100,7 @@ def hwg():
 	
 	try:
 #	get GitHub data
-		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data'][0]['total_commits'])
+		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data']['total_commits'])
 	except:
 		print("Error reading CoinCodeCap")
 
@@ -117,7 +117,6 @@ root = Tk()
 root.configure(cursor='none')
 root.attributes('-fullscreen', True)
 my_gui = BTCTicker(root)
-hwg()
 BTCTicker.labels()
 root.mainloop()
 #time.sleep(3)
