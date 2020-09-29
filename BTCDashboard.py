@@ -115,115 +115,31 @@ def hwg():
 	global purchasebtc
 
 	try:
-# here we pull the data from coingecko
-		pricespec1 = 0
-		pricespec2 = 0
-		pricebtc = 0
-		pricecoin = 0
-		result=[]
-		win=[]
-		lose=[]
-		for i in range(len(df)) :
-			qtycoin = float(df.loc[i,"Qty"])
-			purchasecoin =  float(df.loc[i,"Purchase"])
-			https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken
-
-			pricecoin = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['current_price']['usd'])
-#a			sellcoinperc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + df.loc[i,"Coin"]).read())['market_data']['price_change_percentage_24h'])
-
-# "id":"dash"
-# "symbol":"dash"
-# "name":"Dash"
-# "image":https://assets.coingecko.com/coins/images/19/large/dash-logo.png?1548385930
-# "current_price":77.71
-# "market_cap":754634637
-# "market_cap_rank":31
-# "fully_diluted_valuation":null
-# "total_volume":330371413
-# “high_24h":83.68
-# "low_24h":77.36
-# "price_change_24h":-5.59646068
-# "price_change_percentage_24h":-6.71763
-# "market_cap_change_24h":-47463423.19708491
-# "market_cap_change_percentage_24h":-5.91741
-# "circulating_supply":9688935.17191693
-# "total_supply":18920000.0
-# "max_supply":null,"ath":1493.59
-# "ath_change_percentage":-94.7853
-# "ath_date":"2017-12-20T00:00:00.000Z"
-# "atl":0.213899
-# "atl_change_percentage":36312.62015
-# "atl_date":"2014-02-14T00:00:00.000Z"
-# "roi":null
-# "last_updated":"2020-09-03T13:06:04.156Z"
-			
-#	accumulating the value of the portfolio
-			summe = summe + qtycoin * pricecoin    
-#			print (qtycoin,pricecoin,summe)
-			if df.loc[i,"Coin"] == "bitcoin":
-				pricebtc = pricecoin
-				purchasebtc = purchasecoin
-#	now we add the increase/decrease of the coin in relation to the pourchase value
-			sellcoinperc = (pricecoin - purchasecoin) / purchasecoin
-#a			sellcoinperc = sellcoinperc / 100
-			result.append(sellcoinperc)
-	except:
-#	it happens sometimes that coingecko is not reachable. that is where this exception will be called
-		print("Error reading Coin URL", df.loc[i,"Coin"])
-
-#	This process is to get the price of our specialcoin
-	try:
-		pricespec1 = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin1).read())['market_data']['current_price']['usd'])
-		pricespec2 = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/' + specialcoin2).read())['market_data']['current_price']['usd'])
-
-	except:
-		print("Error reading Coin URL", specialcoin1)
-
-	try:
 #	get the fearindex
 		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
 		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
-
-		standardgasprice = float(loads(urlopen('https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken').read())['result']['SafeGasPrice'])
-		fastgasprice = float(loads(urlopen('https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken').read())['result']['FastGasPrice'])
-
 	except:
-		print("Error reading Fearindex or gasprice URL")
+		print("Error reading Fearindex")
+	try:
 
+#	get blockchain data https://blockchair.com/api/docs#link_M03
+# next_retarget_time_estimate
+		pricebtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['market_price_usd'])
+		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['market_price_usd_change_24h_percentage'])
+		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['market_cap_usd'])
+		suggested_transaction_fee = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['suggested_transaction_fee_per_byte_sat'])
+		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['hashrate_24h'])
+		mempool = str(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['mempool_transactions'])
+		blocks = str(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data'][0]['blocks'])
+		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
+		satsusd = 1 / pricebtc * 100000000
+	except:
+		print("Error reading Blockchair")
 
-#	collecting top gainers and losers
-	df["result"] = 0
-	df["result"] = result
-	win = df.nlargest(4,'result')
-	loose = df.nsmallest(4,'result')
-
-# this section to store the max value of the portfolio in usd and btc
-	btc = float(round(summe / pricebtc, 2))
-	if (btc > btcmax):
-		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
-			btcmaxtime = datetime.datetime.now()
-			savwriter = csv.writer(csvfile, delimiter=';')
-			text2=["btcmax"] + [btcmax] + [btcmaxtime]
-			savwriter.writerow(text2)
-			text2=["summemax"] + [summemax] + [summemaxtime]
-			savwriter.writerow(text2)
-		btcmax = btc
-		bright()
-	else:
-		dark()
-	summe = summe / 1000
-	if (summe > summemax):
-		with open('ConfigCryptoDashboard.csv', 'a', newline='') as csvfile:
-			summemaxtime = datetime.datetime.now()
-			savwriter = csv.writer(csvfile, delimiter=';')
-			text2=["btcmax"] + [btcmax] + [btcmaxtime]
-			savwriter.writerow(text2)
-			text2=["summemax"] + [summemax] + [summemaxtime]
-			savwriter.writerow(text2)
-		summemax = summe
-		bright()
-	else:
-		dark()
+#	get GitHub data
+		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data'][0]['total_commits'])
+	except:
+		print("Error reading CoinCodeCap")
 
 	currency = "${:,.2f}T".format(summemax)
 	summemaxprint = str(currency)

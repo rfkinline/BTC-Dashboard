@@ -1,8 +1,8 @@
 # BTC Dashboard
 The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio you use this code that runs on a Pi with a LCD display. It includes:<br>
-<li> Current price and MarketCap
-<li> Mempool indicators incl Hash Rate
-<li> Blockchain: height and fees
+<li> Market: Price, sats/USD and MarketCap
+<li> Mempool: Transactions, % RBF, blocks to clear
+<li> Blockchain: height and fees, hash-rate
 <li> Bitcoin Fear & Greed Index
 <li> Capacity Lightning Network
 <li> GitHub stats
