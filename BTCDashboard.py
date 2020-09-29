@@ -40,7 +40,7 @@ class BTCTicker:
 		text10 = "Findex: " + str(fearindex)
 		text11 = "Fvalue: " + str(fearindexvalue)
 	
-		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9 + '\n' + text10 + '\n' + text11),anchor=NW, width = 19, height=3, justify=LEFT,font=('Helvetica',25))
+		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9 + '\n' + text10 + '\n' + text11),anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=1)
 		
         
