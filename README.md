@@ -2,7 +2,7 @@
 The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio or websites, you use this code that runs on a Pi with a LCD display. The dashboard includes:<br>
 <li> Market: Price, sats/USD and MarketCap
 <li> Mempool: Transactions, blocks to clear
-<li> Blockchain: height and fees, hash-rate
+<li> Blockchain: height and fees (sats/b and USD), hash-rate, next difficulty, date of next difficulty adjustment
 <li> Bitcoin Fear & Greed Index
 
 <img src="https://i.ibb.co/YXMnZ9G/IMG-20200930-072821.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>

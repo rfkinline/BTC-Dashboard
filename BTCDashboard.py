@@ -40,6 +40,10 @@ class BTCTicker:
 
 		currency = "{:,.0f}".format(hashrate24hr)
 		text5 = "Hashrate 24hr: " + str(currency) + " EH/s"
+		currency = "{:,.02%}".format(next_difficulty_estimate)
+		text5a = "Next difficulty: " + str(currency)
+		date_time_obj = datetime.datetime.strptime(next_retarget_time_estimate, '%Y-%m-%d %H:%M:%S')
+		text5b = "Next adjustment: " + str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
 		currency = "{:,.0f}".format(mempool)
 		text6 = "Mempool: " + str(currency) + " transactions"
 		currency = "{:,.0f}".format(blocks)
@@ -48,7 +52,7 @@ class BTCTicker:
 		text8 = "Average Fee: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
 		text8a = "Suggested Fee: " + str(currency) + " sat/vB"
-		down_label = Label(text=(text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label = Label(text=(text5 + '\n' + text5a + '\n' + text5b + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=1, sticky=W)
 
 		title = "Fear Index"
@@ -94,6 +98,8 @@ def hwg():
 	global marketcapbtc
 	global suggested_transaction_fee
 	global average_transaction_fee_usd_24h
+	global next_difficulty_estimate
+	global next_retarget_time_estimate
 	global blocks
 
 	try:
@@ -105,7 +111,6 @@ def hwg():
 	try:
 
 #	get blockchain data https://blockchair.com/api/docs#link_M03
-# next_retarget_time_estimate
 		pricebtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd'])
 		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd_change_24h_percentage'])
 		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_cap_usd'])
@@ -114,10 +119,14 @@ def hwg():
 		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['hashrate_24h'])
 		mempool = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['mempool_transactions'])
 		blocks = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['blocks'])
+		next_retarget_time_estimate = str(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['next_retarget_time_estimate'])
+		next_difficulty_estimate = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['next_difficulty_estimate'])
+		difficulty = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['difficulty'])
 		
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		satsusd = 1 / pricebtc * 100000000
+		next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
 		print(pricebtc)
 
 	except:
