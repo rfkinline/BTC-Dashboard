@@ -23,23 +23,23 @@ class BTCTicker:
 	def labels():
 		hwg()
 		title = "Market Data"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',24))
-		down_label.grid(row=2, column=1)
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 24, 'bold'))
+		down_label.grid(row=2, column=1, sticky=W)
+
 		currency = "{:,.2f}".format(pricebtc)
 		text1 = "BTC Price: $" + str(currency)
-		pricebtc24hrchange = pricebtc24hrchange / 100
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		text2 = "24hr change: " + str(currency)
 		currency = "{:,.0f}".format(satsusd)
 		text3 = "Sats per $: " + str(currency)
 		currency = "{:,.0f}".format(marketcapbtc)
 		text4 = "Marketcap: $" + str(currency)
-		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4),anchor=NW, justify=LEFT,font=('Helvetica',20))
-		down_label.grid(row=3, column=1)
+		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label.grid(row=3, column=1, sticky=W)
 
 		title = "Blockchain Data"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',24))
-		down_label.grid(row=4, column=1)
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 24, 'bold'))
+		down_label.grid(row=4, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(hashrate24hr)
 		text5 = "Hashrate: " + str(currency) + " EH/s"
@@ -48,24 +48,23 @@ class BTCTicker:
 		currency = "{:,.0f}".format(blocks)
 		text7 = "Last block: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
-		text8 = "Immediate Fees: " + str(currency) + " sat/vB"
-		text9 = "Commits: " + str(commits)
-		down_label = Label(text=(text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9),anchor=NW, justify=LEFT,font=('Helvetica',20))
-		down_label.grid(row=5, column=1)
+		text8 = "Suggested Fee: " + str(currency) + " sat/vB"
+		down_label = Label(text=(text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label.grid(row=5, column=1, sticky=W)
 
 		title = "Fear Index"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',24))
-		down_label.grid(row=6, column=1)
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 24, 'bold'))
+		down_label.grid(row=6, column=1, sticky=W)
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
-		down_label = Label(text=(text10 + '\n' + text11),anchor=NW, justify=LEFT,font=('Helvetica',20))
-		down_label.grid(row=7, column=1)
+		down_label = Label(text=(text10 + '\n' + text11 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label.grid(row=7, column=1, sticky=W)
 		
 		now = datetime.datetime.now()
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12))
-		down_label.grid(row=9, column=1)        
+		down_label.grid(row=9, column=1, sticky=W)        
 
 #		text1 = "str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
 #		text2 =  "Portfolio____: " + u'\u20bf' + str(btcprint)
@@ -116,25 +115,18 @@ def hwg():
 		mempool = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['mempool_transactions'])
 		blocks = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['blocks'])
 		
+		pricebtc24hrchange = pricebtc24hrchange / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		satsusd = 1 / pricebtc * 100000000
 	except:
 		print("Error reading Blockchair")
 	
-	try:
+#	try:
 #	get GitHub data
-		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data']['total_commits'])
-	except:
-		print("Error reading CoinCodeCap")
+#		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data']['total_commits'])
+#	except:
+#		print("Error reading CoinCodeCap")
 
-#	currency = "${:,.2f}T".format(summemax)
-#	summemaxprint = str(currency)
-#	currency = "{:,.2f}".format(btcmax)
-#	btcmaxprint = str(currency)
-#	currency = "${:,.2f}T".format(summe)
-#	summeprint    = str(currency)
-#	btcprint     = str(btc)
-#	print(summeprint)
 
 root = Tk()
 root.configure(cursor='none')

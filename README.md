@@ -1,14 +1,11 @@
 # BTC Dashboard
 The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio you use this code that runs on a Pi with a LCD display. It includes:<br>
 <li> Market: Price, sats/USD and MarketCap
-<li> Mempool: Transactions, % RBF, blocks to clear
+<li> Mempool: Transactions, blocks to clear
 <li> Blockchain: height and fees, hash-rate
 <li> Bitcoin Fear & Greed Index
-<li> Capacity Lightning Network
-<li> GitHub stats
 
-<img src="https://i.ibb.co/9sxxNMt/Untitled-1.jpg" alt="ct" border="0"><br>
-<img src="https://i.ibb.co/4Vb7BJn/ct3.jpg" alt="ct3" width=200 alt="" border="0"></a><br>
+<img src="https://i.ibb.co/YXMnZ9G/IMG-20200930-072821.jpg" alt="IMG-20200930-072821" border="0"><br>
 
 ## Hardware
 <li>Standard Raspberry Pi 3 or 4
@@ -16,7 +13,9 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 <li>Don't use the default OS supplied by Raspberry. Follow the instructions described below (Install for Hyperpixel)
 
 ## What I am currently working on:
-1. include other indicators
+1. include colors
+2. Capacity Lightning Network
+3. GitHub stats
 
 ## Display
 <b>Install for HyperPixel 4.0 (3.5" display)</b><br>
@@ -46,3 +45,6 @@ additional documentation: https://www.raspberrypi.org/documentation/linux/usage/
 
 ## There is a C Button on HyperPixel display
 To stop the program, click on the "C" button. 
+
+## Python
+Start the program with "python3" and not "python" 
