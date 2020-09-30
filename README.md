@@ -16,7 +16,7 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 1. include colors
 2. Capacity Lightning Network
 3. GitHub stats
-4. Dark mode
+4. Needs at least two other modes of this, like one to get your local breakout price and another as we approach/pass ATH
 
 ## Display
 <b>Install for HyperPixel 4.0 (3.5" display)</b><br>
