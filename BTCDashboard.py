@@ -24,9 +24,9 @@ class BTCTicker:
 		down_label.grid(row=2, column=1, sticky=W)
 
 		if pricebtc24hrchange > 0:
-			color = "green"
+			color = "lightgreen"
 		else:
-			color = "red"
+			color = "lightcoral"
 		currency = "{:,.2f}".format(pricebtc)
 		text1 = "BTC Price: $" + str(currency)
 		currency = "{:,.2%}".format(pricebtc24hrchange)
@@ -42,9 +42,9 @@ class BTCTicker:
 		down_label.grid(row=4, column=1, sticky=W)
 
 		if marketcap24h > 0:
-			color = "green"
+			color = "lightgreen"
 		else:
-			color = "red"
+			color = "lightcoral"
 		currency = "{:,.0f}".format(marketcapbtc)
 		text4 = "Marketcap: $" + str(currency)
 		down_label = Label(text=(text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
@@ -152,7 +152,7 @@ def hwg():
 	
 	try:
 		marketcap24h = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read())['market_data']['market_cap_change_percentage_24h'])
-		print(marketcap24h)
+
 	except:
 		print("Error reading Coingecko")	
 
