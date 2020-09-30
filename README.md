@@ -1,5 +1,5 @@
 # BTC Dashboard
-The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio you use this code that runs on a Pi with a LCD display. It includes:<br>
+The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio or websites, you use this code that runs on a Pi with a LCD display. The dashboard includes:<br>
 <li> Market: Price, sats/USD and MarketCap
 <li> Mempool: Transactions, blocks to clear
 <li> Blockchain: height and fees, hash-rate

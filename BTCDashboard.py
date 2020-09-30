@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 from tkinter import *
 import pigpio
-#import pandas as pd
 import requests
-#import time
 import sys
 import datetime
-#import csv
 from urllib.request import urlopen
 from json import loads
 
@@ -75,7 +72,7 @@ class BTCTicker:
 	def close(self):
 		root.destroy()
 
-def bright():
+def bright():  # not yet activated
 # settings for bright screen. 255 = max	
 	gpio.set_PWM_dutycycle(19, 255)
 
@@ -121,7 +118,7 @@ def hwg():
 	except:
 		print("Error reading Blockchair")
 	
-#	try:
+#	try: 
 #	get GitHub data
 #		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data']['total_commits'])
 #	except:
