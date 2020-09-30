@@ -34,9 +34,11 @@ class BTCTicker:
 		down_label = Label(text=(text1 + '\n'+  text2),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), fg = color)
 		down_label.grid(row=3, column=1, sticky=W)
 		
+		currency = "{:,.2%}".format(market_dominance_percentage)
+		text2a = "BTC Dominance: " + str(currency)
 		currency = "{:,.0f}".format(satsusd)
 		text3 = "Sats per $: " + str(currency)
-		down_label = Label(text=(text3),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), fg = 'black')
+		down_label = Label(text=(text2a + '\n'+  text3),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), fg = 'black')
 		down_label.grid(row=4, column=1, sticky=W)
 
 		if marketcap24h > 0:
@@ -83,8 +85,6 @@ class BTCTicker:
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12))
 		down_label.grid(row=12, column=1, sticky=W)        
 
-#		text1 = "str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
-#		text2 =  "Portfolio____: " + u'\u20bf' + str(btcprint)
 		
 # This is where you set the update time. 1000 - 1 sec	
 		down_label.after(180000,BTCTicker.labels)
@@ -111,6 +111,7 @@ def hwg():
 	global pricebtc24hrchange
 	global marketcapbtc
 	global marketcap24h
+	global market_dominance_percentage
 	global suggested_transaction_fee
 	global average_transaction_fee_usd_24h
 	global next_difficulty_estimate
@@ -129,6 +130,7 @@ def hwg():
 		pricebtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd'])
 		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd_change_24h_percentage'])
 		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_cap_usd'])
+		market_dominance_percentage = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_dominance_percentage'])
 		suggested_transaction_fee = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['suggested_transaction_fee_per_byte_sat'])
 		average_transaction_fee_usd_24h = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['average_transaction_fee_usd_24h'])
 		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['hashrate_24h'])
@@ -138,6 +140,7 @@ def hwg():
 		next_difficulty_estimate = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['next_difficulty_estimate'])
 		difficulty = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['difficulty'])
 		
+		market_dominance_percentage = market_dominance_percentage / 100
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		satsusd = 1 / pricebtc * 100000000

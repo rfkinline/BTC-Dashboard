@@ -1,11 +1,11 @@
 # BTC Dashboard
 The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio or websites, you use this code that runs on a Pi with a LCD display. The dashboard includes:<br>
-<li> Market: Price, sats/USD and MarketCap
+<li> Market: Price, sats/USD and MarketCap, Dominance
 <li> Mempool: Transactions, blocks to clear
 <li> Blockchain: height and fees (sats/b and USD), hash-rate, next difficulty, date of next difficulty adjustment
 <li> Bitcoin Fear & Greed Index
 
-<img src="https://i.ibb.co/LtQP0x6/IMG-20200930-145310.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>
+<img src="https://i.ibb.co/zb55pwn/IMG-20200930-151250.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>
 
 ## Hardware
 <li>Standard Raspberry Pi 3 or 4
@@ -16,6 +16,7 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 1. include colors
 2. Capacity Lightning Network
 3. GitHub stats
+4. Dark mode
 
 ## Display
 <b>Install for HyperPixel 4.0 (3.5" display)</b><br>
