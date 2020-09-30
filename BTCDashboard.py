@@ -12,8 +12,6 @@ from json import loads
 
 gpio = pigpio.pi()
 
-# now = datetime.datetime.now()
-
 class BTCTicker:
 	def __init__(self, master):
 		self.master = master
@@ -24,13 +22,25 @@ class BTCTicker:
 
 	def labels():
 		hwg()
+		title = "Market Data"
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',24))
+		down_label.grid(row=2, column=1)
 		currency = "{:,.2f}".format(pricebtc)
 		text1 = "BTC Price: $" + str(currency)
-		text2 = "Delta: " + str(pricebtc24hrchange)
+		pricebtc24hrchange = pricebtc24hrchange / 100
+		currency = "{:,.2%}".format(pricebtc24hrchange)
+		text2 = "24hr change: " + str(currency)
 		currency = "{:,.0f}".format(satsusd)
-		text3 = "Sats: " + str(currency)
+		text3 = "Sats per $: " + str(currency)
 		currency = "{:,.0f}".format(marketcapbtc)
-		text4 = "Marketcap: " + str(currency)
+		text4 = "Marketcap: $" + str(currency)
+		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label.grid(row=3, column=1)
+
+		title = "Blockchain Data"
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',24))
+		down_label.grid(row=4, column=1)
+
 		currency = "{:,.0f}".format(hashrate24hr)
 		text5 = "Hashrate: " + str(currency) + " EH/s"
 		currency = "{:,.0f}".format(mempool)
@@ -38,15 +48,25 @@ class BTCTicker:
 		currency = "{:,.0f}".format(blocks)
 		text7 = "Last block: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
-		text8 = "Fees: " + str(currency) + " sat/vB"
+		text8 = "Immediate Fees: " + str(currency) + " sat/vB"
 		text9 = "Commits: " + str(commits)
-		text10 = "Fear Index: " + str(fearindex)
+		down_label = Label(text=(text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label.grid(row=5, column=1)
+
+		title = "Fear Index"
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',24))
+		down_label.grid(row=6, column=1)
+
+		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
-	
-		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9 + '\n' + text10 + '\n' + text11),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',25))
-		down_label.grid(row=2, column=1)
+		down_label = Label(text=(text10 + '\n' + text11),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		down_label.grid(row=7, column=1)
 		
-        
+		now = datetime.datetime.now()
+		text99 = "Current time: " + str(now)
+		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12))
+		down_label.grid(row=9, column=1)        
+
 #		text1 = "str(btcmaxtime) #.strftime("%Y-%m-%d %H:%M")
 #		text2 =  "Portfolio____: " + u'\u20bf' + str(btcprint)
 		
