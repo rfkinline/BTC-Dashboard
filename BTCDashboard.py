@@ -25,22 +25,25 @@ class BTCTicker:
 	def labels():
 		hwg()
 		currency = "{:,.2f}".format(pricebtc)
-		text1 = "BTC Price: " + u'\u20bf' + str(currency)
+		text1 = "BTC Price: $" + str(currency)
 		text2 = "Delta: " + str(pricebtc24hrchange)
-		currency = "{:,.2f}".format(satsusd)
-		text3 = "Sats: " + u'\u20bf' + str(currency)
-		currency = "{:,.2f}".format(marketcapbtc)
-		text4 = "Marketcap: " + u'\u20bf' + str(currency)
-		text5 = "Hashrate: " + str(hashrate24hr)
-		text6 = "mempool: " + str(mempool)
-		text7 = "Blocks: " + str(blocks)
-		currency = "{:,.2f}".format(suggested_transaction_fee)
-		text8 = "Fees: " + str(currency)
-		text9 = "Blocks: " + str(commits)
-		text10 = "Findex: " + str(fearindex)
-		text11 = "Fvalue: " + str(fearindexvalue)
+		currency = "{:,.0f}".format(satsusd)
+		text3 = "Sats: " + str(currency)
+		currency = "{:,.0f}".format(marketcapbtc)
+		text4 = "Marketcap: " + str(currency)
+		currency = "{:,.0f}".format(hashrate24hr)
+		text5 = "Hashrate: " + str(currency) + " EH/s"
+		currency = "{:,.0f}".format(mempool)
+		text6 = "Mempool: " + str(currency) + " transactions"
+		currency = "{:,.0f}".format(blocks)
+		text7 = "Last block: " + str(currency)
+		currency = "{:,.0f}".format(suggested_transaction_fee)
+		text8 = "Fees: " + str(currency) + " sat/vB"
+		text9 = "Commits: " + str(commits)
+		text10 = "Fear Index: " + str(fearindex)
+		text11 = "Fear Value: " + str(fearindexvalue)
 	
-		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9 + '\n' + text10 + '\n' + text11),anchor=NW, width = 19, justify=LEFT,font=('Helvetica',25))
+		down_label = Label(text=(text1 + '\n' + text2 + '\n' + text3 + '\n'  + text4 + '\n' + text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'  + text9 + '\n' + text10 + '\n' + text11),anchor=NW, width = 21, justify=LEFT,font=('Helvetica',25))
 		down_label.grid(row=2, column=1)
 		
         
