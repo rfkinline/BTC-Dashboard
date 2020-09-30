@@ -14,13 +14,13 @@ class BTCTicker:
 		self.master = master
 		self.close_button = Button(text="C", command=self.close)
 		self.close_button.grid(row=0, column=0)
-		self.label = Label(master, text=("BTC " + u'\u20bf' + " Dashboard"),anchor=W, justify=LEFT, font=('Helvetica',32, 'bold'), fg = 'blue')
-		self.label.grid(row=0, column=1, columnspan=1)
+		self.label = Label(master, text=("BTC " + u'\u20bf' + " Dashboard"),anchor=W, justify=LEFT, font=('Helvetica',32, 'bold'), fg='black', bg = 'gold')
+		self.label.grid(row=0, column=1)
 
 	def labels():
 		hwg()
 		title = "Market Data"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'))
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
 
 		if pricebtc24hrchange > 0:
@@ -31,14 +31,14 @@ class BTCTicker:
 		text1 = "BTC Price: $" + str(currency)
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		text2 = "24hr change: " + str(currency)
-		down_label = Label(text=(text1 + '\n'+  text2),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), fg = color)
+		down_label = Label(text=(text1 + '\n'+  text2),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
 		down_label.grid(row=3, column=1, sticky=W)
 		
 		currency = "{:,.2%}".format(market_dominance_percentage)
 		text2a = "BTC Dominance: " + str(currency)
 		currency = "{:,.0f}".format(satsusd)
 		text3 = "Sats per $: " + str(currency)
-		down_label = Label(text=(text2a + '\n'+  text3),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), fg = 'black')
+		down_label = Label(text=(text2a + '\n'+  text3),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
 		down_label.grid(row=4, column=1, sticky=W)
 
 		if marketcap24h > 0:
@@ -47,11 +47,11 @@ class BTCTicker:
 			color = "red"
 		currency = "{:,.0f}".format(marketcapbtc)
 		text4 = "Marketcap: $" + str(currency)
-		down_label = Label(text=(text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), fg = color)
+		down_label = Label(text=(text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
 		down_label.grid(row=5, column=1, sticky=W)
 
 		title = "Blockchain Data"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'))
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=6, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(hashrate24hr)
@@ -68,21 +68,21 @@ class BTCTicker:
 		text8 = "Average Fee: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
 		text8a = "Suggested Fee: " + str(currency) + " sat/vB"
-		down_label = Label(text=(text5 + '\n' + text5a + '\n' + text5b + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'))
+		down_label = Label(text=(text5 + '\n' + text5a + '\n' + text5b + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=7, column=1, sticky=W)
 
 		title = "Fear Index"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'))
+		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=8, column=1, sticky=W)
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
-		down_label = Label(text=(text10 + '\n' + text11 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'))
+		down_label = Label(text=(text10 + '\n' + text11 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=9, column=1, sticky=W)
 		
 		now = datetime.datetime.now()
 		text99 = "Current time: " + str(now)
-		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12))
+		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
 		down_label.grid(row=12, column=1, sticky=W)        
 
 		
@@ -165,7 +165,7 @@ def hwg():
 
 
 root = Tk()
-root.configure(cursor='none')
+root.configure(cursor='none', bg='black')
 root.attributes('-fullscreen', True)
 my_gui = BTCTicker(root)
 BTCTicker.labels()
