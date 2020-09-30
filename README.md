@@ -5,7 +5,7 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 <li> Blockchain: height and fees, hash-rate
 <li> Bitcoin Fear & Greed Index
 
-<img src="https://i.ibb.co/YXMnZ9G/IMG-20200930-072821.jpg" alt="IMG-20200930-072821" border="0"><br>
+<img src="https://i.ibb.co/YXMnZ9G/IMG-20200930-072821.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>
 
 ## Hardware
 <li>Standard Raspberry Pi 3 or 4
