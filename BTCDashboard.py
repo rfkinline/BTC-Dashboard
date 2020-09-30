@@ -39,14 +39,16 @@ class BTCTicker:
 		down_label.grid(row=4, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(hashrate24hr)
-		text5 = "Hashrate: " + str(currency) + " EH/s"
+		text5 = "Hashrate 24hr: " + str(currency) + " EH/s"
 		currency = "{:,.0f}".format(mempool)
 		text6 = "Mempool: " + str(currency) + " transactions"
 		currency = "{:,.0f}".format(blocks)
 		text7 = "Last block: " + str(currency)
+		currency = "${:,.2f}".format(average_transaction_fee_usd_24h)
+		text8 = "Average Fee: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
-		text8 = "Suggested Fee: " + str(currency) + " sat/vB"
-		down_label = Label(text=(text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
+		text8a = "Suggested Fee: " + str(currency) + " sat/vB"
+		down_label = Label(text=(text5 + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20))
 		down_label.grid(row=5, column=1, sticky=W)
 
 		title = "Fear Index"
@@ -91,13 +93,13 @@ def hwg():
 	global pricebtc24hrchange
 	global marketcapbtc
 	global suggested_transaction_fee
+	global average_transaction_fee_usd_24h
 	global blocks
 
 	try:
 #	get the fearindex
 		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
 		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
-		print(fearindex)
 	except:
 		print("Error reading Fearindex")
 	try:
@@ -108,6 +110,7 @@ def hwg():
 		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd_change_24h_percentage'])
 		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_cap_usd'])
 		suggested_transaction_fee = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['suggested_transaction_fee_per_byte_sat'])
+		average_transaction_fee_usd_24h = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['average_transaction_fee_usd_24h'])
 		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['hashrate_24h'])
 		mempool = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['mempool_transactions'])
 		blocks = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['blocks'])
@@ -115,6 +118,8 @@ def hwg():
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		satsusd = 1 / pricebtc * 100000000
+		print(pricebtc)
+
 	except:
 		print("Error reading Blockchair")
 	
