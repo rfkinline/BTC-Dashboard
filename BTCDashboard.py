@@ -20,13 +20,14 @@ class BTCTicker:
 	def labels():
 		hwg()
 		title = "Market Data"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
+		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
-
-		if pricebtc24hrchange > 0:
-			color = "lightgreen"
+		if pricebtc24hrchange * 100 > 5:
+				color = "lightgreen"
+		elif pricebtc24hrchange * 100 < -5:
+				color = "lightcoral"
 		else:
-			color = "lightcoral"
+				color = "white"
 		currency = "{:,.2f}".format(pricebtc)
 		text1 = "BTC Price: $" + str(currency)
 		currency = "{:,.2%}".format(pricebtc24hrchange)
@@ -41,17 +42,19 @@ class BTCTicker:
 		down_label = Label(text=(text2a + '\n'+  text3),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
 		down_label.grid(row=4, column=1, sticky=W)
 
-		if marketcap24h > 0:
-			color = "lightgreen"
+		if marketcap24h > 2:
+				color = "lightgreen"
+		elif marketcap24h < -2:
+				color = "lightcoral"
 		else:
-			color = "lightcoral"
+				color = "white"
 		currency = "{:,.0f}".format(marketcapbtc)
 		text4 = "Marketcap: $" + str(currency)
 		down_label = Label(text=(text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
 		down_label.grid(row=5, column=1, sticky=W)
 
 		title = "Blockchain Data"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
+		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=6, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(hashrate24hr)
@@ -71,8 +74,8 @@ class BTCTicker:
 		down_label = Label(text=(text5 + '\n' + text5a + '\n' + text5b + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=7, column=1, sticky=W)
 
-		title = "Fear Index"
-		down_label = Label(text=(title),anchor=NW, width = 21, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
+		title = "Others"
+		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=8, column=1, sticky=W)
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
