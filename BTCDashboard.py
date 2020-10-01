@@ -15,13 +15,18 @@ class BTCTicker:
 		self.close_button = Button(text="C", command=self.close)
 		self.close_button.grid(row=0, column=0)
 		self.label = Label(master, text=("BTC " + u'\u20bf' + " Dashboard"),anchor=W, justify=LEFT, font=('Helvetica',32, 'bold'), fg='black', bg = 'gold')
-		self.label.grid(row=0, column=1)
+		self.label.grid(row=0, column=1, columnspan=3)
 
 	def labels():
 		hwg()
 		title = "Market Data"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
+		down_label = Label(text=("H"),font=('Helvetica', 20), bg='black', fg='white')
+		down_label.grid(row=2, column=2)
+		down_label = Label(text=("D"),font=('Helvetica', 20), bg='black', fg='white')
+		down_label.grid(row=2, column=3)
+
 		if pricebtc24hrchange * 100 > 5:
 				color = "lightgreen"
 		elif pricebtc24hrchange * 100 < -5:
@@ -30,6 +35,12 @@ class BTCTicker:
 				color = "white"
 		currency = "{:,.2f}".format(pricebtc)
 		text1 = "BTC Price: $" + str(currency)
+        down_label = Label( bg='red', width=2)
+        down_label.grid(row=3, column=2)
+        down_label = Label( bg='green', width=2)
+        down_label.grid(row=3, column=3)
+    
+
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		text2 = "24hr change: " + str(currency)
 		down_label = Label(text=(text1 + '\n'+  text2),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
@@ -104,7 +115,6 @@ def dark():
 	gpio.set_PWM_dutycycle(19, 30)
 
 def hwg():
-	global commits
 	global fearindex
 	global fearindexvalue
 	global satsusd
@@ -120,6 +130,22 @@ def hwg():
 	global next_difficulty_estimate
 	global next_retarget_time_estimate
 	global blocks
+
+	fearindex = " "
+	fearindexvalue = 0
+	satsusd = 0
+	hashrate24hr = 0
+	mempool = 0
+	pricebtc = 0
+	pricebtc24hrchange = 0
+	marketcapbtc = 0
+	marketcap24h = 0
+	market_dominance_percentage = 0
+	suggested_transaction_fee = 0
+	average_transaction_fee_usd_24h = 0
+	next_difficulty_estimate = 0
+	next_retarget_time_estimate = 0
+	blocks = 0
 
 	try:
 #	get the fearindex
@@ -158,13 +184,6 @@ def hwg():
 
 	except:
 		print("Error reading Coingecko")	
-
-
-#	try: 
-#	get GitHub data
-#		commits = str(loads(urlopen('https://api.coincodecap.com/v1/details_v1/BTC').read())['data']['total_commits'])
-#	except:
-#		print("Error reading CoinCodeCap")
 
 
 root = Tk()
