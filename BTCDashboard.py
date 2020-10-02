@@ -177,7 +177,7 @@ def hwg():
 	fearindexvalue = 0
 	satsusd = 0
 	hashrate24hr = 0
-	mempool = 0
+	mempool = 1
 	pricebtc = 0
 	pricebtc24hrchange = 0
 	marketcapbtc = 0
