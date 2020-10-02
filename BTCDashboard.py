@@ -111,17 +111,18 @@ def hwg():
 	try:
 
 #	get blockchain data https://blockchair.com/api/docs#link_M03
-		pricebtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd'])
-		pricebtc24hrchange = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_price_usd_change_24h_percentage'])
-		marketcapbtc = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['market_cap_usd'])
-		suggested_transaction_fee = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['suggested_transaction_fee_per_byte_sat'])
-		average_transaction_fee_usd_24h = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['average_transaction_fee_usd_24h'])
-		hashrate24hr = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['hashrate_24h'])
-		mempool = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['mempool_transactions'])
-		blocks = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['blocks'])
-		next_retarget_time_estimate = str(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['next_retarget_time_estimate'])
-		next_difficulty_estimate = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['next_difficulty_estimate'])
-		difficulty = float(loads(urlopen('https://api.blockchair.com/bitcoin/stats').read())['data']['difficulty'])
+        blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()
+		pricebtc = float(loads(blockchair_api_request)['data']['market_price_usd'])
+		pricebtc24hrchange = float(loads(blockchair_api_request)['data']['market_price_usd_change_24h_percentage'])
+		marketcapbtc = float(loads(blockchair_api_request)['data']['market_cap_usd'])
+		suggested_transaction_fee = float(loads(blockchair_api_request)['data']['suggested_transaction_fee_per_byte_sat'])
+		average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
+		hashrate24hr = float(loads(blockchair_api_request)['data']['hashrate_24h'])
+		mempool = float(loads(blockchair_api_request)['data']['mempool_transactions'])
+		blocks = float(loads(blockchair_api_request)['data']['blocks'])
+		next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
+		next_difficulty_estimate = float(loads(blockchair_api_request)['data']['next_difficulty_estimate'])
+		difficulty = float(loads(blockchair_api_request)['data']['difficulty'])
 		
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
