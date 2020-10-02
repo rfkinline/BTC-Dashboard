@@ -4,6 +4,7 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 <li> Mempool: Transactions, blocks to clear
 <li> Blockchain: height and fees (sats/b and USD), hash-rate, next difficulty, date of next difficulty adjustment
 <li> Bitcoin Fear & Greed Index
+<li> Colors: red or green when the change is over 5%. Currently implemented in: Marketcap and Price
 
 <img src="https://i.ibb.co/qsWd4yb/IMG-20200930-155742.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>
 
@@ -46,7 +47,7 @@ insert the following code at the end:<br>
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
-## There is a C Button on HyperPixel display
+## There is a C Button on the display
 To stop the program, click on the "C" button. 
 
 ## Python
