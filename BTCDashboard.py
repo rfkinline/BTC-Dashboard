@@ -198,7 +198,7 @@ def hwg():
 	try:
 
 #	get blockchain data https://blockchair.com/api/docs#link_M03
-        blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()	
+		blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()	
 		market_dominance_percentage = float(loads(blockchair_api_request)['data']['market_dominance_percentage'])
 		suggested_transaction_fee = float(loads(blockchair_api_request)['data']['suggested_transaction_fee_per_byte_sat'])
 		average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
@@ -215,6 +215,7 @@ def hwg():
 
 	except:
 		print("Error reading Blockchair")
+		hwg()
 	
 	try:
 		coingecko_api_request = urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read()	
@@ -227,7 +228,8 @@ def hwg():
 		print(pricebtc)
 
 	except:
-		print("Error reading Coingecko")	
+		print("Error reading Coingecko")
+		hwg()
 
 market_dominance_percentagesav = 0
 hashrate24hrsav = 0
