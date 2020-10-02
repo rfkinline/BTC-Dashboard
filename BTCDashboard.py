@@ -19,11 +19,10 @@ class BTCTicker:
 
 	def labels():
 		global then
-		global market_dominance_percentagesav
+		global onlyonce
 		global hashrate24hrsav
 		global mempoolsav
 		global average_transaction_fee_usd_24hsav
-		market_dominance_percentagediff = 0
 		hashrate24hrdiff = 0
 		mempooldiff = 0
 		average_transaction_fee_usd_24hdiff = 0
@@ -33,9 +32,9 @@ class BTCTicker:
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
 
-		if pricebtc24hrchange > 5:
+		if pricebtc24hrchange * 100 > 5:
 				color = "lightgreen"
-		elif pricebtc24hrchange < -5:
+		elif pricebtc24hrchange * 100 < -5:
 				color = "lightcoral"
 		else:
 				color = "white"
@@ -49,13 +48,6 @@ class BTCTicker:
 		text2 = "24hr change: " + str(currency)
 		down_label = Label(text=(text2),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = "white")
 		down_label.grid(row=4, column=1, sticky=W)
-		
-		if market_dominance_percentagediff > 2:
-				color = "lightgreen"
-		elif market_dominance_percentagediff < -2:
-				color = "lightcoral"
-		else:
-				color = "white"
 		currency = "{:,.2%}".format(market_dominance_percentage)
 		text2a = "BTC Dominance: " + str(currency)
 		currency = "{:,.0f}".format(satsusd)
@@ -78,13 +70,24 @@ class BTCTicker:
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=7, column=1, sticky=W)
 
+		if hashrate24hrdiff > 5:
+				color = "lightgreen"
+		elif hashrate24hrdiff < -5:
+				color = "lightcoral"
+		else:
+				color = "white"
 		currency = "{:,.0f}".format(hashrate24hr)
 		text5 = "Hashrate 24hr: " + str(currency) + " EH/s"
+		down_label = Label(text=(text5),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
+		down_label.grid(row=8, column=1, sticky=W)
+
 		currency = "{:,.02%}".format(next_difficulty_estimate)
 		text5a = "Next difficulty estimate: " + str(currency)
 		date_time_obj = datetime.datetime.strptime(next_retarget_time_estimate, '%Y-%m-%d %H:%M:%S')
 		text5b = "Next adjustment: " + str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
-		
+		down_label = Label(text=(text5a + '\n' + text5b),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		down_label.grid(row=9, column=1, sticky=W)
+
 		if mempooldiff > 2:
 				color = "lightgreen"
 		elif mempooldiff < -2:
@@ -93,24 +96,38 @@ class BTCTicker:
 				color = "white"
 		currency = "{:,.0f}".format(mempool)
 		text6 = "Mempool: " + str(currency) + " transactions"
+		down_label = Label(text=(text6),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
+		down_label.grid(row=10, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(blocks)
 		text7 = "Last block: " + str(currency)
+		down_label = Label(text=(text7),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		down_label.grid(row=11, column=1, sticky=W)
+
+		if average_transaction_fee_usd_24hdiff > 2:
+				color = "lightgreen"
+		elif average_transaction_fee_usd_24hdiff < -2:
+				color = "lightcoral"
+		else:
+				color = "white"
 		currency = "${:,.2f}".format(average_transaction_fee_usd_24h)
 		text8 = "Average Fee: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
+		down_label = Label(text=(text8),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
+		down_label.grid(row=12, column=1, sticky=W)
+
 		text8a = "Suggested Fee: " + str(currency) + " sat/vB"
-		down_label = Label(text=(text5 + '\n' + text5a + '\n' + text5b + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=8, column=1, sticky=W)
+		down_label = Label(text=(text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		down_label.grid(row=13, column=1, sticky=W)
 
 		title = "Others"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
-		down_label.grid(row=9, column=1, sticky=W)
+		down_label.grid(row=14, column=1, sticky=W)
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
 		down_label = Label(text=(text10 + '\n' + text11 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=10, column=1, sticky=W)
+		down_label.grid(row=15, column=1, sticky=W)
 		
 		now = datetime.datetime.now()
 		duration = now - then
@@ -119,31 +136,30 @@ class BTCTicker:
 		print(duration_in_s)
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		down_label.grid(row=13, column=1, sticky=W)
+		down_label.grid(row=18, column=1, sticky=W)
 
 # first time
+		if onlyonce == 0:
+			hashrate24hrsav = hashrate24hr
+			mempoolsav = mempool
+			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
+			onlyonce = 1
 
+# to calculated the hourly differences
 		if hours > 1:
-			market_dominance_percentagediff = market_dominance_percentage - market_dominance_percentagesav
-			market_dominance_percentagediff = market_dominance_percentagediff / market_dominance_percentage * 100
-#			print("dom ", market_dominance_percentagediff)
-			market_dominance_percentagesav = market_dominance_percentage
 			hashrate24hrdiff =  hashrate24hr - hashrate24hrsav
 			hashrate24hrdiff =  hashrate24hrdiff / hashrate24hr * 100
-#			print("HR", hashrate24hrdiff)
 			hashrate24hrsav = hashrate24hr
 			mempooldiff = mempool  - mempoolsav 
 			mempooldiff = mempooldiff / mempool * 100
-#			print("MP", mempoolsav, mempool,  mempooldiff)
 			mempoolsav = mempool 
 			average_transaction_fee_usd_24hdiff = average_transaction_fee_usd_24h - average_transaction_fee_usd_24hsav
 			average_transaction_fee_usd_24hdiff = average_transaction_fee_usd_24hdiff / average_transaction_fee_usd_24h * 100
-#			print("AF", average_transaction_fee_usd_24hdiff)
 			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
 			then = datetime.datetime.now()
 		
 # This is where you set the update time. 290000 is about 5 minutes	
-		down_label.after(180000,BTCTicker.labels)
+		down_label.after(290000,BTCTicker.labels)
 
 	def close(self):
 		root.destroy()
@@ -231,9 +247,9 @@ def hwg():
 		print("Error reading Coingecko")
 		hwg()
 
-market_dominance_percentagesav = 0
 hashrate24hrsav = 0
 mempoolsav = 0
+onlyonce = 0
 average_transaction_fee_usd_24hsav = 0 
 then = datetime.datetime.now()
 root = Tk()
