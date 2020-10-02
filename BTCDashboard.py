@@ -22,10 +22,6 @@ class BTCTicker:
 		title = "Market Data"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
-		down_label = Label(text=("H"),font=('Helvetica', 20), bg='black', fg='white')
-		down_label.grid(row=2, column=2)
-		down_label = Label(text=("D"),font=('Helvetica', 20), bg='black', fg='white')
-		down_label.grid(row=2, column=3)
 
 		if pricebtc24hrchange * 100 > 5:
 				color = "lightgreen"
@@ -35,38 +31,36 @@ class BTCTicker:
 				color = "white"
 		currency = "{:,.2f}".format(pricebtc)
 		text1 = "BTC Price: $" + str(currency)
-        down_label = Label( bg='red', width=2)
-        down_label.grid(row=3, column=2)
-        down_label = Label( bg='green', width=2)
-        down_label.grid(row=3, column=3)
-    
+		down_label = Label(text=(text1),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
+		down_label.grid(row=3, column=1, sticky=W)
+   
 
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		text2 = "24hr change: " + str(currency)
-		down_label = Label(text=(text1 + '\n'+  text2),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
-		down_label.grid(row=3, column=1, sticky=W)
+		down_label = Label(text=(text2),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = "white")
+		down_label.grid(row=4, column=1, sticky=W)
 		
 		currency = "{:,.2%}".format(market_dominance_percentage)
 		text2a = "BTC Dominance: " + str(currency)
 		currency = "{:,.0f}".format(satsusd)
 		text3 = "Sats per $: " + str(currency)
 		down_label = Label(text=(text2a + '\n'+  text3),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
-		down_label.grid(row=4, column=1, sticky=W)
+		down_label.grid(row=5, column=1, sticky=W)
 
-		if marketcap24h > 2:
+		if marketcap24h > 5:
 				color = "lightgreen"
-		elif marketcap24h < -2:
+		elif marketcap24h < -5:
 				color = "lightcoral"
 		else:
 				color = "white"
 		currency = "{:,.0f}".format(marketcapbtc)
 		text4 = "Marketcap: $" + str(currency)
 		down_label = Label(text=(text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
-		down_label.grid(row=5, column=1, sticky=W)
+		down_label.grid(row=6, column=1, sticky=W)
 
 		title = "Blockchain Data"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
-		down_label.grid(row=6, column=1, sticky=W)
+		down_label.grid(row=7, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(hashrate24hr)
 		text5 = "Hashrate 24hr: " + str(currency) + " EH/s"
@@ -83,21 +77,21 @@ class BTCTicker:
 		currency = "{:,.0f}".format(suggested_transaction_fee)
 		text8a = "Suggested Fee: " + str(currency) + " sat/vB"
 		down_label = Label(text=(text5 + '\n' + text5a + '\n' + text5b + '\n' + text6 + '\n' + text7 + '\n' + text8 + '\n' + text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=7, column=1, sticky=W)
+		down_label.grid(row=8, column=1, sticky=W)
 
 		title = "Others"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
-		down_label.grid(row=8, column=1, sticky=W)
+		down_label.grid(row=9, column=1, sticky=W)
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
 		down_label = Label(text=(text10 + '\n' + text11 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=9, column=1, sticky=W)
+		down_label.grid(row=10, column=1, sticky=W)
 		
 		now = datetime.datetime.now()
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		down_label.grid(row=12, column=1, sticky=W)        
+		down_label.grid(row=13, column=1, sticky=W)
 
 		
 # This is where you set the update time. 1000 - 1 sec	
