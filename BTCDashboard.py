@@ -217,10 +217,11 @@ def hwg():
 		print("Error reading Blockchair")
 	
 	try:
-		marketcap24h = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read())['market_data']['market_cap_change_percentage_24h'])
-		pricebtc24hrchange = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read())['market_data']['price_change_percentage_24h'])
-		marketcapbtc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read())['market_data']['market_cap']['usd'])
-		pricebtc = float(loads(urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read())['market_data']['current_price']['usd'])
+		coingecko_api_request = urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read()	
+		marketcap24h = float(loads(coingecko_api_request)['market_data']['market_cap_change_percentage_24h'])
+		pricebtc24hrchange = float(loads(coingecko_api_request)['market_data']['price_change_percentage_24h'])
+		marketcapbtc = float(loads(coingecko_api_request)['market_data']['market_cap']['usd'])
+		pricebtc = float(loads(coingecko_api_request)['market_data']['current_price']['usd'])
 		satsusd = 1 / pricebtc * 100000000
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		print(pricebtc)
