@@ -111,7 +111,7 @@ def hwg():
 	try:
 
 #	get blockchain data https://blockchair.com/api/docs#link_M03
-        blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()
+                blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()
 		pricebtc = float(loads(blockchair_api_request)['data']['market_price_usd'])
 		pricebtc24hrchange = float(loads(blockchair_api_request)['data']['market_price_usd_change_24h_percentage'])
 		marketcapbtc = float(loads(blockchair_api_request)['data']['market_cap_usd'])
