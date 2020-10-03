@@ -7,7 +7,7 @@ from urllib.request import urlopen
 from json import loads
 
 #display tresholds (change color if x value increased more than y%). 
-disppricebtc24hrchange = 2    # checked once / day
+disppricebtc1hrchangedisp = 2    # checked once / hr
 dispmarketcap24h = 2          # checked once / day
 disphashrate24hrdiff = 1      # checked every 5 minutes
 dispmempooldiff = 10          # checked every 5 minutes
@@ -26,6 +26,7 @@ class BTCTicker:
 		global onlyonce
 		global hashrate24hrsav
 		global mempoolsav
+		global mempool
 		global average_transaction_fee_usd_24hsav
 		global hashrate24hrdiff
 		global mempooldiff
@@ -36,9 +37,9 @@ class BTCTicker:
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
 
-		if pricebtc24hrchange * 100 > disppricebtc24hrchange:
+		if pricebtc1hrchange * 100 > disppricebtc1hrchangediff:
 				color = "lightgreen"
-		elif pricebtc24hrchange * 100 < disppricebtc24hrchange * -1:
+		elif pricebtc1hrchange * 100 < disppricebtc1hrchangediff * -1:
 				color = "lightcoral"
 		else:
 				color = "white"
@@ -93,9 +94,9 @@ class BTCTicker:
 		down_label.grid(row=9, column=1, sticky=W)
 
 		if mempooldiff > dispmempooldiff:
-				color = "lightgreen"
-		elif mempooldiff < dispmempooldiff * -1:
 				color = "lightcoral"
+		elif mempooldiff < dispmempooldiff * -1:
+				color = "lightgreen"
 		else:
 				color = "white"
 		currency = "{:,.0f}".format(mempool)
@@ -153,6 +154,8 @@ class BTCTicker:
 			hashrate24hrdiff =  hashrate24hr - hashrate24hrsav
 			hashrate24hrdiff =  hashrate24hrdiff / hashrate24hr * 100
 			hashrate24hrsav = hashrate24hr
+			if mempool == 0:
+				mempool = 1
 			mempooldiff = mempool  - mempoolsav 
 			mempooldiff = mempooldiff / mempool * 100
 			mempoolsav = mempool 
@@ -174,6 +177,7 @@ def hwg():
 	global hashrate24hr
 	global mempool
 	global pricebtc
+	global pricebtc1hrchange
 	global pricebtc24hrchange
 	global marketcapbtc
 	global marketcap24h
@@ -190,6 +194,7 @@ def hwg():
 	hashrate24hr = 0
 	mempool = 1
 	pricebtc = 0
+	pricebtc1hrchange = 0
 	pricebtc24hrchange = 0
 	marketcapbtc = 0
 	marketcap24h = 0
@@ -219,7 +224,7 @@ def hwg():
 		next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
 		next_difficulty_estimate = float(loads(blockchair_api_request)['data']['next_difficulty_estimate'])
 		difficulty = float(loads(blockchair_api_request)['data']['difficulty'])
-		
+
 		market_dominance_percentage = market_dominance_percentage / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
@@ -231,11 +236,13 @@ def hwg():
 	try:
 		coingecko_api_request = urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read()	
 		marketcap24h = float(loads(coingecko_api_request)['market_data']['market_cap_change_percentage_24h'])
+		pricebtc1hrchange = float(loads(coingecko_api_request)['market_data']['price_change_percentage_1h_in_currency']['usd'])
 		pricebtc24hrchange = float(loads(coingecko_api_request)['market_data']['price_change_percentage_24h'])
 		marketcapbtc = float(loads(coingecko_api_request)['market_data']['market_cap']['usd'])
 		pricebtc = float(loads(coingecko_api_request)['market_data']['current_price']['usd'])
 		satsusd = 1 / pricebtc * 100000000
 		pricebtc24hrchange = pricebtc24hrchange / 100
+		pricebtc1hrchange = pricebtc1hrchange / 100
 		print(pricebtc)
 
 	except:
