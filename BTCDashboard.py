@@ -10,7 +10,7 @@ from json import loads
 disppricebtc1hrchangedisp = 2    # checked once / hr
 dispmarketcap24h = 2          # checked once / day
 disphashrate24hrdiff = 1      # checked every 5 minutes
-dispmempooldiff = 10          # checked every 5 minutes
+dispmempooldiff = 20          # checked every 5 minutes
 dispaverage_transaction_fee_usd_24hdiff = 10      # checked every 5 minutes
 
 class BTCTicker:
@@ -110,9 +110,9 @@ class BTCTicker:
 		down_label.grid(row=11, column=1, sticky=W)
 
 		if average_transaction_fee_usd_24hdiff > dispaverage_transaction_fee_usd_24hdiff:
-				color = "lightgreen"
-		elif average_transaction_fee_usd_24hdiff < dispaverage_transaction_fee_usd_24hdiff * -1:
 				color = "lightcoral"
+		elif average_transaction_fee_usd_24hdiff < dispaverage_transaction_fee_usd_24hdiff * -1:
+				color = "lightgreen"
 		else:
 				color = "white"
 		currency = "${:,.2f}".format(average_transaction_fee_usd_24h)
