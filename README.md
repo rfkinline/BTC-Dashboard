@@ -35,19 +35,12 @@ To rotate the display: <br>
 change display_rotate=1 to display_rotate=2<br>
 now reboot the machine and the display should be vertical.
 
-## Install PANDAS
-to read-write the csv files you need to install PANDAS:<br>
-> sudo apt-get install python3-pandas
-
-additional documentation: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
-
-
 ## Let the program automatically start after reboot
 > crontab -e
 
 insert the following code at the end:<br>
 > @reboot DISPLAY=:0 sudo pigpiod<br>
-> @reboot DISPLAY=:0 python3 /home/pi/CryptoDashboard.py
+> @reboot DISPLAY=:0 python3 /home/pi/BTCDashboard.py
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
@@ -55,4 +48,4 @@ additional documentation: https://www.raspberrypi.org/documentation/linux/usage/
 To stop the program, click on the "C" button. 
 
 ## Python
-Start the program with "python3" and not "python" 
+Start the program with "python3" and not "python"  ("python3 BTCDashboard.py")
