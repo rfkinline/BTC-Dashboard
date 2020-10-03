@@ -7,7 +7,7 @@ import datetime
 from urllib.request import urlopen
 from json import loads
 
-gpio = pigpio.pi()
+#gpio = pigpio.pi() only needed when using dark/bright
 
 class BTCTicker:
 	def __init__(self, master):
@@ -23,9 +23,9 @@ class BTCTicker:
 		global hashrate24hrsav
 		global mempoolsav
 		global average_transaction_fee_usd_24hsav
-		hashrate24hrdiff = 0
-		mempooldiff = 0
-		average_transaction_fee_usd_24hdiff = 0
+		global hashrate24hrdiff
+		global mempooldiff
+		global average_transaction_fee_usd_24hdiff
 
 		hwg()
 		title = "Market Data"
@@ -132,8 +132,7 @@ class BTCTicker:
 		now = datetime.datetime.now()
 		duration = now - then
 		duration_in_s = duration.total_seconds()
-		hours = divmod(duration_in_s, 3600)[0]
-		print(duration_in_s)
+#		print(duration_in_s)
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
 		down_label.grid(row=18, column=1, sticky=W)
@@ -146,7 +145,7 @@ class BTCTicker:
 			onlyonce = 1
 
 # to calculated the hourly differences
-		if hours > 1:
+		if duration_in_s > 3600:
 			hashrate24hrdiff =  hashrate24hr - hashrate24hrsav
 			hashrate24hrdiff =  hashrate24hrdiff / hashrate24hr * 100
 			hashrate24hrsav = hashrate24hr
@@ -164,13 +163,13 @@ class BTCTicker:
 	def close(self):
 		root.destroy()
 
-def bright():  # not yet activated
+#def bright():  # not yet activated
 # settings for bright screen. 255 = max	
-	gpio.set_PWM_dutycycle(19, 255)
+#	gpio.set_PWM_dutycycle(19, 255)
 
-def dark():
+#def dark():
 # brightness setting. 30 is dimmed display.
-	gpio.set_PWM_dutycycle(19, 30)
+#	gpio.set_PWM_dutycycle(19, 30)
 
 def hwg():
 	global fearindex
@@ -249,8 +248,11 @@ def hwg():
 
 hashrate24hrsav = 0
 mempoolsav = 0
-onlyonce = 0
 average_transaction_fee_usd_24hsav = 0 
+hashrate24hrdiff = 0
+mempooldiff = 0
+average_transaction_fee_usd_24hdiff = 0 
+onlyonce = 0
 then = datetime.datetime.now()
 root = Tk()
 root.configure(cursor='none', bg='black')
