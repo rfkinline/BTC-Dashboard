@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 from tkinter import *
-import pigpio
 import requests
 import sys
 import datetime
 from urllib.request import urlopen
 from json import loads
-#gpio = pigpio.pi() #only needed when using dark/bright
 
 #display tresholds (change color if x value increased more than y%). 
 disppricebtc24hrchange = 2
@@ -168,14 +166,6 @@ class BTCTicker:
 
 	def close(self):
 		root.destroy()
-
-#def bright():  # not yet activated
-# settings for bright screen. 255 = max	
-#	gpio.set_PWM_dutycycle(19, 255)
-
-#def dark():
-# brightness setting. 30 is dimmed display.
-#	gpio.set_PWM_dutycycle(19, 30)
 
 def hwg():
 	global fearindex

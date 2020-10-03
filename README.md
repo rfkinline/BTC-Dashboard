@@ -25,7 +25,10 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 ## Display
 <b>Install for HyperPixel 4.0 (3.5" display)</b><br>
     Only follow these instructions. It will save you a lot of time:<br>
-    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4
+    https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-hyperpixel-4<br>
+
+<b>Other displays (not HiperPixel)</b><br>
+If you can get them to work, they should be good enough for this project.<br><br>
 
 To rotate the display: <br>
 > sudo nano /boot/config.txt
