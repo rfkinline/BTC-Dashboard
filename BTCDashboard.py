@@ -6,8 +6,14 @@ import sys
 import datetime
 from urllib.request import urlopen
 from json import loads
+#gpio = pigpio.pi() #only needed when using dark/bright
 
-#gpio = pigpio.pi() only needed when using dark/bright
+#display tresholds (change color if x value increased more than y%). 
+disppricebtc24hrchange = 2
+dispmarketcap24h = 2
+disphashrate24hrdiff = 5
+dispmempooldiff = 5
+dispaverage_transaction_fee_usd_24hdiff = 10
 
 class BTCTicker:
 	def __init__(self, master):
@@ -32,9 +38,9 @@ class BTCTicker:
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
 
-		if pricebtc24hrchange * 100 > 5:
+		if pricebtc24hrchange * 100 > disppricebtc24hrchange:
 				color = "lightgreen"
-		elif pricebtc24hrchange * 100 < -5:
+		elif pricebtc24hrchange * 100 < disppricebtc24hrchange * -1:
 				color = "lightcoral"
 		else:
 				color = "white"
@@ -55,9 +61,9 @@ class BTCTicker:
 		down_label = Label(text=(text2a + '\n'+  text3),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
 		down_label.grid(row=5, column=1, sticky=W)
 
-		if marketcap24h > 5:
+		if marketcap24h > dispmarketcap24h:
 				color = "lightgreen"
-		elif marketcap24h < -5:
+		elif marketcap24h < dispmarketcap24h * -1:
 				color = "lightcoral"
 		else:
 				color = "white"
@@ -70,9 +76,9 @@ class BTCTicker:
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=7, column=1, sticky=W)
 
-		if hashrate24hrdiff > 5:
+		if hashrate24hrdiff > disphashrate24hrdiff:
 				color = "lightgreen"
-		elif hashrate24hrdiff < -5:
+		elif hashrate24hrdiff < disphashrate24hrdiff * -1:
 				color = "lightcoral"
 		else:
 				color = "white"
@@ -88,9 +94,9 @@ class BTCTicker:
 		down_label = Label(text=(text5a + '\n' + text5b),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=9, column=1, sticky=W)
 
-		if mempooldiff > 2:
+		if mempooldiff > dispmempooldiff:
 				color = "lightgreen"
-		elif mempooldiff < -2:
+		elif mempooldiff < dispmempooldiff * -1:
 				color = "lightcoral"
 		else:
 				color = "white"
@@ -104,9 +110,9 @@ class BTCTicker:
 		down_label = Label(text=(text7),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=11, column=1, sticky=W)
 
-		if average_transaction_fee_usd_24hdiff > 2:
+		if average_transaction_fee_usd_24hdiff > dispaverage_transaction_fee_usd_24hdiff:
 				color = "lightgreen"
-		elif average_transaction_fee_usd_24hdiff < -2:
+		elif average_transaction_fee_usd_24hdiff < dispaverage_transaction_fee_usd_24hdiff * -1:
 				color = "lightcoral"
 		else:
 				color = "white"
