@@ -20,7 +20,6 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 4. Needs at least two other modes of this, like one to get your local breakout price and another as we approach/pass ATH
 5. Automatic screensaver (by time) to save display
 6. Automatic start with using variables (for example display switch off/on time)
-7. Error handling: when no internet, then loop until internet is back. Time for example creates a problem (example: date_time_obj = datetime......TypeError: strptime() argument 1 must be str, not int)
 
 ## Display
 <b>Install for HyperPixel 4.0 (3.5" display)</b><br>

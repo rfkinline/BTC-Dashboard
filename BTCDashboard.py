@@ -7,11 +7,11 @@ from urllib.request import urlopen
 from json import loads
 
 #display tresholds (change color if x value increased more than y%). 
-disppricebtc24hrchange = 2
-dispmarketcap24h = 2
-disphashrate24hrdiff = 5
-dispmempooldiff = 5
-dispaverage_transaction_fee_usd_24hdiff = 10
+disppricebtc24hrchange = 2    # checked once / day
+dispmarketcap24h = 2          # checked once / day
+disphashrate24hrdiff = 1      # checked every 5 minutes
+dispmempooldiff = 10          # checked every 5 minutes
+dispaverage_transaction_fee_usd_24hdiff = 10      # checked every 5 minutes
 
 class BTCTicker:
 	def __init__(self, master):
@@ -149,7 +149,7 @@ class BTCTicker:
 			onlyonce = 1
 
 # to calculated the hourly differences
-		if duration_in_s > 3600:
+		if duration_in_s > 300:
 			hashrate24hrdiff =  hashrate24hr - hashrate24hrsav
 			hashrate24hrdiff =  hashrate24hrdiff / hashrate24hr * 100
 			hashrate24hrsav = hashrate24hr
