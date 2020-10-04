@@ -2,6 +2,7 @@
 from tkinter import *
 import requests
 import sys
+import time
 import datetime
 from urllib.request import urlopen
 from json import loads
@@ -93,7 +94,7 @@ class BTCTicker:
 		down_label = Label(text=(text5a + '\n' + text5b),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=9, column=1, sticky=W)
 
-		if mempooldiff > dispmempooldiff:
+ 		if mempooldiff > dispmempooldiff:
 				color = "lightcoral"
 		elif mempooldiff < dispmempooldiff * -1:
 				color = "lightgreen"
@@ -121,7 +122,8 @@ class BTCTicker:
 		down_label = Label(text=(text8),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
 		down_label.grid(row=12, column=1, sticky=W)
 
-		text8a = "Suggested Fee: " + str(currency) + " sat/vB"
+
+		text8a = "Recommended Fee: " + str(currency) + " sat/vB"
 		down_label = Label(text=(text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=13, column=1, sticky=W)
 
@@ -231,6 +233,7 @@ def hwg():
 
 	except:
 		print("Error reading Blockchair")
+		time.sleep(10)
 		hwg()
 	
 	try:
@@ -247,6 +250,7 @@ def hwg():
 
 	except:
 		print("Error reading Coingecko")
+		time.sleep(10)
 		hwg()
 
 hashrate24hrsav = 0
@@ -262,4 +266,5 @@ root.configure(cursor='none', bg='black')
 root.attributes('-fullscreen', True)
 my_gui = BTCTicker(root)
 BTCTicker.labels()
+root.destroy
 root.mainloop()
