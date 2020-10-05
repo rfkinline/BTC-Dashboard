@@ -11,7 +11,7 @@ from json import loads
 disppricebtc1hrchangedisp = 2    # checked once / hr
 dispmarketcap24h = 2          # checked once / day
 disphashrate24hrdiff = 1      # checked every 5 minutes
-dispmempooldiff = 20          # checked every 5 minutes
+dispmempooldiff = 25          # checked every 5 minutes
 dispaverage_transaction_fee_usd_24hdiff = 10      # checked every 5 minutes
 
 class BTCTicker:
@@ -101,7 +101,7 @@ class BTCTicker:
 		else:
 				color = "white"
 		currency = "{:,.0f}".format(mempool)
-		text6 = "Mempool: " + str(currency) + " transactions"
+		text6 = "Mempool: " + str(currency) + " transactions  "
 		down_label = Label(text=(text6),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
 		down_label.grid(row=10, column=1, sticky=W)
 
@@ -123,7 +123,7 @@ class BTCTicker:
 		down_label.grid(row=12, column=1, sticky=W)
 
 
-		text8a = "Recommended Fee: " + str(currency) + " sat/vB"
+		text8a = "Recommended Fee: " + str(currency) + " sat/vB  "
 		down_label = Label(text=(text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=13, column=1, sticky=W)
 
@@ -154,15 +154,15 @@ class BTCTicker:
 # to calculated the hourly differences
 		if duration_in_s > 300:
 			hashrate24hrdiff =  hashrate24hr - hashrate24hrsav
-			hashrate24hrdiff =  hashrate24hrdiff / hashrate24hr * 100
+			hashrate24hrdiff =  hashrate24hrdiff / hashrate24hrsav * 100
 			hashrate24hrsav = hashrate24hr
 			if mempool == 0:
 				mempool = 1
 			mempooldiff = mempool  - mempoolsav 
-			mempooldiff = mempooldiff / mempool * 100
+			mempooldiff = mempooldiff / mempoolsav * 100
 			mempoolsav = mempool 
 			average_transaction_fee_usd_24hdiff = average_transaction_fee_usd_24h - average_transaction_fee_usd_24hsav
-			average_transaction_fee_usd_24hdiff = average_transaction_fee_usd_24hdiff / average_transaction_fee_usd_24h * 100
+			average_transaction_fee_usd_24hdiff = average_transaction_fee_usd_24hdiff / average_transaction_fee_usd_24hsav * 100
 			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
 			then = datetime.datetime.now()
 		
@@ -213,6 +213,9 @@ def hwg():
 		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
 	except:
 		print("Error reading Fearindex")
+		time.sleep(10)
+		hwg()
+
 	try:
 
 #	get blockchain data https://blockchair.com/api/docs#link_M03
@@ -266,5 +269,4 @@ root.configure(cursor='none', bg='black')
 root.attributes('-fullscreen', True)
 my_gui = BTCTicker(root)
 BTCTicker.labels()
-root.destroy
 root.mainloop()
