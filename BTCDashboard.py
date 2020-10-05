@@ -17,10 +17,10 @@ dispaverage_transaction_fee_usd_24hdiff = 10      # checked every 5 minutes
 class BTCTicker:
 	def __init__(self, master):
 		self.master = master
-		self.close_button = Button(text="C", command=self.close)
+		self.close_button = Button(image=btclogo, command=self.close)
 		self.close_button.grid(row=0, column=0)
-		self.label = Label(master, text=("BTC " + u'\u20bf' + " Dashboard"),anchor=W, justify=LEFT, font=('Helvetica',32, 'bold'), fg='black', bg = 'gold')
-		self.label.grid(row=0, column=1, columnspan=2)
+		self.label = Label(master, text=("BTC Dashboard"), font=('Helvetica',32, 'bold'), fg='black', bg = 'gold')
+		self.label.grid(row=0, column=1)
 
 	def labels():
 		global then
@@ -101,7 +101,7 @@ class BTCTicker:
 		else:
 				color = "white"
 		currency = "{:,.0f}".format(mempool)
-		text6 = "Mempool: " + str(currency) + " transactions  "
+		text6 = "Mempool: " + str(currency) + " transactions   "
 		down_label = Label(text=(text6),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
 		down_label.grid(row=10, column=1, sticky=W)
 
@@ -217,7 +217,6 @@ def hwg():
 		hwg()
 
 	try:
-
 #	get blockchain data https://blockchair.com/api/docs#link_M03
 		blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()	
 		market_dominance_percentage = float(loads(blockchair_api_request)['data']['market_dominance_percentage'])
@@ -267,6 +266,8 @@ then = datetime.datetime.now()
 root = Tk()
 root.configure(cursor='none', bg='black')
 root.attributes('-fullscreen', True)
+logo = PhotoImage(file=r"btclogo.png")
+btclogo = logo.subsample(23,23)
 my_gui = BTCTicker(root)
 BTCTicker.labels()
 root.mainloop()

@@ -43,8 +43,8 @@ insert the following code at the end:<br>
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
-## There is a C Button on the display
-To stop the program, click on the "C" button. 
+## To stop the program
+To stop the program, click on the BTC logo. 
 
 ## Python
 Start the program with "python3" and not "python"  ("python3 BTCDashboard.py")
