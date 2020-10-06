@@ -217,6 +217,7 @@ def hwg():
 		time.sleep(10)
 		hwg()
 
+
 	try:
 #	get blockchain data https://blockchair.com/api/docs#link_M03
 		blockchair_api_request = urlopen('https://api.blockchair.com/bitcoin/stats').read()	
