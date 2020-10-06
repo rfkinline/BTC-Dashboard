@@ -173,6 +173,7 @@ class BTCTicker:
 		root.destroy()
 
 def hwg():
+
 	global fearindex
 	global fearindexvalue
 	global satsusd
