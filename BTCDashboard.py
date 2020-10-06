@@ -8,7 +8,7 @@ from urllib.request import urlopen
 from json import loads
 
 #display tresholds (change color if x value increased more than y%). 
-disppricebtc1hrchangedisp = 2    # checked once / hr
+disppricebtc1hrchangediff = 2    # checked once / hr
 dispmarketcap24h = 2          # checked once / day
 disphashrate24hrdiff = 1      # checked every 5 minutes
 dispmempooldiff = 25          # checked every 5 minutes
@@ -94,7 +94,7 @@ class BTCTicker:
 		down_label = Label(text=(text5a + '\n' + text5b),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=9, column=1, sticky=W)
 
- 		if mempooldiff > dispmempooldiff:
+		if mempooldiff > dispmempooldiff:
 				color = "lightcoral"
 		elif mempooldiff < dispmempooldiff * -1:
 				color = "lightgreen"
