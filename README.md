@@ -1,5 +1,5 @@
-# BTC Dashboard
-The dashboard is an up-to-date tracking of your key BTC indicators. Instead of having to use apps like Blockfolio or websites, you use this code that runs on a Pi with a LCD display. The dashboard includes:<br>
+# ETH Dashboard
+The dashboard is an up-to-date tracking of your key ETH indicators. Instead of having to use apps like Blockfolio or websites, you use this code that runs on a Pi with a LCD display. The dashboard includes:<br>
 <li> Market: Price, sats/USD and MarketCap, Dominance
 <li> Mempool: Transactions, blocks to clear
 <li> Blockchain: height and fees (sats/b and USD), hash-rate, next difficulty, date of next difficulty adjustment
@@ -39,12 +39,12 @@ now reboot the machine and the display should be vertical.
 
 insert the following code at the end:<br>
 > @reboot DISPLAY=:0 sudo pigpiod<br>
-> @reboot DISPLAY=:0 python3 /home/pi/BTCDashboard.py
+> @reboot DISPLAY=:0 python3 /home/pi/ETHDashboard.py
 
 additional documentation: https://www.raspberrypi.org/documentation/linux/usage/cron.md
 
 ## To stop the program
-To stop the program, click on the BTC logo. 
+To stop the program, click on the ETH logo. 
 
 ## Python
-Start the program with "python3" and not "python"  ("python3 BTCDashboard.py")
+Start the program with "python3" and not "python"  ("python3 ETHDashboard.py")
