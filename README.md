@@ -4,9 +4,10 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 <li> Mempool: Transactions, blocks to clear
 <li> Blockchain: height and fees (sats/b and USD), hash-rate, next difficulty, date of next difficulty adjustment
 <li> Bitcoin Fear & Greed Index
+<li> Volume Public Lightning Network in BTC
 <li> Colors: red or green when the change is over 5%. Currently implemented in: Marketcap and Price
 
-<img src="https://i.ibb.co/nsZsrcG/IMG-20201005-125918.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>
+<img src="https://i.ibb.co/CvNwcWX/IMG-20201007-184626.jpg" width="300" alt="IMG-20200930-072821" border="1"><br>
 
 ## Hardware
 <li>Standard Raspberry Pi 3 or 4

@@ -122,7 +122,6 @@ class BTCTicker:
 		down_label = Label(text=(text8),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
 		down_label.grid(row=12, column=1, sticky=W)
 
-
 		text8a = "Recommended Fee: " + str(currency) + " sat/vB  "
 		down_label = Label(text=(text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=13, column=1, sticky=W)
@@ -133,7 +132,9 @@ class BTCTicker:
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
-		down_label = Label(text=(text10 + '\n' + text11 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		currency = "{:,.0f}".format(LNDBTC)
+		text12a = "Lightning Netw volume: " + str(currency) + u'\u20bf'
+		down_label = Label(text=(text10 + '\n' + text11 + '\n' + text12a),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=15, column=1, sticky=W)
 		
 		now = datetime.datetime.now()
@@ -142,7 +143,7 @@ class BTCTicker:
 #		print(duration_in_s)
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		down_label.grid(row=18, column=1, sticky=W)
+		down_label.grid(row=17, column=1, sticky=W)
 
 # first time
 		if onlyonce == 0:
@@ -180,6 +181,7 @@ def hwg():
 	global hashrate24hr
 	global mempool
 	global pricebtc
+	global LNDBTC
 	global pricebtc1hrchange
 	global pricebtc24hrchange
 	global marketcapbtc
@@ -207,6 +209,22 @@ def hwg():
 	next_difficulty_estimate = 0
 	next_retarget_time_estimate = 0
 	blocks = 0
+	
+	try:
+#get the defipulse data 
+		defi_pulse_url = 'https://data-api.defipulse.com/api/v1/defipulse/api/GetProjects?api-key=e61b012ae1c05cd4f84bd87c86826ec28f2fde511db9e73fddf9a0a510d0'
+		total_value_locked = requests.get(defi_pulse_url)
+		json_obj = total_value_locked.json()
+
+		for project in json_obj:
+			name = project.get("name")
+			if name == 'Lightning Network':
+				LNDBTC = project['value']['tvl']['BTC'].get("value")
+	except:
+		print("Error reading DeFiPulse")
+		time.sleep(10)
+		hwg()
+
 
 	try:
 #	get the fearindex
