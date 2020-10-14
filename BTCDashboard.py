@@ -3,16 +3,10 @@ from tkinter import *
 import requests
 import sys
 import time
+exec(open(r"variables").read())
 import datetime
 from urllib.request import urlopen
 from json import loads
-
-#display tresholds (change color if x value increased more than y%). 
-disppricebtc1hrchangediff = 2    # checked once / hr
-dispmarketcap24h = 2          # checked once / day
-disphashrate24hrdiff = 1      # checked every 5 minutes
-dispmempooldiff = 25          # checked every 5 minutes
-dispaverage_transaction_fee_usd_24hdiff = 10      # checked every 5 minutes
 
 class BTCTicker:
 	def __init__(self, master):
@@ -34,6 +28,7 @@ class BTCTicker:
 		global average_transaction_fee_usd_24hdiff
 
 		hwg()
+		internet_on()
 		title = "Market Data"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
 		down_label.grid(row=2, column=1, sticky=W)
@@ -137,13 +132,16 @@ class BTCTicker:
 		down_label = Label(text=(text10 + '\n' + text11 + '\n' + text12a),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		down_label.grid(row=15, column=1, sticky=W)
 		
+		text98 = str(errormessage)
+		down_label = Label(text=(text98),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		down_label.grid(row=17, column=1, sticky=W)
+		
 		now = datetime.datetime.now()
 		duration = now - then
 		duration_in_s = duration.total_seconds()
-#		print(duration_in_s)
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		down_label.grid(row=17, column=1, sticky=W)
+		down_label.grid(row=18, column=1, sticky=W)
 
 # first time
 		if onlyonce == 0:
@@ -186,6 +184,8 @@ def hwg():
 	global pricebtc24hrchange
 	global marketcapbtc
 	global marketcap24h
+	global errormessage
+	global status
 	global market_dominance_percentage
 	global suggested_transaction_fee
 	global average_transaction_fee_usd_24h
@@ -211,20 +211,30 @@ def hwg():
 	blocks = 0
 	
 	try:
-#get the defipulse data 
-		defi_pulse_url = 'https://data-api.defipulse.com/api/v1/defipulse/api/GetProjects?api-key=e61b012ae1c05cd4f84bd87c86826ec28f2fde511db9e73fddf9a0a510d0'
-		total_value_locked = requests.get(defi_pulse_url)
-		json_obj = total_value_locked.json()
+#	get the defipulse Project data 
+		status = 0
+		defi_pulse_url = 'https://data-api.defipulse.com/api/v1/defipulse/api/GetProjects?api-key='+ defipulseApikey
+		urltest = requests.get(defi_pulse_url)
+		status = urltest.status_code
+		if status == 429:
+			print("Error DefiPulse. Wrong or expired API key")
+			errormessage = "Error DefiPulse. Wrong or expired API key"
+			raise
+		elif status == 200:
+			total_value_locked = requests.get(defi_pulse_url)
+			json_obj = total_value_locked.json()
 
-		for project in json_obj:
-			name = project.get("name")
-			if name == 'Lightning Network':
-				LNDBTC = project['value']['tvl']['BTC'].get("value")
+			for project in json_obj:
+				name = project.get("name")
+				if name == 'Lightning Network':
+					LNDBTC = project['value']['tvl']['BTC'].get("value")
+		else:
+			print("Error reading DeFiPulse. Error-code: " + str(status))
+			errormessage = "Unknown error reading DeFiPulse Project"
 	except:
-		print("Error reading DeFiPulse")
-		time.sleep(10)
-		hwg()
-
+		if status == 204:
+			time.sleep(5)
+			hwg()
 
 	try:
 #	get the fearindex
@@ -274,6 +284,16 @@ def hwg():
 		time.sleep(10)
 		hwg()
 
+def internet_on(url='http://www.google.com/', timeout=5):
+	try:
+		_ = requests.get(url, timeout=timeout)
+		return True
+	except requests.ConnectionError:
+		errormessage = "No internet connection available."
+	return False
+
+errormessage=""
+LNDBTC = 0
 hashrate24hrsav = 0
 mempoolsav = 0
 average_transaction_fee_usd_24hsav = 0 
