@@ -3,7 +3,6 @@ from tkinter import *
 import requests
 import sys
 import time
-exec(open(r"variables").read())
 import datetime
 from urllib.request import urlopen
 from json import loads
@@ -173,42 +172,42 @@ class BTCTicker:
 
 def hwg():
 
+	global average_transaction_fee_usd_24h
+	global blocks
+	global errormessage
 	global fearindex
 	global fearindexvalue
-	global satsusd
 	global hashrate24hr
-	global mempool
-	global pricebtc
 	global LNDBTC
-	global pricebtc1hrchange
-	global pricebtc24hrchange
-	global marketcapbtc
-	global marketcap24h
-	global errormessage
-	global status
 	global market_dominance_percentage
-	global suggested_transaction_fee
-	global average_transaction_fee_usd_24h
+	global marketcap24h
+	global marketcapbtc
+	global mempool
 	global next_difficulty_estimate
 	global next_retarget_time_estimate
-	global blocks
+	global pricebtc
+	global pricebtc1hrchange
+	global pricebtc24hrchange
+	global satsusd
+	global status
+	global suggested_transaction_fee
 
+	average_transaction_fee_usd_24h = 0
+	blocks = 0
 	fearindex = " "
 	fearindexvalue = 0
-	satsusd = 0
 	hashrate24hr = 0
+	market_dominance_percentage = 0
+	marketcap24h = 0
+	marketcapbtc = 0
 	mempool = 1
+	next_difficulty_estimate = 0
+	next_retarget_time_estimate = 0
 	pricebtc = 0
 	pricebtc1hrchange = 0
 	pricebtc24hrchange = 0
-	marketcapbtc = 0
-	marketcap24h = 0
-	market_dominance_percentage = 0
+	satsusd = 0
 	suggested_transaction_fee = 0
-	average_transaction_fee_usd_24h = 0
-	next_difficulty_estimate = 0
-	next_retarget_time_estimate = 0
-	blocks = 0
 	
 	try:
 #	get the defipulse Project data 
@@ -216,18 +215,17 @@ def hwg():
 		defi_pulse_url = 'https://data-api.defipulse.com/api/v1/defipulse/api/GetProjects?api-key='+ defipulseApikey
 		urltest = requests.get(defi_pulse_url)
 		status = urltest.status_code
-		if status == 429:
-			print("Error DefiPulse. Wrong or expired API key")
-			errormessage = "Error DefiPulse. Wrong or expired API key"
-			raise
-		elif status == 200:
+		if status == 200:
 			total_value_locked = requests.get(defi_pulse_url)
 			json_obj = total_value_locked.json()
-
 			for project in json_obj:
 				name = project.get("name")
 				if name == 'Lightning Network':
 					LNDBTC = project['value']['tvl']['BTC'].get("value")
+		elif status == 429:
+			print("Error DefiPulse. Wrong or expired API key")
+			errormessage = "Error DefiPulse. Wrong or expired API key"
+			raise
 		else:
 			print("Error reading DeFiPulse. Error-code: " + str(status))
 			errormessage = "Unknown error reading DeFiPulse Project"
@@ -241,7 +239,8 @@ def hwg():
 		fearindex = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value_classification'])
 		fearindexvalue = str(loads(urlopen('https://api.alternative.me/fng/').read())['data'][0]['value'])
 	except:
-		print("Error reading Fearindex")
+		errormessage = "Error reading Fearindex"
+		print(errormessage)
 		time.sleep(10)
 		hwg()
 
@@ -263,7 +262,8 @@ def hwg():
 		next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
 
 	except:
-		print("Error reading Blockchair")
+		errormessage = "Error reading Blockchair"
+		print(errormessage)
 		time.sleep(10)
 		hwg()
 	
@@ -280,7 +280,8 @@ def hwg():
 		print(pricebtc)
 
 	except:
-		print("Error reading Coingecko")
+		errormessage = "Error reading Coingecko"
+		print(errormessage)
 		time.sleep(10)
 		hwg()
 
@@ -292,6 +293,7 @@ def internet_on(url='http://www.google.com/', timeout=5):
 		errormessage = "No internet connection available."
 	return False
 
+exec(open(r"variables").read())
 errormessage=""
 LNDBTC = 0
 hashrate24hrsav = 0
