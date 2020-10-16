@@ -16,15 +16,16 @@ class BTCTicker:
 		self.label.grid(row=0, column=1)
 
 	def labels():
-		global then
-		global onlyonce
-		global hashrate24hrsav
-		global mempoolsav
-		global mempool
-		global average_transaction_fee_usd_24hsav
-		global hashrate24hrdiff
-		global mempooldiff
 		global average_transaction_fee_usd_24hdiff
+		global average_transaction_fee_usd_24hsav
+		global errormessage
+		global hashrate24hrdiff
+		global hashrate24hrsav
+		global mempool
+		global mempooldiff
+		global mempoolsav
+		global onlyonce
+		global then
 
 		hwg()
 		internet_on()
@@ -141,6 +142,7 @@ class BTCTicker:
 		text98 = str(errormessage)
 		down_label = Label(text=(text98),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
 		down_label.grid(row=18, column=1, sticky=W)
+		errormessage = " "
 		
 		now = datetime.datetime.now()
 		duration = now - then
@@ -248,8 +250,9 @@ def hwg():
 	except:
 		errormessage = "Error reading Fearindex"
 		print(errormessage)
-		time.sleep(10)
-		hwg()
+		if status == 204:
+			time.sleep(5)
+			hwg()
 
 	try:
 #	get blockchain data https://blockchair.com/api/docs#link_M03
@@ -271,8 +274,9 @@ def hwg():
 	except:
 		errormessage = "Error reading Blockchair"
 		print(errormessage)
-		time.sleep(10)
-		hwg()
+		if status == 204:
+			time.sleep(5)
+			hwg()
 	
 	try:
 		coingecko_api_request = urlopen('https://api.coingecko.com/api/v3/coins/bitcoin').read()	
@@ -289,8 +293,9 @@ def hwg():
 	except:
 		errormessage = "Error reading Coingecko"
 		print(errormessage)
-		time.sleep(10)
-		hwg()
+		if status == 204:
+			time.sleep(5)
+			hwg()
 
 def internet_on(url='http://www.google.com/', timeout=5):
 	try:
