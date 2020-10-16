@@ -43,7 +43,6 @@ class BTCTicker:
 		down_label = Label(text=(text1),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
 		down_label.grid(row=3, column=1, sticky=W)
    
-
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		text2 = "24hr change: " + str(currency)
 		down_label = Label(text=(text2),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = "white")
@@ -63,12 +62,16 @@ class BTCTicker:
 				color = "white"
 		currency = "{:,.0f}".format(marketcapbtc)
 		text4 = "Marketcap: $" + str(currency)
-		down_label = Label(text=(text4 + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
+		down_label = Label(text=(text4),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = color)
 		down_label.grid(row=6, column=1, sticky=W)
+
+		textempty = " "
+		down_label = Label(text=(textempty),anchor=NW, justify=LEFT,font=('Helvetica',5), bg='black', fg = color)
+		down_label.grid(row=7, column=1, sticky=W)
 
 		title = "Blockchain Data"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
-		down_label.grid(row=7, column=1, sticky=W)
+		down_label.grid(row=8, column=1, sticky=W)
 
 		if hashrate24hrdiff > disphashrate24hrdiff:
 				color = "lightgreen"
@@ -79,14 +82,14 @@ class BTCTicker:
 		currency = "{:,.0f}".format(hashrate24hr)
 		text5 = "Hashrate 24hr: " + str(currency) + " EH/s"
 		down_label = Label(text=(text5),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
-		down_label.grid(row=8, column=1, sticky=W)
+		down_label.grid(row=9, column=1, sticky=W)
 
 		currency = "{:,.02%}".format(next_difficulty_estimate)
 		text5a = "Next difficulty estimate: " + str(currency)
 		date_time_obj = datetime.datetime.strptime(next_retarget_time_estimate, '%Y-%m-%d %H:%M:%S')
 		text5b = "Next adjustment: " + str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
 		down_label = Label(text=(text5a + '\n' + text5b),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=9, column=1, sticky=W)
+		down_label.grid(row=10, column=1, sticky=W)
 
 		if mempooldiff > dispmempooldiff:
 				color = "lightcoral"
@@ -97,12 +100,12 @@ class BTCTicker:
 		currency = "{:,.0f}".format(mempool)
 		text6 = "Mempool: " + str(currency) + " transactions   "
 		down_label = Label(text=(text6),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
-		down_label.grid(row=10, column=1, sticky=W)
+		down_label.grid(row=11, column=1, sticky=W)
 
 		currency = "{:,.0f}".format(blocks)
 		text7 = "Last block: " + str(currency)
 		down_label = Label(text=(text7),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=11, column=1, sticky=W)
+		down_label.grid(row=12, column=1, sticky=W)
 
 		if average_transaction_fee_usd_24hdiff > dispaverage_transaction_fee_usd_24hdiff:
 				color = "lightcoral"
@@ -114,33 +117,37 @@ class BTCTicker:
 		text8 = "Average Fee: " + str(currency)
 		currency = "{:,.0f}".format(suggested_transaction_fee)
 		down_label = Label(text=(text8),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg=color)
-		down_label.grid(row=12, column=1, sticky=W)
+		down_label.grid(row=13, column=1, sticky=W)
 
 		text8a = "Recommended Fee: " + str(currency) + " sat/vB  "
-		down_label = Label(text=(text8a + '\n'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=13, column=1, sticky=W)
+		down_label = Label(text=(text8a),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		down_label.grid(row=14, column=1, sticky=W)
+
+		textempty = " "
+		down_label = Label(text=(textempty),anchor=NW, justify=LEFT,font=('Helvetica',5), bg='black', fg = color)
+		down_label.grid(row=15, column=1, sticky=W)
 
 		title = "Others"
 		down_label = Label(text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='gold')
-		down_label.grid(row=14, column=1, sticky=W)
+		down_label.grid(row=16, column=1, sticky=W)
 
 		text10 = "Fear & Greed Index: " + str(fearindex)
 		text11 = "Fear Value: " + str(fearindexvalue)
 		currency = "{:,.0f}".format(LNDBTC)
 		text12a = "Lightning Netw volume: " + str(currency) + u'\u20bf'
 		down_label = Label(text=(text10 + '\n' + text11 + '\n' + text12a),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		down_label.grid(row=15, column=1, sticky=W)
+		down_label.grid(row=17, column=1, sticky=W)
 		
 		text98 = str(errormessage)
 		down_label = Label(text=(text98),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
-		down_label.grid(row=17, column=1, sticky=W)
+		down_label.grid(row=18, column=1, sticky=W)
 		
 		now = datetime.datetime.now()
 		duration = now - then
 		duration_in_s = duration.total_seconds()
 		text99 = "Current time: " + str(now)
 		down_label = Label(text=(text99),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		down_label.grid(row=18, column=1, sticky=W)
+		down_label.grid(row=19, column=1, sticky=W)
 
 # first time
 		if onlyonce == 0:
