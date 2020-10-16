@@ -11,16 +11,15 @@ The dashboard is an up-to-date tracking of your key BTC indicators. Instead of h
 
 ## Hardware
 <li>Standard Raspberry Pi 3 or 4
-<li>Hyperpixel 3.5" display 
+<li>Hyperpixel 3.5" display . Other displays should do also the job but I found it difficult to get them working
 <li>Don't use the default OS supplied by Raspberry. Follow the instructions described below (Install for Hyperpixel)
 
 ## What I am currently working on:
-1. include colors and maybe color grading
-2. Capacity Lightning Network
+1. Automatic screensaver (by time) to save display
+2. Automatic start with using variables (for example display switch off/on time)
 3. GitHub stats
 4. Needs at least two other modes of this, like one to get your local breakout price and another as we approach/pass ATH
-5. Automatic screensaver (by time) to save display
-6. Automatic start with using variables (for example display switch off/on time)
+5. Finish error handling 
 
 ## Display
 <b>Install for HyperPixel 4.0 (3.5" display)</b><br>
