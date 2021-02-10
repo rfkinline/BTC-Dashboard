@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from tkinter import *
 import requests
+import socket
 import sys
 import time
 import datetime
@@ -33,7 +34,10 @@ class BTCTicker:
 		global fearindex_label
 		global fearvalue_label
 		global lgtcap_label
-		global error_label
+		global error_label1
+		global error_label2
+		global error_label3
+		global error_label4
 		global update_label
 		
 		self.master = master
@@ -98,17 +102,28 @@ class BTCTicker:
 		fearvalue_label.grid(row=10, column=3, sticky=W)
 		lgtcap_label = Label(text=("Lightning Netw Capacity: " + str(0) + u'\u20bf'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		lgtcap_label.grid(row=11, column=3, sticky=W)
-		error_label = Label(text=("Error"),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
-		error_label.grid(row=12, column=3, sticky=W)
+		error_label1 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label1.grid(row=12, column=3, sticky=W)
+		error_label2 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label2.grid(row=13, column=3, sticky=W)
+		error_label3 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label3.grid(row=14, column=3, sticky=W)	
+		error_label4 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label4.grid(row=15, column=3, sticky=W)
 		update_label = Label(text=("Last Update: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		update_label.grid(row=13, column=3, sticky=W)
+		update_label.grid(row=16, column=3, sticky=W)
 		print("Static Labels Initialized")
 
 	def labels():
 		#### Global Variables ####
 		global average_transaction_fee_usd_24hdiff
 		global average_transaction_fee_usd_24hsav
-		global errormessage
+		global interneterrormessage
+		global mlerrormessage
+		global alterrormessage
+		global bserrormessage
+		global bcerrormessage
+		global cgerrormessage
 		global hashrate24hrdiff
 		global hashrate24hrsav
 		global mempool
@@ -146,7 +161,10 @@ class BTCTicker:
 		global fearindex_label
 		global fearvalue_label
 		global lgtcap_label
-		global error_label
+		global error_label1
+		global error_label2
+		global error_label3
+		global error_label4
 		global update_label	
 
 # Test Internet Connection
@@ -182,7 +200,7 @@ class BTCTicker:
 			ml1()
 			ml1start = time.time()
 		
-		print("Refreshing data on screen")
+		#print("Refreshing data on screen")
 		refreshtimer = time.time()	
 
 		if pricebtc1hrchange * 100 > disppricebtc1hrchangediff:
@@ -224,7 +242,6 @@ class BTCTicker:
 			textadj = str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
 		except:
 			textadj = "Date Error"
-			print("Adjustment Date Error")
 		adj_label.configure(text="Next adjustment: " + textadj)
 
 		if mempooldiff > dispmempooldiff:
@@ -259,7 +276,10 @@ class BTCTicker:
 		ath_label.configure(text="ATH: $" + str(currency))
 		currency = "{:,.2%}".format(ath_change)
 		athchg_label.configure(text="ATH change: " + str(currency))
-		athdate_label.configure(text="ATH Date: " + str(athdate[0:10]))
+		try:
+			athdate_label.configure(text="ATH Date: " + str(athdate[0:10]))
+		except:
+			athdate_label.configure(text="ATH Date: Date Error")
 		currency = "{:,.0f}".format(circulating_supply)
 		circ_label.configure(text="Circulating BTC: " + str(currency) + u'\u20bf')
 		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex))
@@ -267,8 +287,14 @@ class BTCTicker:
 		currency = "{:,.2f}".format(LNDCap)
 		lgtcap_label.configure(text="Lightning Netw Capacity: " + str(currency) + u'\u20bf')
 		
-		error_label.configure(text=str(errormessage))
-		errormessage = " "
+		if interneterrormessage == "":
+			error_label1.configure(text=str(bserrormessage))
+			error_label2.configure(text=str(cgerrormessage))
+			error_label3.configure(text=str(bcerrormessage))
+			error_label4.configure(text=str(alterrormessage + mlerrormessage))
+		else:
+			error_label1.configure(text=str(interneterrormessage))
+			error_label2.configure(text=str("Please Check Your Internet Connection"))
 		
 		now = datetime.datetime.now()
 		duration = now - then
@@ -315,6 +341,7 @@ class BTCTicker:
 def ml1():
 	
 	global LNDCap
+	global mlerrormessage
 	
 	LNDCap = 0
 	status = 0
@@ -326,19 +353,21 @@ def ml1():
 		LNDCap = float(loads(ml1_api_request)['networkcapacity'])	
 		LNDCap = LNDCap / 100000000
 		print("Lightning Stats Updated ") # + str(time.time() - mltime))
-
+		mlerrormessage = ""
 	except:
 		try:
 			urltest = requests.get(ml1_url)
 			status = urltest.status_code
 			urltest.close()
-			errormessage = "Error reading 1ML."
-			print(errormessage + " Status code: " + str(status))
+			mlerrormessage = "Error Reading 1ML "
+			print(errormessage + "Status code: " + str(status))
 		except:
-			print("Lightning Stats Connection Refused")
+			mlerrormessage = "1ML Connection Refused "
+			print(mlerrormessage)
 
 def alt():
 	
+	global alterrormessage
 	global fearindex
 	global fearindexvalue
 	
@@ -354,19 +383,22 @@ def alt():
 		fearindex = str(loads(alt_api_request)['data'][0]['value_classification'])
 		fearindexvalue = str(loads(alt_api_request)['data'][0]['value'])
 		print("Updated Fear Index ") # + str(time.time() - alttime))
+		alterrormessage = ""
 		
 	except:
 		try:
 			urltest = requests.get(alt_url)
 			status = urltest.status_code
 			urltest.close()
-			errormessage = "Error reading Fear Index"
-			print(errormessage + " Status code: " + str(status))
+			alterrormessage = "Error Reading Fear Index "
+			print(errormessage + "Status code: " + str(status))
 		except:
-			print("Fear Index Connection Refused")
+			alterrormessage = "Alt Connection Refused "
+			print(alterrormessage)
 
 def bitstamp():
 	
+	global bserrormessage
 	global pricebtc
 	global satsusd
 	
@@ -381,8 +413,10 @@ def bitstamp():
 		pricebtc = float(loads(bitstamp_api_request)['last'])
 		try:
 			satsusd = 1 / pricebtc * 100000000
+			bserrormessage = ""
 		except ZeroDivisionError:
-			print("Zero Division Error Calculating Sats per Dollar")		
+			print("Zero Division Error Calculating Sats per Dollar")
+			bserrormessage = "Bitstamp Price Error "
 		print(pricebtc)
 		# print(str(time.time() - bittime))
 
@@ -391,15 +425,17 @@ def bitstamp():
 			urltest = requests.get(bitstamp_url)
 			status = urltest.status_code
 			urltest.close()
-			errormessage = "Error reading BitStamp."
-			print(errormessage + " Status code: " + str(status))
+			bserrormessage = "Error Reading BitStamp "
+			print(errormessage + "Status code: " + str(status))
 		except:
-			print("Bitstamp Connection Refused")
+			bserrormessage = "Bitstamp Connection Refused "
+			print(bserrormessage)
 
 def blockchair():
 	
 	global average_transaction_fee_usd_24h
 	global blocks
+	global bcerrormessage
 	global hashrate24hr
 	global market_dominance_percentage
 	global mempool
@@ -436,8 +472,10 @@ def blockchair():
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		try:
 			next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
+			bcerrormessage = ""
 		except ZeroDivisionError:
 			print("Zero Division Error While Calculating Next Difficulty Estimate")
+			bcerrormessage = "Bitstamp Diff Est Error "
 		print("Updated Blockchair Stats ") # + str(time.time() - blocktime))
 
 	except:
@@ -445,10 +483,11 @@ def blockchair():
 			urltest = requests.get(blockchair_url)
 			status = urltest.status_code
 			urltest.close()
-			errormessage = "Error reading Blockchair."
-			print(errormessage + " Status code: " + str(status))
+			bcerrormessage = "Error Reading Blockchair "
+			print(errormessage + "Status code: " + str(status))
 		except:
-			print("Blockchair Connection Refused")
+			bcerrormessage = "Blockchair Connection Refused "
+			print(bcerrormessage)
 
 def coingecko():
 
@@ -456,7 +495,7 @@ def coingecko():
 	global ath_change
 	global athdate
 	global circulating_supply
-	global errormessage
+	global cgerrormessage
 	global high24h
 	global low24h
 	global LNDBTC
@@ -494,29 +533,40 @@ def coingecko():
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		ath_change = ath_change / 100
 		print("Updated CoinGecko Stats ") # + str(time.time() - cointime))
+		cgerrormessage = ""
 
 	except:
 		try:
 			urltest = requests.get(coingecko_url)
 			status = urltest.status_code
 			urltest.close()
-			errormessage = "Error reading Coingecko."
-			print(errormessage + " Status code: " + str(status))
+			cgerrormessage = "Error reading Coingecko "
+			print(errormessage + "Status code: " + str(status))
 		except:
-			print("CoinGecko Refused Connection")
+			cgerrormessage = "CoinGecko Connection Refused "
+			print(cgerrormessage)
 
-def internet_on(url='http://www.google.com/', timeout=5):
+def internet_on(host="8.8.8.8", port=53, timeout=3):
+	global interneterrormessage
+	"""
+	Host: 8.8.8.8 (google-public-dns-a.google.com)
+	OpenPort: 53/tcp
+	Service: domain (DNS/TCP)
+	"""
 	try:
-		print("Testing internet connection")
-		_ = requests.get(url, timeout=timeout)
-		_.close()
+		#print("Testing Internet Connection")
+		socket.setdefaulttimeout(timeout)
+		socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+		interneterrormessage = ""
 		return True
-	except requests.ConnectionError:
-		print("No internet connection available.")
-	return False
+	except socket.error as ex:
+		interneterrormessage = "No Internet Connection Available"
+		print(interneterrormessage)
+		print(ex)
+		return False
 
 exec(open(r"variables").read())
-errormessage=""
+mlerrormessage = alterrormessage = bserrormessage = bcerrormessage = cgerrormessage = interneterrormessage = ""
 ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = time.time()
 LNDBTC = 0
 hashrate24hrsav = 0
@@ -551,7 +601,10 @@ circ_label = Label(root)
 fearindex_label = Label(root)
 fearvalue_label = Label(root)
 lgtcap_label = Label(root)
-error_label = Label(root)
+error_label1 = Label(root)
+error_label2 = Label(root)
+error_label3 = Label(root)
+error_label4 = Label(root)
 update_label = Label(root)
 logo = PhotoImage(file=r"btclogo.png")
 biglogo = logo.subsample(5,5)
