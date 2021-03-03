@@ -43,7 +43,7 @@ class BTCTicker:
 		self.master = master
 		self.close_button = Button(image=btclogo, command=self.close)
 		self.close_button.grid(row=0, column=0)
-		self.label = Label(master, text=("       BTC Dashboard       "), font=('Helvetica',32, 'bold'), fg='black', bg = '#f2a900')
+		self.label = Label(master, text=("   \u20bfitcoin Dashboard       "), font=('Helvetica',32, 'bold'), fg='black', bg = '#f2a900')
 		self.label.grid(row=0, column=1)
 
 		title = "Market Data"
@@ -578,7 +578,12 @@ average_transaction_fee_usd_24hdiff = 0
 onlyonce = 0
 then = datetime.datetime.now()
 root = Tk()
-root.configure(bg='black', cursor= 'crosshair') #cursor='none',
+width_value=root.winfo_screenwidth()
+height_value=root.winfo_screenheight()
+print("Screen Width: " + str(width_value))
+print("Screen Height: " + str(height_value))
+root.geometry("%dx%d+0+0" % (width_value, height_value))
+root.configure(bg='black', cursor= 'crosshair')
 root.attributes('-fullscreen', True)
 price_label = Label(root)
 change24_label = Label(root)
