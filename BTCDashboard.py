@@ -217,15 +217,6 @@ class BTCTicker:
 		#print("Refreshing data on screen")
 		refreshtimer = time.time()	
 
-		# first time
-		if onlyonce == 0:
-			hashrate24hrsav = hashrate24hr
-			mempoolsav = mempool
-			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
-			blocks = 0
-			lnodes = 0
-			onlyonce = 1
-
 		if pricebtc1hrchange * 100 > disppricebtc1hrchangediff:
 				color = "lightgreen"
 		elif pricebtc1hrchange * 100 < disppricebtc1hrchangediff * -1:
@@ -273,6 +264,10 @@ class BTCTicker:
 				color = "white"
 		currency = "{:,.0f}".format(mempool)
 		memp_label.configure(text=("Mempool: " + str(currency) + " transactions"), fg=color)
+		try:
+			blocks
+		except NameError:
+			blocks = 0
 		currency = "{:,.0f}".format(blocks)
 		if time.time() - blocktime < 60:
 				color = "lightgreen"
@@ -322,6 +317,10 @@ class BTCTicker:
 		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf')
 		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex))
 		fearvalue_label.configure(text="Fear Value: " + str(fearindexvalue))
+		try:
+			lnodes
+		except NameError:
+			lnodes = 0
 		currency = "{:,.0f}".format(lnodes)
 		lnodes_label.configure(text=u'\u26A1' + " Nodes: " + str(currency))
 		currency = "{:,.2f}".format(LNDCap)
@@ -342,12 +341,12 @@ class BTCTicker:
 		update_label.configure(text="Last Update: " + str(now.strftime("%c")))
 		#print("Refresh time in seconds: " + str(time.time() - refreshtimer))
 
-# first time
-		#if onlyonce == 0:
-			#hashrate24hrsav = hashrate24hr
-			#mempoolsav = mempool
-			#average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
-			#onlyonce = 1
+#first time
+		if onlyonce == 0:
+			hashrate24hrsav = hashrate24hr
+			mempoolsav = mempool
+			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
+			onlyonce = 1
 
 # to calculate the hourly differences
 		if duration_in_s > 300:
