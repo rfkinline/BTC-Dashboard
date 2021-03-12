@@ -20,11 +20,11 @@ class BTCTicker:
 		global mcap_label
 		global hash_label
 		global dif_label
-		global adj_label
 		global memp_label
 		global block_label
 		global avgfee_label
 		global recfee_label
+		global recfeeusd_label
 		global high24_label
 		global low24_label
 		global ath_label
@@ -34,6 +34,7 @@ class BTCTicker:
 		global fearindex_label
 		global fearvalue_label
 		global lgtcap_label
+		global lnodes_label
 		global error_label1
 		global error_label2
 		global error_label3
@@ -49,69 +50,67 @@ class BTCTicker:
 		title = "Market Data"
 		market_label = Label(master, text=(title),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='#f2a900')
 		market_label.grid(row=2, column=1, sticky=W)
-		price_label = Label(text=("BTC Price: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), bg='black', fg = 'white')
+		price_label = Label(text=("Price: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20, 'bold'), bg='black', fg = 'white')
 		price_label.grid(row=3, column=1, sticky=W)
-		change24_label = Label(text=("24hr change: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = "white")
-		change24_label.grid(row=4, column=1, sticky=W)
-		dom_label = Label(text=("BTC Dominance: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
-		dom_label.grid(row=5, column=1, sticky=W)
 		sats_label = Label(text=("Sats per $: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
-		sats_label.grid(row=6, column=1, sticky=W)
+		sats_label.grid(row=4, column=1, sticky=W)
+		change24_label = Label(text=("24hr change: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = "white")
+		change24_label.grid(row=5, column=1, sticky=W)
+		dom_label = Label(text=("Dominance: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
+		dom_label.grid(row=6, column=1, sticky=W)
+		circ_label = Label(text=("Circulating supply: " + str(0) + u'\u20bf'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		circ_label.grid(row=7, column=1, sticky=W)
 		mcap_label = Label(text=("Marketcap: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg = 'white')
-		mcap_label.grid(row=7, column=1, sticky=W)
-		textempty = " "
-		empty_label = Label(master, text=(textempty),anchor=NW, justify=LEFT,font=('Helvetica',5), bg='black', fg = '#f2a900')
-		empty_label.grid(row=8, column=1, sticky=W)
+		mcap_label.grid(row=8, column=1, sticky=W)
 
-		title2 = "Blockchain Data"
+		title2 = "Mempool Data"
 		blockchain_label = Label(master, text=(title2),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='#f2a900')
 		blockchain_label.grid(row=9, column=1, sticky=W)
-		hash_label = Label(text=("Hashrate 24hr: " + str(0) + " EH/s"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		hash_label.grid(row=10, column=1, sticky=W)
-		dif_label = Label(text=("Next difficulty estimate: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		dif_label.grid(row=11, column=1, sticky=W)
-		adj_label = Label(text=("Next adjustment: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		adj_label.grid(row=12, column=1, sticky=W)
+		block_label = Label(text=("Block Height: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		block_label.grid(row=10, column=1, sticky=W)
 		memp_label = Label(text=("Mempool: " + str(0) + " transactions"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		memp_label.grid(row=13, column=1, sticky=W)
-		block_label = Label(text=("Last block: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		block_label.grid(row=14, column=1, sticky=W)
-		avgfee_label = Label(text=("Average Fee: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		avgfee_label.grid(row=15, column=1, sticky=W)
-		recfee_label = Label(text=("Recommended Fee: " + str(0) + " sat/vB"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		recfee_label.grid(row=16, column=1, sticky=W)
-
-		title3 = "Others"
+		memp_label.grid(row=11, column=1, sticky=W)
+		avgfee_label = Label(text=("Average Fee 24hr: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		avgfee_label.grid(row=12, column=1, sticky=W)
+		recfeeusd_label = Label(text=("Fees: " + "$" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		recfeeusd_label.grid(row=13, column=1, sticky=W)
+		recfee_label = Label(text=("Fees: " + str(0) + " sat/vB"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		recfee_label.grid(row=14, column=1, sticky=W)
+		hash_label = Label(text=("Hashrate 24hr: " + str(0) + " EH/s"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		hash_label.grid(row=15, column=1, sticky=W)
+		dif_label = Label(text=("Next difficulty estimate: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		dif_label.grid(row=16, column=1, sticky=W)
+		title3 = "More Data"
 		others_label = Label(master, text=(title3),anchor=NW, justify=LEFT,font=('Helvetica', 28, 'bold'), bg='black', fg='#f2a900')
-		others_label.grid(row=2, column=3, sticky=W)
-		high24_label = Label(text=("BTC High 24hr: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		high24_label.grid(row=3, column=3, sticky=W)
-		low24_label = Label(text=("BTC Low 24hr: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		low24_label.grid(row=4, column=3, sticky=W)
+		others_label.grid(row=2, column=2, sticky=W)
+		high24_label = Label(text=("High 24hr: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		high24_label.grid(row=3, column=2, sticky=W)
+		low24_label = Label(text=("Low 24hr: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		low24_label.grid(row=4, column=2, sticky=W)
 		ath_label = Label(text=("ATH: $" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		ath_label.grid(row=5, column=3, sticky=W)
+		ath_label.grid(row=5, column=2, sticky=W)
 		athchg_label = Label(text=("ATH change: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		athchg_label.grid(row=6, column=3, sticky=W)
+		athchg_label.grid(row=6, column=2, sticky=W)
 		athdate_label = Label(text=("ATH Date: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		athdate_label.grid(row=7, column=3, sticky=W)
-		circ_label = Label(text=("Circulating BTC: " + str(0) + u'\u20bf'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		circ_label.grid(row=8, column=3, sticky=W)
+		athdate_label.grid(row=7, column=2, sticky=W)
 		fearindex_label = Label(text=("Fear & Greed Index: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		fearindex_label.grid(row=9, column=3, sticky=W)
+		fearindex_label.grid(row=8, column=2, sticky=W)
 		fearvalue_label = Label(text=("Fear Value: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		fearvalue_label.grid(row=10, column=3, sticky=W)
+		fearvalue_label.grid(row=9, column=2, sticky=W)
+		lnodes_label = Label(text=("Lightning Netw Nodes: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		lnodes_label.grid(row=10, column=2, sticky=W)
 		lgtcap_label = Label(text=("Lightning Netw Capacity: " + str(0) + u'\u20bf'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		lgtcap_label.grid(row=11, column=3, sticky=W)
+		lgtcap_label.grid(row=11, column=2, sticky=W)
 		error_label1 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
-		error_label1.grid(row=12, column=3, sticky=W)
+		error_label1.grid(row=12, column=2, sticky=W)
 		error_label2 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
-		error_label2.grid(row=13, column=3, sticky=W)
+		error_label2.grid(row=13, column=2, sticky=W)
 		error_label3 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
-		error_label3.grid(row=14, column=3, sticky=W)	
+		error_label3.grid(row=14, column=2, sticky=W)	
 		error_label4 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
-		error_label4.grid(row=15, column=3, sticky=W)
+		error_label4.grid(row=15, column=2, sticky=W)
 		update_label = Label(text=("Last Update: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
-		update_label.grid(row=16, column=3, sticky=W)
+		update_label.grid(row=16, column=2, sticky=W)
 		print("Static Labels Initialized")
 
 	def labels():
@@ -124,11 +123,13 @@ class BTCTicker:
 		global bserrormessage
 		global bcerrormessage
 		global cgerrormessage
+		global mempoolerrormessage
 		global hashrate24hrdiff
 		global hashrate24hrsav
 		global mempool
 		global mempooldiff
 		global mempoolsav
+		global oldblock
 		global onlyonce
 		global pricebtc
 		global then
@@ -137,7 +138,9 @@ class BTCTicker:
 		global altstart
 		global bitstampstart
 		global blockchairstart
+		global blocktime
 		global coingeckostart
+		global mempoolstart
 		global ml1start
 		#### Global Labels ####
 		global price_label
@@ -147,11 +150,14 @@ class BTCTicker:
 		global mcap_label
 		global hash_label
 		global dif_label
-		global adj_label
 		global memp_label
 		global block_label
 		global avgfee_label
+		global highfee
+		global mediumfee
+		global lowfee
 		global recfee_label
+		global recfeeusd_label
 		global high24_label
 		global low24_label
 		global ath_label
@@ -161,6 +167,7 @@ class BTCTicker:
 		global fearindex_label
 		global fearvalue_label
 		global lgtcap_label
+		global lnodes_label
 		global error_label1
 		global error_label2
 		global error_label3
@@ -181,7 +188,12 @@ class BTCTicker:
 		if time.time() - coingeckostart > 1:
 			coingecko()
 			#print(time.time() - coingeckostart)
-			coingeckostart = time.time()		
+			coingeckostart = time.time()
+	#Mempool allows 200 calls per minute
+		if time.time() - mempoolstart > 1:
+			mempoolspace()
+			#print(time.time() - mempoolstart)
+			mempoolstart = time.time()		
 	#Blockchair allows 1 call per minute
 		if time.time() - blockchairstart > 60:
 			blockchair()
@@ -210,11 +222,11 @@ class BTCTicker:
 		else:
 				color = "white"
 		pricebtc = "{:,.2f}".format(pricebtc)
-		price_label.configure(text="BTC Price: $" + str(pricebtc), fg = color)
+		price_label.configure(text="Price: $" + str(pricebtc), fg = color)
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		change24_label.configure(text="24hr change: " + str(currency))
 		currency = "{:,.2%}".format(market_dominance_percentage)
-		dom_label.configure(text="BTC Dominance: " + str(currency))
+		dom_label.configure(text="Dominance: " + str(currency))
 		currency = "{:,.0f}".format(satsusd)
 		sats_label.configure(text="Sats per $: " + str(currency))
 
@@ -236,14 +248,12 @@ class BTCTicker:
 		currency = "{:,.0f}".format(hashrate24hr)
 		hash_label.configure(text=("Hashrate 24hr: " + str(currency) + " EH/s"), fg=color)
 		currency = "{:,.02%}".format(next_difficulty_estimate)
-		dif_label.configure(text="Next difficulty estimate: " + str(currency))
 		try:
 			date_time_obj = datetime.datetime.strptime(str(next_retarget_time_estimate), '%Y-%m-%d %H:%M:%S')
 			textadj = str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
 		except:
 			textadj = "Date Error"
-		adj_label.configure(text="Next adjustment: " + textadj)
-
+		dif_label.configure(text="Difficulty adjustment: " + textadj + " " + str(currency))
 		if mempooldiff > dispmempooldiff:
 				color = "lightcoral"
 		elif mempooldiff < dispmempooldiff * -1:
@@ -253,7 +263,14 @@ class BTCTicker:
 		currency = "{:,.0f}".format(mempool)
 		memp_label.configure(text=("Mempool: " + str(currency) + " transactions"), fg=color)
 		currency = "{:,.0f}".format(blocks)
-		block_label.configure(text="Last block: " + str(currency))
+		if time.time() - blocktime < 60:
+				color = "lightgreen"
+		elif time.time() - blocktime > 60:
+				oldblock = blocks
+				color = "white"
+		else:
+				color = "white"
+		block_label.configure(text="Block height: " + str(currency), fg=color)
 
 		if average_transaction_fee_usd_24hdiff > dispaverage_transaction_fee_usd_24hdiff:
 				color = "lightcoral"
@@ -262,16 +279,20 @@ class BTCTicker:
 		else:
 				color = "white"
 		currency = "${:,.2f}".format(average_transaction_fee_usd_24h)
-		avgfee_label.configure(text=("Average Fee: " + str(currency)), fg=color)
-		avgfee_label.grid(row=15, column=1, sticky=W)
-		currency = "{:,.0f}".format(suggested_transaction_fee)
-		recfee_label.configure(text="Recommended Fee: " + str(currency) + " sat/vB")
-
+		avgfee_label.configure(text=("Average Fee 24hr: " + str(currency)), fg=color)
+		hfee = "{:,.0f}".format(highfee)
+		mfee = "{:,.0f}".format(mediumfee)
+		lfee = "{:,.0f}".format(lowfee)
+		recfee_label.configure(text="Fees:" + u'\u2191' + str(hfee) + " sat/vB " + u'\u2195' + str(mfee) + " sat/vB " + u'\u2193' + str(lfee) + " sat/vB")
+		husd = "{:,.2f}".format((highfee * 140.5) / satsusd)
+		musd = "{:,.2f}".format((mediumfee * 140.5) / satsusd)
+		lusd = "{:,.2f}".format((lowfee * 140.5) / satsusd)
+		recfeeusd_label.configure(text="Fees:" + u'\u2191' + "$" + husd + "  " + u'\u2195' + "$" + musd + "  " + u'\u2193' + "$" + lusd)
 #	Second Column
 		currency = "{:,.2f}".format(high24h)
-		high24_label.configure(text="BTC High 24hr: $" + str(currency))
+		high24_label.configure(text="High 24hr: $" + str(currency))
 		currency = "{:,.2f}".format(low24h)
-		low24_label.configure(text="BTC Low 24hr: $" + str(currency))
+		low24_label.configure(text="Low 24hr: $" + str(currency))
 		currency = "{:,.2f}".format(ath)
 		ath_label.configure(text="ATH: $" + str(currency))
 		currency = "{:,.2%}".format(ath_change)
@@ -281,15 +302,17 @@ class BTCTicker:
 		except:
 			athdate_label.configure(text="ATH Date: Date Error")
 		currency = "{:,.0f}".format(circulating_supply)
-		circ_label.configure(text="Circulating BTC: " + str(currency) + u'\u20bf')
+		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf')
 		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex))
 		fearvalue_label.configure(text="Fear Value: " + str(fearindexvalue))
+		currency = "{:,.0f}".format(lnodes)
+		lnodes_label.configure(text=u'\u26A1' + " Nodes: " + str(currency))
 		currency = "{:,.2f}".format(LNDCap)
-		lgtcap_label.configure(text="Lightning Netw Capacity: " + str(currency) + u'\u20bf')
+		lgtcap_label.configure(text=u'\u26A1' + " Network Capacity: " + str(currency) + u'\u20bf')
 		
 		if interneterrormessage == "":
 			error_label1.configure(text=str(bserrormessage))
-			error_label2.configure(text=str(cgerrormessage))
+			error_label2.configure(text=str(cgerrormessage + mempoolerrormessage))
 			error_label3.configure(text=str(bcerrormessage))
 			error_label4.configure(text=str(alterrormessage + mlerrormessage))
 		else:
@@ -338,9 +361,58 @@ class BTCTicker:
 	def close(self):
 		root.destroy()
 
+def mempoolspace():
+	
+	global blocks
+	global blocktime
+	global oldblock
+	global mempool
+	global mempoolerrormessage
+	global highfee
+	global mediumfee
+	global lowfee
+	
+	mempool = 0
+	status = 0
+	highfee = 0
+	mediumfee = 0
+	lowfee = 0
+	newBlock = 0
+	
+	try:
+		#mempooltime = time.time()
+		transaction_url = 'https://mempool.space/api/mempool'
+		transaction_api_request = urlopen(transaction_url).read()
+		mempool = float(loads(transaction_api_request)['count'])
+		block_url = 'https://mempool.space/api/blocks/tip/height'
+		block_api_request = urlopen(block_url).read()
+		newBlock = float(loads(block_api_request))
+		if newBlock > oldblock:
+			blocks = newBlock
+			blocktime = time.time()
+			oldblock = newBlock
+		fees_url = 'https://mempool.space/api/v1/fees/recommended'
+		fees_api_request = urlopen(fees_url).read()
+		highfee = float(loads(fees_api_request)['fastestFee'])
+		mediumfee = float(loads(fees_api_request)['halfHourFee'])
+		lowfee = float(loads(fees_api_request)['hourFee'])
+		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
+		mempoolerrormessage = ""
+	except:
+		try:
+			urltest = requests.get('https://mempool.space/')
+			status = urltest.status_code
+			urltest.close()
+			mempoolerrormessage = "Error Reading Mempool "
+			print(mempoolerrormessage + "Status code: " + str(status))
+		except:
+			mempoolerrormessage = "Mempool Connection Refused "
+			print(mempoolerrormessage)
+		
 def ml1():
 	
 	global LNDCap
+	global lnodes
 	global mlerrormessage
 	
 	LNDCap = 0
@@ -352,6 +424,7 @@ def ml1():
 		ml1_api_request = urlopen(ml1_url).read()
 		LNDCap = float(loads(ml1_api_request)['networkcapacity'])	
 		LNDCap = LNDCap / 100000000
+		lnodes = float(loads(ml1_api_request)['numberofnodes'])
 		print("Lightning Stats Updated ") # + str(time.time() - mltime))
 		mlerrormessage = ""
 	except:
@@ -418,7 +491,7 @@ def bitstamp():
 			print("Zero Division Error Calculating Sats per Dollar")
 			bserrormessage = "Bitstamp Price Error "
 		print(pricebtc)
-		# print(str(time.time() - bittime))
+		#print(str(time.time() - bittime))
 
 	except:
 		try:
@@ -434,21 +507,19 @@ def bitstamp():
 def blockchair():
 	
 	global average_transaction_fee_usd_24h
-	global blocks
+	#global blocks
 	global bcerrormessage
 	global hashrate24hr
 	global market_dominance_percentage
-	global mempool
 	global next_difficulty_estimate
 	global next_retarget_time_estimate
 	global suggested_transaction_fee
 	
 	#blocktime = time.time()
 	average_transaction_fee_usd_24h = 0
-	blocks = 0
+	#blocks = 0
 	hashrate24hr = 0
 	market_dominance_percentage = 0
-	mempool = 1
 	next_difficulty_estimate = 0
 	next_retarget_time_estimate = 0
 	status = 0
@@ -462,8 +533,7 @@ def blockchair():
 		suggested_transaction_fee = float(loads(blockchair_api_request)['data']['suggested_transaction_fee_per_byte_sat'])
 		average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
 		hashrate24hr = float(loads(blockchair_api_request)['data']['hashrate_24h'])
-		mempool = float(loads(blockchair_api_request)['data']['mempool_transactions'])
-		blocks = float(loads(blockchair_api_request)['data']['blocks'])
+		#blocks = float(loads(blockchair_api_request)['data']['blocks'])
 		next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
 		next_difficulty_estimate = float(loads(blockchair_api_request)['data']['next_difficulty_estimate'])
 		difficulty = float(loads(blockchair_api_request)['data']['difficulty'])
@@ -567,13 +637,14 @@ def internet_on(host="8.8.8.8", port=53, timeout=3):
 
 exec(open(r"variables").read())
 mlerrormessage = alterrormessage = bserrormessage = bcerrormessage = cgerrormessage = interneterrormessage = ""
-ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = time.time()
+ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = mempoolstart = blocktime = time.time()
 LNDBTC = 0
 hashrate24hrsav = 0
 mempoolsav = 0
 average_transaction_fee_usd_24hsav = 1 
 hashrate24hrdiff = 0
 mempooldiff = 0
+oldblock = 0
 average_transaction_fee_usd_24hdiff = 0 
 onlyonce = 0
 then = datetime.datetime.now()
@@ -592,11 +663,11 @@ sats_label = Label(root)
 mcap_label = Label(root)
 hash_label = Label(root)
 dif_label = Label(root)
-adj_label = Label(root)
 memp_label = Label(root)
 block_label = Label(root)
 avgfee_label = Label(root)
 recfee_label = Label(root)
+recfeeusd_label = Label(root)
 high24_label = Label(root)
 low24_label = Label(root)
 ath_label = Label(root)
@@ -605,6 +676,7 @@ athdate_label = Label(root)
 circ_label = Label(root)
 fearindex_label = Label(root)
 fearvalue_label = Label(root)
+lnodes_label = Label(root)
 lgtcap_label = Label(root)
 error_label1 = Label(root)
 error_label2 = Label(root)
@@ -618,6 +690,7 @@ my_gui = BTCTicker(root)
 internet_on()
 bitstamp()
 coingecko()
+mempoolspace()
 blockchair()
 alt()
 ml1()
