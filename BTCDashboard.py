@@ -123,9 +123,11 @@ class BTCTicker:
 		global bserrormessage
 		global bcerrormessage
 		global cgerrormessage
+		global blocks
 		global mempoolerrormessage
 		global hashrate24hrdiff
 		global hashrate24hrsav
+		global lnodes
 		global mempool
 		global mempooldiff
 		global mempoolsav
@@ -215,6 +217,15 @@ class BTCTicker:
 		#print("Refreshing data on screen")
 		refreshtimer = time.time()	
 
+		# first time
+		if onlyonce == 0:
+			hashrate24hrsav = hashrate24hr
+			mempoolsav = mempool
+			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
+			blocks = 0
+			lnodes = 0
+			onlyonce = 1
+
 		if pricebtc1hrchange * 100 > disppricebtc1hrchangediff:
 				color = "lightgreen"
 		elif pricebtc1hrchange * 100 < disppricebtc1hrchangediff * -1:
@@ -284,9 +295,15 @@ class BTCTicker:
 		mfee = "{:,.0f}".format(mediumfee)
 		lfee = "{:,.0f}".format(lowfee)
 		recfee_label.configure(text="Fees:" + u'\u2191' + str(hfee) + " sat/vB " + u'\u2195' + str(mfee) + " sat/vB " + u'\u2193' + str(lfee) + " sat/vB")
-		husd = "{:,.2f}".format((highfee * 140.5) / satsusd)
-		musd = "{:,.2f}".format((mediumfee * 140.5) / satsusd)
-		lusd = "{:,.2f}".format((lowfee * 140.5) / satsusd)
+		try:
+			husd = "{:,.2f}".format((highfee * 140.5) / satsusd)
+			musd = "{:,.2f}".format((mediumfee * 140.5) / satsusd)
+			lusd = "{:,.2f}".format((lowfee * 140.5) / satsusd)
+		except:
+			husd = "{:,.2f}".format(0)
+			musd = "{:,.2f}".format(0)
+			lusd = "{:,.2f}".format(0)
+
 		recfeeusd_label.configure(text="Fees:" + u'\u2191' + "$" + husd + "  " + u'\u2195' + "$" + musd + "  " + u'\u2193' + "$" + lusd)
 #	Second Column
 		currency = "{:,.2f}".format(high24h)
@@ -326,11 +343,11 @@ class BTCTicker:
 		#print("Refresh time in seconds: " + str(time.time() - refreshtimer))
 
 # first time
-		if onlyonce == 0:
-			hashrate24hrsav = hashrate24hr
-			mempoolsav = mempool
-			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
-			onlyonce = 1
+		#if onlyonce == 0:
+			#hashrate24hrsav = hashrate24hr
+			#mempoolsav = mempool
+			#average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
+			#onlyonce = 1
 
 # to calculate the hourly differences
 		if duration_in_s > 300:
