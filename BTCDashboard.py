@@ -5,7 +5,6 @@ import socket
 import sys
 import time
 import datetime
-from PIL import ImageTk,Image
 from urllib.request import urlopen
 from json import loads
 # This is where you set the refresh time in miliseconds. 1000 = 1 second. Do not go less than 100
@@ -43,7 +42,7 @@ class BTCTicker:
 		global update_label
 		
 		self.master = master
-		self.close_button = Button(image=btclogo, borderwidth=0, highlightthickness = 0, command=self.close)
+		self.close_button = Button(image=btclogo, command=self.close)
 		self.close_button.grid(row=0, column=0)
 		self.label = Label(master, text=("   \u20bfitcoin Dashboard       "), font=('Helvetica',32, 'bold'), fg='black', bg = '#f2a900')
 		self.label.grid(row=0, column=1)
@@ -112,25 +111,6 @@ class BTCTicker:
 		error_label4.grid(row=15, column=2, sticky=W)
 		update_label = Label(text=("Last Update: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
 		update_label.grid(row=16, column=2, sticky=W)
-	#Scale the output to the screen size
-		#Grid.columnconfigure(root,1,weight=1)
-		Grid.columnconfigure(root,2,weight=1)
-		Grid.rowconfigure(root,1,weight=1)
-		Grid.rowconfigure(root,2,weight=1)
-		Grid.rowconfigure(root,3,weight=1)
-		Grid.rowconfigure(root,4,weight=1)
-		Grid.rowconfigure(root,5,weight=1)
-		Grid.rowconfigure(root,6,weight=1)
-		Grid.rowconfigure(root,7,weight=1)
-		Grid.rowconfigure(root,8,weight=1)
-		Grid.rowconfigure(root,9,weight=1)
-		Grid.rowconfigure(root,10,weight=1)
-		Grid.rowconfigure(root,11,weight=1)
-		Grid.rowconfigure(root,12,weight=1)
-		Grid.rowconfigure(root,13,weight=1)
-		Grid.rowconfigure(root,14,weight=1)
-		Grid.rowconfigure(root,15,weight=1)
-		Grid.rowconfigure(root,16,weight=1)
 		print("Static Labels Initialized")
 
 	def labels():
@@ -366,7 +346,6 @@ class BTCTicker:
 			hashrate24hrsav = hashrate24hr
 			mempoolsav = mempool
 			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
-			splash.destroy()
 			onlyonce = 1
 
 # to calculate the hourly differences
@@ -544,6 +523,7 @@ def bitstamp():
 def blockchair():
 	
 	global average_transaction_fee_usd_24h
+	#global blocks
 	global bcerrormessage
 	global hashrate24hr
 	global market_dominance_percentage
@@ -553,6 +533,7 @@ def blockchair():
 	
 	#blocktime = time.time()
 	average_transaction_fee_usd_24h = 0
+	#blocks = 0
 	hashrate24hr = 0
 	market_dominance_percentage = 0
 	next_difficulty_estimate = 0
@@ -568,6 +549,7 @@ def blockchair():
 		suggested_transaction_fee = float(loads(blockchair_api_request)['data']['suggested_transaction_fee_per_byte_sat'])
 		average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
 		hashrate24hr = float(loads(blockchair_api_request)['data']['hashrate_24h'])
+		#blocks = float(loads(blockchair_api_request)['data']['blocks'])
 		next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
 		next_difficulty_estimate = float(loads(blockchair_api_request)['data']['next_difficulty_estimate'])
 		difficulty = float(loads(blockchair_api_request)['data']['difficulty'])
@@ -683,20 +665,8 @@ average_transaction_fee_usd_24hdiff = 0
 onlyonce = 0
 then = datetime.datetime.now()
 root = Tk()
-splash = Toplevel()
-splash_width = 512
-splash_height = 300
-splash.configure(bg='black')
-splash.overrideredirect(True)
-splash_img = ImageTk.PhotoImage(Image.open("SplashScreen.jpg"))
-splash_label = Label(splash, image=splash_img, borderwidth=0, highlightthickness = 0)
-splash_label.grid(row=0, column=0)
 width_value=root.winfo_screenwidth()
 height_value=root.winfo_screenheight()
-splash_x = int((width_value / 2) - (splash_width / 2))
-splash_y = int((height_value / 2) - (splash_height / 2))
-splash.geometry(f'{splash_width}x{splash_height}+{splash_x}+{splash_y}')
-splash.update()
 print("Screen Width: " + str(width_value))
 print("Screen Height: " + str(height_value))
 root.geometry("%dx%d+0+0" % (width_value, height_value))
@@ -729,7 +699,9 @@ error_label2 = Label(root)
 error_label3 = Label(root)
 error_label4 = Label(root)
 update_label = Label(root)
-btclogo = PhotoImage(file=r"btclogo.png")
+logo = PhotoImage(file=r"btclogo.png")
+biglogo = logo.subsample(5,5)
+btclogo = logo.subsample(23,23)
 my_gui = BTCTicker(root)
 internet_on()
 bitstamp()
@@ -739,4 +711,4 @@ blockchair()
 alt()
 ml1()
 BTCTicker.labels()
-mainloop()
+root.mainloop()
