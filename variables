@@ -1,11 +1,6 @@
-#display tresholds (change color if x value increased more than y%). 
-price1hrchangediff = 1    # checked once / hr
-price24hrchangediff = 5    # checked once / hr
-
-#display tresholds (change color if x value increased more than y%). 
-
+#display tresholds (change color if x value increased more than y%).  
 disppricebtc1hrchangediff = 2    # checked once / hr
 dispmarketcap24h = 2          # checked once / day
 disphashrate24hrdiff = 1      # checked every 5 minutes
-dispmempooldiff = 25          # checked every 5 minutes
+dispmempooldiff = 5          # checked every 5 minutes
 dispaverage_transaction_fee_usd_24hdiff = 10      # checked every 5 minutes

@@ -236,23 +236,27 @@ class BTCTicker:
 			ml1start = time.time()
 		
 		#print("Refreshing data on screen")
-		refreshtimer = time.time()	
-
-		if pricebtc1hrchange * 100 > disppricebtc1hrchangediff:
-				color = "lightgreen"
-		elif pricebtc1hrchange * 100 < disppricebtc1hrchangediff * -1:
-				color = "lightcoral"
+		refreshtimer = time.time()
+		if pricebtc1hrchange >= disppricebtc1hrchangediff:
+				trend1hr = u'\u2191'
+		elif pricebtc1hrchange <= disppricebtc1hrchangediff * -1:
+				trend1hr = u'\u2193'
 		else:
-				color = "white"
+				trend1hr = ""
+		if pricebtc > prevpricebtc:
+			color = 'lightgreen'
+		elif pricebtc < prevpricebtc:
+			color = 'lightcoral'
+		else:
+			color = 'white'
 		currency = "{:,.2f}".format(pricebtc)
-		price_label.configure(text="Price: $" + str(currency), fg = color)
+		price_label.configure(text="Price: $" + str(currency) + " " + trend1hr, fg = color)
 		currency = "{:,.2%}".format(pricebtc24hrchange)
-		change24_label.configure(text="24hr change: " + str(currency))
+		change24_label.configure(text="24hr change: " + str(currency), fg='white')
 		currency = "{:,.2%}".format(market_dominance_percentage)
-		dom_label.configure(text="Dominance: " + str(currency))
+		dom_label.configure(text="Dominance: " + str(currency), fg='white')
 		currency = "{:,.0f}".format(satsusd)
-		sats_label.configure(text="Sats per $: " + str(currency))
-
+		sats_label.configure(text="Sats per $: " + str(currency), fg='white')
 		if marketcap24h > dispmarketcap24h:
 				color = "lightgreen"
 		elif marketcap24h < dispmarketcap24h * -1:
@@ -276,7 +280,7 @@ class BTCTicker:
 			textadj = str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
 		except:
 			textadj = "Date Error"
-		dif_label.configure(text="Difficulty adjustment: " + textadj + " " + str(currency))
+		dif_label.configure(text="Difficulty adjustment: " + textadj + " " + str(currency), fg='white')
 		if mempooldiff > dispmempooldiff:
 				color = "lightcoral"
 		elif mempooldiff < dispmempooldiff * -1:
@@ -310,7 +314,7 @@ class BTCTicker:
 		hfee = "{:,.0f}".format(highfee)
 		mfee = "{:,.0f}".format(mediumfee)
 		lfee = "{:,.0f}".format(lowfee)
-		recfee_label.configure(text="Fees:" + u'\u2191' + str(hfee) + " sat/vB " + u'\u2195' + str(mfee) + " sat/vB " + u'\u2193' + str(lfee) + " sat/vB")
+		recfee_label.configure(text="Fees:" + u'\u2191' + str(hfee) + " sat/vB " + u'\u2195' + str(mfee) + " sat/vB " + u'\u2193' + str(lfee) + " sat/vB", fg='white')
 		try:
 			husd = "{:,.2f}".format((highfee * 140.5) / satsusd)
 			musd = "{:,.2f}".format((mediumfee * 140.5) / satsusd)
@@ -320,16 +324,19 @@ class BTCTicker:
 			musd = "{:,.2f}".format(0)
 			lusd = "{:,.2f}".format(0)
 
-		recfeeusd_label.configure(text="Fees:" + u'\u2191' + "$" + husd + "  " + u'\u2195' + "$" + musd + "  " + u'\u2193' + "$" + lusd)
+		recfeeusd_label.configure(text="Fees:" + u'\u2191' + "$" + husd + "  " + u'\u2195' + "$" + musd + "  " + u'\u2193' + "$" + lusd, fg='white')
 #	Second Column
 		currency = "{:,.2f}".format(high24h)
-		high24_label.configure(text="High 24hr: $" + str(currency))
+		high24_label.configure(text="High 24hr: $" + str(currency), fg='white')
 		currency = "{:,.2f}".format(low24h)
-		low24_label.configure(text="Low 24hr: $" + str(currency))
+		low24_label.configure(text="Low 24hr: $" + str(currency), fg='white')
 		try:
 			ath_change = (float(pricebtc) - ath)/ath
 		except ZeroDivisionError:
-			ath_change = -1
+			try:
+				ath_change
+			except NameError:
+				ath_change = -1
 		if ath_change * 100 >= -5:
 			color = 'lightgreen'
 		elif ath_change * 100 <= -50:
@@ -357,26 +364,81 @@ class BTCTicker:
 		currency = "{:,.2f}".format(ath)
 		ath_label.configure(text="ATH: $" + str(currency), font=athfnt, fg=color)
 		currency = "{:,.0f}".format(circulating_supply)
-		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf')
-		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex))
-		fearvalue_label.configure(text="Fear Value: " + str(fearindexvalue))
-		try:
-			lnodes
-		except NameError:
-			lnodes = 0
+		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf', fg='white')
+		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex), fg='white')
+		fearvalue_label.configure(text="Fear Value: " + str(fearindexvalue), fg='white')
 		currency = "{:,.0f}".format(lnodes)
-		lnodes_label.configure(text=u'\u26A1' + " Nodes: " + str(currency))
+		lnodes_label.configure(text=u'\u26A1' + " Nodes: " + str(currency), fg='lightyellow')
 		currency = "{:,.2f}".format(LNDCap)
-		lgtcap_label.configure(text=u'\u26A1' + " Network Capacity: " + str(currency) + u'\u20bf')
+		lgtcap_label.configure(text=u'\u26A1' + " Network Capacity: " + str(currency) + u'\u20bf', fg='lightyellow')
 		
 		if interneterrormessage == "":
-			error_label1.configure(text=str(bserrormessage))
-			error_label2.configure(text=str(cgerrormessage + mempoolerrormessage))
-			error_label3.configure(text=str(bcerrormessage))
-			error_label4.configure(text=str(alterrormessage + mlerrormessage))
+			if bcerror == 0 and bserror == 0 and cgerror == 0 and alterror == 0 and mlerror == 0 and mempoolerror == 0:
+				error_label1.configure(text=str(""))
+				error_label2.configure(text=str(""))
+				error_label3.configure(text=str(""))
+				error_label4.configure(text=str(""))
+			if bcerror == 1 or bserror == 1 or cgerror == 1 or alterror == 1 or mlerror == 1 or mempoolerror == 1: 
+				error_label3.configure(text=str("Error Reading " + bs + mp + cg + bc + alte + ml))
+			if bcerror == 2 or bserror == 2 or cgerror == 2 or alterror == 2 or mlerror == 2 or mempoolerror == 2:
+				error_label4.configure(text=str(bs + mp + cg + bc + alte + ml + "Connection Refused!"))
+			if bcerror > 0:
+				dom_label.configure(fg='red')
+				avgfee_label.configure(fg='red')
+				hash_label.configure(fg='red')
+				dif_label.configure(fg='red')
+			if bserror > 0:
+				price_label.configure(fg='red')
+				sats_label.configure(fg='red')
+			if cgerror > 0:
+				change24_label.configure(fg='red')
+				circ_label.configure(fg='red')
+				mcap_label.configure(fg='red')
+				high24_label.configure(fg='red')
+				low24_label.configure(fg='red')
+				ath_label.configure(fg='red')
+				athchg_label.configure(fg='red')
+				athdate_label.configure(fg='red')
+			if alterror > 0:
+				fearindex_label.configure(fg='red')
+				fearvalue_label.configure(fg='red')
+			if mlerror > 0:
+				lnodes_label.configure(fg='red')
+				lgtcap_label.configure(fg='red')
+			if mempoolerror > 0:
+				block_label.configure(fg='red')
+				memp_label.configure(fg='red')
+				recfeeusd_label.configure(fg='red')
+				recfee_label.configure(fg='red')
+			error_label1.configure(text=str(""))
+			error_label2.configure(text=str(""))
 		else:
-			error_label1.configure(text=str(interneterrormessage))
-			error_label2.configure(text=str("Please Check Your Internet Connection"))
+			error_label1.configure(text=str(interneterrormessage), font=('Helvetica',16, 'bold'))
+			error_label2.configure(text=str("Please Check Your Internet Connection"),font=('Helvetica',14, 'bold'))
+			error_label3.configure(text=str(""))
+			error_label4.configure(text=str(""))
+			price_label.configure(fg='red')
+			sats_label.configure(fg='red')
+			change24_label.configure(fg='red')
+			dom_label.configure(fg='red')
+			circ_label.configure(fg='red')
+			mcap_label.configure(fg='red')
+			block_label.configure(fg='red')
+			memp_label.configure(fg='red')
+			avgfee_label.configure(fg='red')
+			recfeeusd_label.configure(fg='red')
+			recfee_label.configure(fg='red')
+			hash_label.configure(fg='red')
+			dif_label.configure(fg='red')
+			high24_label.configure(fg='red')
+			low24_label.configure(fg='red')
+			ath_label.configure(fg='red')
+			athchg_label.configure(fg='red')
+			athdate_label.configure(fg='red')
+			fearindex_label.configure(fg='red')
+			fearvalue_label.configure(fg='red')
+			lnodes_label.configure(fg='red')
+			lgtcap_label.configure(fg='red')
 		
 		now = datetime.datetime.now()
 		duration = now - then
@@ -426,18 +488,34 @@ def mempoolspace():
 	global blocks
 	global blocktime
 	global oldblock
+	global mp
 	global mempool
-	global mempoolerrormessage
+	global mempoolerror
 	global highfee
 	global mediumfee
 	global lowfee
 	
-	mempool = 0
+	try:
+		mempool
+	except NameError:
+		mempool = 0
+	try:
+		highfee
+	except NameError:
+		highfee = 0
+	try:
+		mediumfee
+	except NameError:
+		mediumfee = 0
+	try:
+		lowfee
+	except NameError:
+		lowfee = 0
+	try:
+		newBlock
+	except NameError:
+		newBlock = 0
 	status = 0
-	highfee = 0
-	mediumfee = 0
-	lowfee = 0
-	newBlock = 0
 	
 	try:
 		#mempooltime = time.time()
@@ -457,25 +535,36 @@ def mempoolspace():
 		mediumfee = float(loads(fees_api_request)['halfHourFee'])
 		lowfee = float(loads(fees_api_request)['hourFee'])
 		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
-		mempoolerrormessage = ""
+		mempoolerror = 0
+		mp = ""
 	except:
 		try:
 			urltest = requests.get('https://mempool.space/')
 			status = urltest.status_code
 			urltest.close()
-			mempoolerrormessage = "Error Reading Mempool "
-			print(mempoolerrormessage + "Status code: " + str(status))
+			mempoolerror = 1
+			print("Error Reading Mempool. Status code: " + str(status))
 		except:
-			mempoolerrormessage = "Mempool Connection Refused "
-			print(mempoolerrormessage)
+			mempoolerror = 2
+			print("Mempool Connection Refused ")
+	if mempoolerror > 0:
+		mp = "Mempool "
 		
 def ml1():
 	
 	global LNDCap
 	global lnodes
-	global mlerrormessage
+	global ml
+	global mlerror
 	
-	LNDCap = 0
+	try:
+		LNDCap
+	except NameError:
+		LNDCap = 0
+	try:
+		lnodes
+	except NameError:
+		lnodes = 0
 	status = 0
 	
 	try:
@@ -486,27 +575,37 @@ def ml1():
 		LNDCap = LNDCap / 100000000
 		lnodes = float(loads(ml1_api_request)['numberofnodes'])
 		print("Lightning Stats Updated ") # + str(time.time() - mltime))
-		mlerrormessage = ""
+		mlerror = 0
+		ml = ""
 	except:
 		try:
 			urltest = requests.get(ml1_url)
 			status = urltest.status_code
 			urltest.close()
-			mlerrormessage = "Error Reading 1ML "
-			print(errormessage + "Status code: " + str(status))
+			mlerror = 1
+			print("Error Reading 1ML. Status code: " + str(status))
 		except:
-			mlerrormessage = "1ML Connection Refused "
-			print(mlerrormessage)
+			mlerror = 2 
+			print("1ML Connection Refused ")
+	if mlerror > 0:
+		ml = "1ML "
 
 def alt():
 	
-	global alterrormessage
+	global alte
+	global alterror
 	global fearindex
 	global fearindexvalue
 	
 	#alttime = time.time()
-	fearindex = " "
-	fearindexvalue = 0
+	try:
+		fearindex
+	except NameError:
+		fearindex = ""
+	try:
+		fearindexvalue
+	except NameError:
+		fearindexvalue = 0
 	status = 0
 	try:
 		
@@ -516,29 +615,40 @@ def alt():
 		fearindex = str(loads(alt_api_request)['data'][0]['value_classification'])
 		fearindexvalue = str(loads(alt_api_request)['data'][0]['value'])
 		print("Updated Fear Index ") # + str(time.time() - alttime))
-		alterrormessage = ""
-		
+		alte = ""
+		alterror = 0
 	except:
 		try:
 			urltest = requests.get(alt_url)
 			status = urltest.status_code
 			urltest.close()
-			alterrormessage = "Error Reading Fear Index "
-			print(errormessage + "Status code: " + str(status))
+			alterror = 1
+			print("Error Reading Fear Index. Status code: " + str(status))
 		except:
-			alterrormessage = "Alt Connection Refused "
-			print(alterrormessage)
+			alterror = 2
+			print("Alt Connection Refused ")
+	if alterror > 0:
+		alte = "Alternative "
 
 def bitstamp():
 	
-	global bserrormessage
+	global bs
+	global bserror
+	global prevpricebtc
 	global pricebtc
 	global satsusd
 	
 	#bittime = time.time()
-	pricebtc = 0
-	satsusd = 0
 	status = 0
+	try:
+		pricebtc
+	except NameError:
+		pricebtc = 0
+	prevpricebtc = pricebtc
+	try:
+		satsusd
+	except NameError:
+		satsusd = 0
 	
 	try:
 		bitstamp_url = 'https://bitstamp.net/api/ticker'
@@ -546,10 +656,12 @@ def bitstamp():
 		pricebtc = float(loads(bitstamp_api_request)['last'])
 		try:
 			satsusd = 1 / pricebtc * 100000000
-			bserrormessage = ""
+			bs = ""
+			bserror = 0
 		except ZeroDivisionError:
 			print("Zero Division Error Calculating Sats per Dollar")
 			bserrormessage = "Bitstamp Price Error "
+			bs = 1
 		print(pricebtc)
 		#print(str(time.time() - bittime))
 
@@ -558,37 +670,51 @@ def bitstamp():
 			urltest = requests.get(bitstamp_url)
 			status = urltest.status_code
 			urltest.close()
-			bserrormessage = "Error Reading BitStamp "
-			print(errormessage + "Status code: " + str(status))
+			bserror = 1
+			print("Error Reading BitStamp. Status code: " + str(status))
 		except:
-			bserrormessage = "Bitstamp Connection Refused "
-			print(bserrormessage)
-
+			bserror = 2
+			print("Bitstamp Connection Refused ")
+	if bserror > 0:
+		bs = "Bitstamp "
 def blockchair():
 	
 	global average_transaction_fee_usd_24h
-	global bcerrormessage
+	global bc
+	global bcerror
 	global hashrate24hr
 	global market_dominance_percentage
 	global next_difficulty_estimate
 	global next_retarget_time_estimate
-	global suggested_transaction_fee
 	
 	#blocktime = time.time()
-	average_transaction_fee_usd_24h = 0
-	hashrate24hr = 0
-	market_dominance_percentage = 0
-	next_difficulty_estimate = 0
-	next_retarget_time_estimate = 0
+	try:
+		average_transaction_fee_usd_24h
+	except NameError:
+		average_transaction_fee_usd_24h = 0
+	try:
+		hashrate24hr
+	except NameError:
+		hashrate24hr = 0
+	try:
+		market_dominance_percentage
+	except NameError:	
+		market_dominance_percentage = 0
+	try:
+		next_difficulty_estimate
+	except NameError:	
+		next_difficulty_estimate = 0
+	try:
+		next_retarget_time_estimate
+	except NameError:
+		next_retarget_time_estimate = 0
 	status = 0
-	suggested_transaction_fee = 0
 	
 	try:
 #	get blockchain data https://blockchair.com/api/docs#link_M03
 		blockchair_url = 'https://api.blockchair.com/bitcoin/stats'
 		blockchair_api_request = urlopen(blockchair_url).read()	
 		market_dominance_percentage = float(loads(blockchair_api_request)['data']['market_dominance_percentage'])
-		suggested_transaction_fee = float(loads(blockchair_api_request)['data']['suggested_transaction_fee_per_byte_sat'])
 		average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
 		hashrate24hr = float(loads(blockchair_api_request)['data']['hashrate_24h'])
 		next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
@@ -599,10 +725,11 @@ def blockchair():
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
 		try:
 			next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
-			bcerrormessage = ""
+			bcerror = 0
+			bc =""
 		except ZeroDivisionError:
 			print("Zero Division Error While Calculating Next Difficulty Estimate")
-			bcerrormessage = "Bitstamp Diff Est Error "
+			bcerror = 1
 		print("Updated Blockchair Stats ") # + str(time.time() - blocktime))
 
 	except:
@@ -610,21 +737,23 @@ def blockchair():
 			urltest = requests.get(blockchair_url)
 			status = urltest.status_code
 			urltest.close()
-			bcerrormessage = "Error Reading Blockchair "
-			print(errormessage + "Status code: " + str(status))
+			bcerror = 1
+			print("Error reading BlockChair. Status code: " + str(status))
 		except:
-			bcerrormessage = "Blockchair Connection Refused "
-			print(bcerrormessage)
+			bcerror = 2
+			print("Blockchair Connection Refused ")
+	if bcerror > 0:
+		bc = "Blockchair "
 
 def coingecko():
 
 	global ath
 	global athdate
 	global circulating_supply
-	global cgerrormessage
+	global cg
+	global cgerror
 	global high24h
 	global low24h
-	global LNDBTC
 	global marketcap24h
 	global marketcapbtc
 	global pricebtc1hrchange
@@ -632,14 +761,38 @@ def coingecko():
 	global status
 
 	#cointime = time.time()
-	ath = 0
-	circulating_supply = 0
-	high24h = 0
-	low24h = 0
-	marketcap24h = 0
-	marketcapbtc = 0
-	pricebtc1hrchange = 0
-	pricebtc24hrchange = 0
+	try:
+		ath
+	except NameError:
+		ath = 0
+	try:
+		circulating_supply
+	except NameError:
+		circulating_supply = 0
+	try:
+		high24h
+	except NameError:
+		high24h = 0
+	try:
+		low24h
+	except NameError:
+		low24h = 0
+	try:
+		marketcap24h
+	except NameError:
+		marketcap24h = 0
+	try:
+		marketcapbtc
+	except NameError:
+		marketcapbtc = 0
+	try:
+		pricebtc1hrchange
+	except NameError:
+		pricebtc1hrchange = 0
+	try:
+		pricebtc24hrchange
+	except NameError:
+		pricebtc24hrchange = 0
 	status = 0
 	
 	try:
@@ -656,18 +809,21 @@ def coingecko():
 		circulating_supply = float(loads(coingecko_api_request)['market_data']['circulating_supply'])
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		print("Updated CoinGecko Stats ") # + str(time.time() - cointime))
-		cgerrormessage = ""
+		cg = ""
+		cgerror = 0
 
 	except:
 		try:
 			urltest = requests.get(coingecko_url)
 			status = urltest.status_code
 			urltest.close()
-			cgerrormessage = "Error reading Coingecko "
-			print(errormessage + "Status code: " + str(status))
+			cgerror = 1
+			print("Error reading Coingecko. Status code: " + str(status))
 		except:
-			cgerrormessage = "CoinGecko Connection Refused "
-			print(cgerrormessage)
+			cgerror = 2
+			print("CoinGecko Connection Refused ")
+	if cgerror > 0:
+		cg = "CoinGecko"
 
 def internet_on(host="8.8.8.8", port=53, timeout=3):
 	global interneterrormessage
@@ -683,7 +839,7 @@ def internet_on(host="8.8.8.8", port=53, timeout=3):
 		interneterrormessage = ""
 		return True
 	except socket.error as ex:
-		interneterrormessage = "No Internet Connection Available"
+		interneterrormessage = "No Internet Connection Available!"
 		print(interneterrormessage)
 		print(ex)
 		return False
