@@ -325,14 +325,27 @@ class BTCTicker:
 		high24_label.configure(text="High 24hr: $" + str(currency))
 		currency = "{:,.2f}".format(low24h)
 		low24_label.configure(text="Low 24hr: $" + str(currency))
-		currency = "{:,.2f}".format(ath)
-		ath_label.configure(text="ATH: $" + str(currency))
+		if ath_change >= -5:
+			color = 'lightgreen'
+		elif ath_change <= -50:
+			color = 'lightcoral'
+		else:
+			color = 'white'
 		currency = "{:,.2%}".format(ath_change)
-		athchg_label.configure(text="ATH change: " + str(currency))
+		athchg_label.configure(text="ATH change: " + str(currency), fg=color)
 		try:
-			athdate_label.configure(text="ATH Date: " + str(athdate[0:10]))
+			today = datetime.datetime.now()
+			if today.strftime("%Y-%m-%d") == athdate[0:10]:
+				color = "lightgreen"
+				athfnt = ('Helvetica', 20, 'bold')
+			else:
+				color = "white"
+				athfnt = ('Helvetica', 20)
+			athdate_label.configure(text="ATH Date: " + str(athdate[0:10]), fg=color)
 		except:
-			athdate_label.configure(text="ATH Date: Date Error")
+			athdate_label.configure(text="ATH Date: Date Error", fg='lightcoral')
+		currency = "{:,.2f}".format(ath)
+		ath_label.configure(text="ATH: $" + str(currency), font=athfnt, fg=color)
 		currency = "{:,.0f}".format(circulating_supply)
 		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf')
 		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex))
