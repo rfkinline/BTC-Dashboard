@@ -5,10 +5,11 @@ The dashboard indicators include:<br>
 <li> Market Data: Price, sats/USD, 24hr Change, BTC Dominance, Circulating Supply, and MarketCap.
 <li> Mempool Data: Block Height, # of Transactions in the Mempool, Average Fee 24hr($), Recommended Fees: Fast, Medium, Low ($ & sats/vByte), Hashrate/24hrs, and Next difficulty adjustment estimate.
 <li> Other Indicators: BTC High 24hr, BTC Low 24hr, ATH (All Time High), ATH change (%), ATH Date, Fear & Greed Index, Fear Value, # of Lightning Network Nodes, Lightning Network Capacity, Error messages, and Date/Time of Last update
-<li> Colors: red or green when the change is over 5%. Currently implemented in: BTC Price, Marketcap, Mempool and Hashrate.
-<br>Block Height turns green when block height increases and it remains green for 60 seconds thereafter.
+<li> Colors: green (up) or red (down) depending on the change. Currently implemented in: BTC Price, Marketcap, Mempool and Hashrate.
+<li> ATH Price turns green and bold if new ATH was reached in the same day. Green ATH date on same day. ATH Change turns green within 5% of ATH and red when 50% and below 
+<li>Block Height turns green when block height increases and it remains green for 60 seconds thereafter.
 
-<img src="https://cypherhive.com/wp-content/uploads/2021/03/BTC-Dashboard-scaled.jpg" border="1"><br>
+<img src="https://cypherhive.com/wp-content/uploads/2021/03/BTC-Dashboard2-scaled.jpg" border="1"><br>
 
 ## Minimum Hardware Requirements
 <li>A Raspberry Pi (0w, 1, 2, 3, 4+) or you can also run on a PC with Git Bash and Python installed
