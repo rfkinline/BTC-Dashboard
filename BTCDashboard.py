@@ -135,6 +135,7 @@ class BTCTicker:
 
 	def labels():
 		#### Global Variables ####
+		global ath
 		global average_transaction_fee_usd_24hdiff
 		global average_transaction_fee_usd_24hsav
 		global interneterrormessage
@@ -243,8 +244,8 @@ class BTCTicker:
 				color = "lightcoral"
 		else:
 				color = "white"
-		pricebtc = "{:,.2f}".format(pricebtc)
-		price_label.configure(text="Price: $" + str(pricebtc), fg = color)
+		currency = "{:,.2f}".format(pricebtc)
+		price_label.configure(text="Price: $" + str(currency), fg = color)
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		change24_label.configure(text="24hr change: " + str(currency))
 		currency = "{:,.2%}".format(market_dominance_percentage)
@@ -325,9 +326,13 @@ class BTCTicker:
 		high24_label.configure(text="High 24hr: $" + str(currency))
 		currency = "{:,.2f}".format(low24h)
 		low24_label.configure(text="Low 24hr: $" + str(currency))
-		if ath_change >= -5:
+		try:
+			ath_change = (float(pricebtc) - ath)/ath
+		except ZeroDivisionError:
+			ath_change = -1
+		if ath_change * 100 >= -5:
 			color = 'lightgreen'
-		elif ath_change <= -50:
+		elif ath_change * 100 <= -50:
 			color = 'lightcoral'
 		else:
 			color = 'white'
@@ -344,6 +349,11 @@ class BTCTicker:
 			athdate_label.configure(text="ATH Date: " + str(athdate[0:10]), fg=color)
 		except:
 			athdate_label.configure(text="ATH Date: Date Error", fg='lightcoral')
+			athfnt = ('Helvetica', 20)
+		if pricebtc > ath:
+			ath = pricebtc
+			color = 'lightgreen'
+			athfnt = ('Helvetica', 20, 'bold')
 		currency = "{:,.2f}".format(ath)
 		ath_label.configure(text="ATH: $" + str(currency), font=athfnt, fg=color)
 		currency = "{:,.0f}".format(circulating_supply)
@@ -609,7 +619,6 @@ def blockchair():
 def coingecko():
 
 	global ath
-	global ath_change
 	global athdate
 	global circulating_supply
 	global cgerrormessage
@@ -624,7 +633,6 @@ def coingecko():
 
 	#cointime = time.time()
 	ath = 0
-	ath_change = 0
 	circulating_supply = 0
 	high24h = 0
 	low24h = 0
@@ -644,11 +652,9 @@ def coingecko():
 		low24h = float(loads(coingecko_api_request)['market_data']['low_24h']['usd'])
 		marketcapbtc = float(loads(coingecko_api_request)['market_data']['market_cap']['usd'])
 		ath = float(loads(coingecko_api_request)['market_data']['ath']['usd'])
-		ath_change = float(loads(coingecko_api_request)['market_data']['ath_change_percentage']['usd'])
 		athdate = str(loads(coingecko_api_request)['market_data']['ath_date']['usd'])
 		circulating_supply = float(loads(coingecko_api_request)['market_data']['circulating_supply'])
 		pricebtc24hrchange = pricebtc24hrchange / 100
-		ath_change = ath_change / 100
 		print("Updated CoinGecko Stats ") # + str(time.time() - cointime))
 		cgerrormessage = ""
 
