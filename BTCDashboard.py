@@ -4,6 +4,8 @@ import requests
 import socket
 import sys
 import time
+from time import strftime
+from time import gmtime
 import datetime
 from PIL import ImageTk,Image
 from urllib.request import urlopen
@@ -156,6 +158,7 @@ class BTCTicker:
 		global onlyonce
 		global pricebtc
 		global then
+		global timestamp
 		global refreshtime
 		#### API Timers ####
 		global altstart
@@ -238,9 +241,9 @@ class BTCTicker:
 		#print("Refreshing data on screen")
 		refreshtimer = time.time()
 		if pricebtc1hrchange >= disppricebtc1hrchangediff:
-				trend1hr = u'\u2191'
+				trend1hr = u'\u25B2'
 		elif pricebtc1hrchange <= disppricebtc1hrchangediff * -1:
-				trend1hr = u'\u2193'
+				trend1hr = u'\u25BC'
 		else:
 				trend1hr = ""
 		if pricebtc > prevpricebtc:
@@ -294,15 +297,19 @@ class BTCTicker:
 		except NameError:
 			blocks = 0
 		currency = "{:,.0f}".format(blocks)
-		if time.time() - blocktime < 60:
+		if time.time() - timestamp <= 120:
 				color = "lightgreen"
-		elif time.time() - blocktime > 60:
-				oldblock = blocks
-				color = "white"
 		else:
 				color = "white"
-		block_label.configure(text="Block height: " + str(currency), fg=color)
-
+		if timestamp == 0:
+			timedif = ""
+		else:
+			timedif = time.time() - timestamp
+			if strftime("%H", gmtime(timedif)) == "00":
+				timedif = strftime("%M:%S", gmtime(timedif))
+			else:
+				timedif = strftime("%H:%M:%S", gmtime(timedif))
+		block_label.configure(text="Block height: " + str(currency) + " - " + timedif, fg=color)
 		if average_transaction_fee_usd_24hdiff > dispaverage_transaction_fee_usd_24hdiff:
 				color = "lightcoral"
 		elif average_transaction_fee_usd_24hdiff < dispaverage_transaction_fee_usd_24hdiff * -1:
@@ -310,7 +317,7 @@ class BTCTicker:
 		else:
 				color = "white"
 		currency = "${:,.2f}".format(average_transaction_fee_usd_24h)
-		avgfee_label.configure(text=("Average Fee 24hr: " + str(currency)), fg=color)
+		avgfee_label.configure(text=("Average fee 24hr: " + str(currency)), fg=color)
 		hfee = "{:,.0f}".format(highfee)
 		mfee = "{:,.0f}".format(mediumfee)
 		lfee = "{:,.0f}".format(lowfee)
@@ -353,9 +360,9 @@ class BTCTicker:
 			else:
 				color = "white"
 				athfnt = ('Helvetica', 20)
-			athdate_label.configure(text="ATH Date: " + str(athdate[0:10]), fg=color)
+			athdate_label.configure(text="ATH date: " + str(athdate[0:10]), fg=color)
 		except:
-			athdate_label.configure(text="ATH Date: Date Error", fg='lightcoral')
+			athdate_label.configure(text="ATH date: Date Error", fg='lightcoral')
 			athfnt = ('Helvetica', 20)
 		if pricebtc > ath:
 			ath = pricebtc
@@ -366,7 +373,7 @@ class BTCTicker:
 		currency = "{:,.0f}".format(circulating_supply)
 		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf', fg='white')
 		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex), fg='white')
-		fearvalue_label.configure(text="Fear Value: " + str(fearindexvalue), fg='white')
+		fearvalue_label.configure(text="Fear value: " + str(fearindexvalue), fg='white')
 		currency = "{:,.0f}".format(lnodes)
 		lnodes_label.configure(text=u'\u26A1' + " Nodes: " + str(currency), fg='lightyellow')
 		currency = "{:,.2f}".format(LNDCap)
@@ -390,6 +397,7 @@ class BTCTicker:
 			if bserror > 0:
 				price_label.configure(fg='red')
 				sats_label.configure(fg='red')
+				athchg_label.configure(fg='red')
 			if cgerror > 0:
 				change24_label.configure(fg='red')
 				circ_label.configure(fg='red')
@@ -397,7 +405,6 @@ class BTCTicker:
 				high24_label.configure(fg='red')
 				low24_label.configure(fg='red')
 				ath_label.configure(fg='red')
-				athchg_label.configure(fg='red')
 				athdate_label.configure(fg='red')
 			if alterror > 0:
 				fearindex_label.configure(fg='red')
@@ -486,7 +493,6 @@ class BTCTicker:
 def mempoolspace():
 	
 	global blocks
-	global blocktime
 	global oldblock
 	global mp
 	global mempool
@@ -494,6 +500,7 @@ def mempoolspace():
 	global highfee
 	global mediumfee
 	global lowfee
+	global timestamp
 	
 	try:
 		mempool
@@ -515,6 +522,10 @@ def mempoolspace():
 		newBlock
 	except NameError:
 		newBlock = 0
+	try:
+		timestamp
+	except NameError:
+		timestamp = 0
 	status = 0
 	
 	try:
@@ -525,15 +536,21 @@ def mempoolspace():
 		block_url = 'https://mempool.space/api/blocks/tip/height'
 		block_api_request = urlopen(block_url).read()
 		newBlock = float(loads(block_api_request))
-		if newBlock > oldblock:
-			blocks = newBlock
-			blocktime = time.time()
-			oldblock = newBlock
 		fees_url = 'https://mempool.space/api/v1/fees/recommended'
 		fees_api_request = urlopen(fees_url).read()
 		highfee = float(loads(fees_api_request)['fastestFee'])
 		mediumfee = float(loads(fees_api_request)['halfHourFee'])
 		lowfee = float(loads(fees_api_request)['hourFee'])
+		if newBlock > oldblock:
+			blocks = newBlock
+			oldblock = newBlock
+			blockhash_url = 'https://mempool.space/api/blocks/tip/hash'
+			blockh = urlopen(blockhash_url).read()
+			blockh = (str(blockh)[1:100])
+			blockh = blockh.replace("'", "")
+			blockh_url = "https://mempool.space/api/block/" + blockh
+			hash_api_request = urlopen(blockh_url).read()
+			timestamp = int(loads(hash_api_request)['timestamp'])
 		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
 		mempoolerror = 0
 		mp = ""
@@ -846,7 +863,7 @@ def internet_on(host="8.8.8.8", port=53, timeout=3):
 
 exec(open(r"variables").read())
 mlerrormessage = alterrormessage = bserrormessage = bcerrormessage = cgerrormessage = interneterrormessage = ""
-ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = mempoolstart = blocktime = time.time()
+ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = mempoolstart = time.time()
 LNDBTC = 0
 hashrate24hrsav = 0
 mempoolsav = 0
