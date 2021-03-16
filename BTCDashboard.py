@@ -303,6 +303,9 @@ class BTCTicker:
 				color = "white"
 		if timestamp == 0:
 			timedif = ""
+		elif timestamp == 1:
+			timedif = ""
+			color = "lightgreen"
 		else:
 			timedif = time.time() - timestamp
 			if strftime("%H", gmtime(timedif)) == "00":
@@ -501,6 +504,7 @@ def mempoolspace():
 	global mediumfee
 	global lowfee
 	global timestamp
+	global lasthash
 	
 	try:
 		mempool
@@ -526,6 +530,10 @@ def mempoolspace():
 		timestamp
 	except NameError:
 		timestamp = 0
+	try:
+		lasthash
+	except NameError:
+		lasthash = "0"
 	status = 0
 	
 	try:
@@ -543,14 +551,17 @@ def mempoolspace():
 		lowfee = float(loads(fees_api_request)['hourFee'])
 		if newBlock > oldblock:
 			blocks = newBlock
-			oldblock = newBlock
+			timestamp = 1
 			blockhash_url = 'https://mempool.space/api/blocks/tip/hash'
 			blockh = urlopen(blockhash_url).read()
 			blockh = (str(blockh)[1:100])
 			blockh = blockh.replace("'", "")
-			blockh_url = "https://mempool.space/api/block/" + blockh
-			hash_api_request = urlopen(blockh_url).read()
-			timestamp = int(loads(hash_api_request)['timestamp'])
+			if blockh != lasthash:
+				lasthash = blockh
+				oldblock = newBlock
+				blockh_url = "https://mempool.space/api/block/" + blockh
+				hash_api_request = urlopen(blockh_url).read()
+				timestamp = int(loads(hash_api_request)['timestamp'])
 		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
 		mempoolerror = 0
 		mp = ""
