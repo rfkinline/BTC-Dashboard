@@ -3,16 +3,18 @@ BTC dashboard is a Python program that you can run on a Raspberry Pi or PC and d
 No accounts, API keys, or log-ins required<br>
 The dashboard indicators include:<br>
 <li> Market Data: Price, sats/USD, 24hr Change, BTC Dominance, Circulating Supply, and MarketCap.
-<li> Mempool Data: Block Height, # of Transactions in the Mempool, Average Fee 24hr($), Recommended Fees: Fast, Medium, Low ($ & sats/vByte), Hashrate/24hrs, and Next difficulty adjustment estimate.
+<li> Mempool Data: Block Height - time since block added, # of Transactions in the Mempool, Average Fee 24hr($), Recommended Fees: Fast, Medium, Low ($ & sats/vByte), Hashrate/24hrs, and Next difficulty adjustment estimate.
 <li> Other Indicators: BTC High 24hr, BTC Low 24hr, ATH (All Time High), ATH change (%), ATH Date, Fear & Greed Index, Fear Value, # of Lightning Network Nodes, Lightning Network Capacity, Error messages, and Date/Time of Last update
-<li> Colors: green (up) or red (down) depending on the change. Currently implemented in: BTC Price, Marketcap, Mempool and Hashrate.
+<li> Bitcoin Price trend arrow appears next to the price when Bitcoin price goes up or down 2%+ in an hour.
+<li> Colors: Green (up) or Red (down) depending on the change. Currently implemented in: BTC Price, Marketcap, and Hashrate.
+<li> Colors reversed for Mempool transactions. Green (down) and Red (up) show when # of transactions goes up or down 5% in 5 minutes
 <li> ATH Price turns green and bold if new ATH was reached in the same day. Green ATH date on same day. ATH Change turns green within 5% of ATH and red when 50% and below 
-<li>Block Height turns green when block height increases and it remains green for 60 seconds thereafter.
+<li>Block Height turns green when block height increases and it remains green for 2 minutes thereafter.
 
 <img src="https://cypherhive.com/wp-content/uploads/2021/03/BTC-Dashboard2-scaled.jpg" border="1"><br>
 
 ## Minimum Hardware Requirements
-<li>A Raspberry Pi (0w, 1, 2, 3, 4+) or you can also run on a PC with Git Bash and Python installed
+<li>A Raspberry Pi 0w, 1, 2, 3, 4+ (tested on 0w and 4) or you can also run on a computer with Python installed
 <li>Constant internet connection
 <li>7 Inch Display Monitor 1024X600. Larger displays should also do the job.
 
@@ -52,4 +54,10 @@ python3 BTCDashboard.py
 ```
 
 ## To stop the program
-To stop the program, click on the Bitcoin logo. 
+To stop the program, click on the Bitcoin logo.
+
+## Errors
+Error messages will appear in red below Lightning Capacity and above Last update time. <br>
+The associated indicators will still show the previous values but turn red letting you know that those indicators have been potentially affected by the error and may not be up to date. <br>
+The associated indicators will turn back to normal colors when the error clears and connection to the associated data source is restored. <br>
+The program will keep running and attempt to reestablish connection at least once every 5 minutes depending on the free API limits.
