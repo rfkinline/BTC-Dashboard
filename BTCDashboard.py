@@ -557,11 +557,11 @@ def mempoolspace():
 			blockh = (str(blockh)[1:100])
 			blockh = blockh.replace("'", "")
 			if blockh != lasthash:
-				lasthash = blockh
-				oldblock = newBlock
 				blockh_url = "https://mempool.space/api/block/" + blockh
 				hash_api_request = urlopen(blockh_url).read()
 				timestamp = int(loads(hash_api_request)['timestamp'])
+				lasthash = blockh
+				oldblock = newBlock
 		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
 		mempoolerror = 0
 		mp = ""
