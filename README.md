@@ -9,7 +9,7 @@ The dashboard indicators include:<br>
 <li> Colors: Green (up) or Red (down) depending on the change. Currently implemented in: BTC Price, Marketcap, and Hashrate.
 <li> Colors reversed for Mempool transactions. Green (down) and Red (up) show when # of transactions goes up or down 5% in 5 minutes
 <li> ATH Price turns green and bold if new ATH was reached in the same day. Green ATH date on same day. ATH Change turns green within 5% of ATH and red when 50% and below 
-<li>Block Height turns green when block height increases and it remains green for 2 minutes thereafter.
+<li>Block Height turns green when a new block is added and it remains green for 2 minutes thereafter.
 
 <img src="https://cypherhive.com/wp-content/uploads/2021/03/BTC-Dashboard2-scaled.jpg" border="1"><br>
 
@@ -43,7 +43,7 @@ Now you will have BTC-Dashboard directory under /home/pi/
 ## Start BTC Dashboard
 Open BTC-Dashboard folder and [copy](https://projects.raspberrypi.org/en/projects/rpi-gui-copying-files) btclauncher.sh to your desktop. (optional) <br>
 Double click or open btclauncher.sh and if prompted select "Execute" to run the program. <br>
-Select "Execute in Terminal" to run the program and have a terminal screen running in the background which shows you what the program is doing behind the scenes and is great for debugging if there are any errors.
+Select "Execute in Terminal" to run the program and have a terminal screen running in the background which shows you what the program is doing behind the scenes and is great for debugging if there are any errors. To see the terminal while the program is running use CTL + ESC.
 <br>Enjoy the Dashboard!
 
 ## Why run btclauncher.sh and not just BTCDashboard.py?
@@ -61,3 +61,19 @@ Error messages will appear in red below Lightning Capacity and above Last update
 The associated indicators will still show the previous values but turn red letting you know that those indicators have been potentially affected by the error and may not be up to date. <br>
 The associated indicators will turn back to normal colors when the error clears and connection to the associated data source is restored. <br>
 The program will keep running and attempt to reestablish connection at least once every 5 minutes depending on the free API limits.
+
+## To update the BTC-Dashboard program
+We continually try and improve the program on our spare time.<br>
+Be sure to update every once and a while for performance improvements, new features, and bug fixes. <br>
+<br>
+Navigate to the BTC-Dashboard directory in the terminal
+```shell
+cd BTC-Dashboard
+```
+Once in the directory run this command
+```shell
+git pull
+```
+If there are any updates, it will download them.<br>
+Enjoy!
+
