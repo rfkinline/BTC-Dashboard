@@ -104,13 +104,13 @@ class BTCTicker:
 		lnodes_label.grid(row=10, column=2, sticky=W)
 		lgtcap_label = Label(text=("Lightning Netw Capacity: " + str(0) + u'\u20bf'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		lgtcap_label.grid(row=11, column=2, sticky=W)
-		error_label1 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label1 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='hot pink')
 		error_label1.grid(row=12, column=2, sticky=W)
-		error_label2 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label2 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='hot pink')
 		error_label2.grid(row=13, column=2, sticky=W)
-		error_label3 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label3 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='plum1')
 		error_label3.grid(row=14, column=2, sticky=W)	
-		error_label4 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='red')
+		error_label4 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='plum1')
 		error_label4.grid(row=15, column=2, sticky=W)
 		update_label = Label(text=("Last Update: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
 		update_label.grid(row=16, column=2, sticky=W)
@@ -138,16 +138,11 @@ class BTCTicker:
 	def labels():
 		#### Global Variables ####
 		global ath
+		global athnew
 		global average_transaction_fee_usd_24hdiff
 		global average_transaction_fee_usd_24hsav
 		global interneterrormessage
-		global mlerrormessage
-		global alterrormessage
-		global bserrormessage
-		global bcerrormessage
-		global cgerrormessage
 		global blocks
-		global mempoolerrormessage
 		global hashrate24hrdiff
 		global hashrate24hrsav
 		global lnodes
@@ -341,7 +336,38 @@ class BTCTicker:
 		currency = "{:,.2f}".format(low24h)
 		low24_label.configure(text="Low 24hr: $" + str(currency), fg='white')
 		try:
-			ath_change = (float(pricebtc) - ath)/ath
+			today = datetime.datetime.now()
+			if today.strftime("%Y-%m-%d") == athdate[0:10]:
+				color = "lightgreen"
+				athfnt = ('Helvetica', 20, 'bold')
+			else:
+				color = "white"
+				athfnt = ('Helvetica', 20)
+				athtrend = ""
+			athdate_label.configure(text="ATH date: " + str(athdate[0:10]), fg=color)
+		except:
+			athdate_label.configure(text="ATH date: Date Error", fg='lightcoral')
+			athfnt = ('Helvetica', 20)
+			athtrend = ""
+		try:
+			athtrend
+		except NameError:
+			athtrend = ""
+		try:
+			athnew
+		except NameError:
+			athnew = ath
+		if pricebtc > ath and pricebtc > athnew:
+			athnew = pricebtc
+			color = 'lightgreen'
+			athfnt = ('Helvetica', 20, 'bold')
+			athtrend = u'\u25B2'
+		elif ath > athnew:
+			athnew = ath
+		currency = "{:,.2f}".format(athnew)
+		ath_label.configure(text="ATH: $" + str(currency) + " " + athtrend, font=athfnt, fg=color)
+		try:
+			ath_change = (float(pricebtc) - athnew)/athnew
 		except ZeroDivisionError:
 			try:
 				ath_change
@@ -355,24 +381,6 @@ class BTCTicker:
 			color = 'white'
 		currency = "{:,.2%}".format(ath_change)
 		athchg_label.configure(text="ATH change: " + str(currency), fg=color)
-		try:
-			today = datetime.datetime.now()
-			if today.strftime("%Y-%m-%d") == athdate[0:10]:
-				color = "lightgreen"
-				athfnt = ('Helvetica', 20, 'bold')
-			else:
-				color = "white"
-				athfnt = ('Helvetica', 20)
-			athdate_label.configure(text="ATH date: " + str(athdate[0:10]), fg=color)
-		except:
-			athdate_label.configure(text="ATH date: Date Error", fg='lightcoral')
-			athfnt = ('Helvetica', 20)
-		if pricebtc > ath:
-			ath = pricebtc
-			color = 'lightgreen'
-			athfnt = ('Helvetica', 20, 'bold')
-		currency = "{:,.2f}".format(ath)
-		ath_label.configure(text="ATH: $" + str(currency), font=athfnt, fg=color)
 		currency = "{:,.0f}".format(circulating_supply)
 		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf', fg='white')
 		fearindex_label.configure(text="Fear & Greed Index: " + str(fearindex), fg='white')
@@ -383,43 +391,42 @@ class BTCTicker:
 		lgtcap_label.configure(text=u'\u26A1' + " Network Capacity: " + str(currency) + u'\u20bf', fg='lightyellow')
 		
 		if interneterrormessage == "":
-			if bcerror == 0 and bserror == 0 and cgerror == 0 and alterror == 0 and mlerror == 0 and mempoolerror == 0:
-				error_label1.configure(text=str(""))
-				error_label2.configure(text=str(""))
-				error_label3.configure(text=str(""))
-				error_label4.configure(text=str(""))
+			error_label1.configure(text=str(""))
+			error_label2.configure(text=str(""))
+			error_label3.configure(text=str(""))
+			error_label4.configure(text=str(""))
 			if bcerror == 1 or bserror == 1 or cgerror == 1 or alterror == 1 or mlerror == 1 or mempoolerror == 1: 
-				error_label3.configure(text=str("Error Reading " + bs + mp + cg + bc + alte + ml))
+				error_label3.configure(text=str("Error Reading " + bs1 + mp1 + cg1 + bc1 + alte1 + mle1))
 			if bcerror == 2 or bserror == 2 or cgerror == 2 or alterror == 2 or mlerror == 2 or mempoolerror == 2:
-				error_label4.configure(text=str(bs + mp + cg + bc + alte + ml + "Connection Refused!"))
+				error_label4.configure(text=str(bs2 + mp2 + cg2 + bc2 + alte2 + mle2 + "Connection Refused!"))
 			if bcerror > 0:
-				dom_label.configure(fg='red')
-				avgfee_label.configure(fg='red')
-				hash_label.configure(fg='red')
-				dif_label.configure(fg='red')
+				dom_label.configure(fg='plum1')
+				avgfee_label.configure(fg='plum1')
+				hash_label.configure(fg='plum1')
+				dif_label.configure(fg='plum1')
 			if bserror > 0:
-				price_label.configure(fg='red')
-				sats_label.configure(fg='red')
-				athchg_label.configure(fg='red')
+				price_label.configure(fg='plum1')
+				sats_label.configure(fg='plum1')
+				athchg_label.configure(fg='plum1')
 			if cgerror > 0:
-				change24_label.configure(fg='red')
-				circ_label.configure(fg='red')
-				mcap_label.configure(fg='red')
-				high24_label.configure(fg='red')
-				low24_label.configure(fg='red')
-				ath_label.configure(fg='red')
-				athdate_label.configure(fg='red')
+				change24_label.configure(fg='plum1')
+				circ_label.configure(fg='plum1')
+				mcap_label.configure(fg='plum1')
+				high24_label.configure(fg='plum1')
+				low24_label.configure(fg='plum1')
+				ath_label.configure(fg='plum1')
+				athdate_label.configure(fg='plum1')
 			if alterror > 0:
-				fearindex_label.configure(fg='red')
-				fearvalue_label.configure(fg='red')
+				fearindex_label.configure(fg='plum1')
+				fearvalue_label.configure(fg='plum1')
 			if mlerror > 0:
-				lnodes_label.configure(fg='red')
-				lgtcap_label.configure(fg='red')
+				lnodes_label.configure(fg='plum1')
+				lgtcap_label.configure(fg='plum1')
 			if mempoolerror > 0:
-				block_label.configure(fg='red')
-				memp_label.configure(fg='red')
-				recfeeusd_label.configure(fg='red')
-				recfee_label.configure(fg='red')
+				block_label.configure(fg='plum1')
+				memp_label.configure(fg='plum1')
+				recfeeusd_label.configure(fg='plum1')
+				recfee_label.configure(fg='plum1')
 			error_label1.configure(text=str(""))
 			error_label2.configure(text=str(""))
 		else:
@@ -427,28 +434,28 @@ class BTCTicker:
 			error_label2.configure(text=str("Please Check Your Internet Connection"),font=('Helvetica',14, 'bold'))
 			error_label3.configure(text=str(""))
 			error_label4.configure(text=str(""))
-			price_label.configure(fg='red')
-			sats_label.configure(fg='red')
-			change24_label.configure(fg='red')
-			dom_label.configure(fg='red')
-			circ_label.configure(fg='red')
-			mcap_label.configure(fg='red')
-			block_label.configure(fg='red')
-			memp_label.configure(fg='red')
-			avgfee_label.configure(fg='red')
-			recfeeusd_label.configure(fg='red')
-			recfee_label.configure(fg='red')
-			hash_label.configure(fg='red')
-			dif_label.configure(fg='red')
-			high24_label.configure(fg='red')
-			low24_label.configure(fg='red')
-			ath_label.configure(fg='red')
-			athchg_label.configure(fg='red')
-			athdate_label.configure(fg='red')
-			fearindex_label.configure(fg='red')
-			fearvalue_label.configure(fg='red')
-			lnodes_label.configure(fg='red')
-			lgtcap_label.configure(fg='red')
+			price_label.configure(fg='plum1')
+			sats_label.configure(fg='plum1')
+			change24_label.configure(fg='plum1')
+			dom_label.configure(fg='plum1')
+			circ_label.configure(fg='plum1')
+			mcap_label.configure(fg='plum1')
+			block_label.configure(fg='plum1')
+			memp_label.configure(fg='plum1')
+			avgfee_label.configure(fg='plum1')
+			recfeeusd_label.configure(fg='plum1')
+			recfee_label.configure(fg='plum1')
+			hash_label.configure(fg='plum1')
+			dif_label.configure(fg='plum1')
+			high24_label.configure(fg='plum1')
+			low24_label.configure(fg='plum1')
+			ath_label.configure(fg='plum1')
+			athchg_label.configure(fg='plum1')
+			athdate_label.configure(fg='plum1')
+			fearindex_label.configure(fg='plum1')
+			fearvalue_label.configure(fg='plum1')
+			lnodes_label.configure(fg='plum1')
+			lgtcap_label.configure(fg='plum1')
 		
 		now = datetime.datetime.now()
 		duration = now - then
@@ -497,7 +504,7 @@ def mempoolspace():
 	
 	global blocks
 	global oldblock
-	global mp
+	global mp1, mp2
 	global mempool
 	global mempoolerror
 	global highfee
@@ -564,7 +571,6 @@ def mempoolspace():
 				oldblock = newBlock
 		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
 		mempoolerror = 0
-		mp = ""
 	except:
 		try:
 			urltest = requests.get('https://mempool.space/')
@@ -575,14 +581,20 @@ def mempoolspace():
 		except:
 			mempoolerror = 2
 			print("Mempool Connection Refused ")
-	if mempoolerror > 0:
-		mp = "Mempool "
-		
+	if mempoolerror == 1:
+		mp1 = "Mempool "
+		mp2 = ""
+	elif mempoolerror == 2:
+		mp1 = ""
+		mp2 = "Mempool "
+	else:
+		mp1 = ""
+		mp2 = ""
 def ml1():
 	
 	global LNDCap
 	global lnodes
-	global ml
+	global mle1, mle2
 	global mlerror
 	
 	try:
@@ -604,7 +616,6 @@ def ml1():
 		lnodes = float(loads(ml1_api_request)['numberofnodes'])
 		print("Lightning Stats Updated ") # + str(time.time() - mltime))
 		mlerror = 0
-		ml = ""
 	except:
 		try:
 			urltest = requests.get(ml1_url)
@@ -615,12 +626,18 @@ def ml1():
 		except:
 			mlerror = 2 
 			print("1ML Connection Refused ")
-	if mlerror > 0:
-		ml = "1ML "
-
+	if mlerror == 1:
+		mle1 = "1ML "
+		mle2 = ""
+	elif mlerror == 2:
+		mle1 = ""
+		mle2 = "1ML "
+	else:
+		mle1 = ""
+		mle2 = ""
 def alt():
 	
-	global alte
+	global alte1, alte2
 	global alterror
 	global fearindex
 	global fearindexvalue
@@ -643,7 +660,6 @@ def alt():
 		fearindex = str(loads(alt_api_request)['data'][0]['value_classification'])
 		fearindexvalue = str(loads(alt_api_request)['data'][0]['value'])
 		print("Updated Fear Index ") # + str(time.time() - alttime))
-		alte = ""
 		alterror = 0
 	except:
 		try:
@@ -655,12 +671,18 @@ def alt():
 		except:
 			alterror = 2
 			print("Alt Connection Refused ")
-	if alterror > 0:
-		alte = "Alternative "
-
+	if alterror == 1:
+		alte1 = "Alternative "
+		alte2 = ""
+	elif alterror == 2:
+		alte1 = ""
+		alte2 = "Alternative "
+	else:
+		alte1 = ""
+		alte2 = ""
 def bitstamp():
 	
-	global bs
+	global bs1, bs2
 	global bserror
 	global prevpricebtc
 	global pricebtc
@@ -684,12 +706,10 @@ def bitstamp():
 		pricebtc = float(loads(bitstamp_api_request)['last'])
 		try:
 			satsusd = 1 / pricebtc * 100000000
-			bs = ""
 			bserror = 0
 		except ZeroDivisionError:
 			print("Zero Division Error Calculating Sats per Dollar")
-			bserrormessage = "Bitstamp Price Error "
-			bs = 1
+			bserror = 1
 		print(pricebtc)
 		#print(str(time.time() - bittime))
 
@@ -703,12 +723,19 @@ def bitstamp():
 		except:
 			bserror = 2
 			print("Bitstamp Connection Refused ")
-	if bserror > 0:
-		bs = "Bitstamp "
+	if bserror == 1:
+		bs1 = "Bitstamp "
+		bs2 = ""
+	elif bserror == 2:
+		bs1 = ""
+		bs2 = "Bitstamp "
+	else:
+		bs1 = ""
+		bs2 = ""
 def blockchair():
 	
 	global average_transaction_fee_usd_24h
-	global bc
+	global bc1, bc2
 	global bcerror
 	global hashrate24hr
 	global market_dominance_percentage
@@ -754,7 +781,6 @@ def blockchair():
 		try:
 			next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
 			bcerror = 0
-			bc =""
 		except ZeroDivisionError:
 			print("Zero Division Error While Calculating Next Difficulty Estimate")
 			bcerror = 1
@@ -770,15 +796,22 @@ def blockchair():
 		except:
 			bcerror = 2
 			print("Blockchair Connection Refused ")
-	if bcerror > 0:
-		bc = "Blockchair "
+	if bcerror == 1:
+		bc1 = "Blockchair "
+		bc2 = ""
+	elif bcerror == 2:
+		bc1 = ""
+		bc2 = "Blockchair "
+	else:
+		bc1 = ""
+		bc2 = ""
 
 def coingecko():
 
 	global ath
 	global athdate
 	global circulating_supply
-	global cg
+	global cg1, cg2
 	global cgerror
 	global high24h
 	global low24h
@@ -837,7 +870,6 @@ def coingecko():
 		circulating_supply = float(loads(coingecko_api_request)['market_data']['circulating_supply'])
 		pricebtc24hrchange = pricebtc24hrchange / 100
 		print("Updated CoinGecko Stats ") # + str(time.time() - cointime))
-		cg = ""
 		cgerror = 0
 
 	except:
@@ -850,8 +882,15 @@ def coingecko():
 		except:
 			cgerror = 2
 			print("CoinGecko Connection Refused ")
-	if cgerror > 0:
-		cg = "CoinGecko"
+	if cgerror == 1:
+		cg1 = "CoinGecko "
+		cg2 = ""
+	elif cgerror == 2:
+		cg1 = ""
+		cg2 = "CoinGecko "
+	else:
+		cg1 = ""
+		cg2 = ""
 
 def internet_on(host="8.8.8.8", port=53, timeout=3):
 	global interneterrormessage
@@ -873,7 +912,7 @@ def internet_on(host="8.8.8.8", port=53, timeout=3):
 		return False
 
 exec(open(r"variables").read())
-mlerrormessage = alterrormessage = bserrormessage = bcerrormessage = cgerrormessage = interneterrormessage = ""
+interneterrormessage = ""
 ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = mempoolstart = time.time()
 LNDBTC = 0
 hashrate24hrsav = 0
@@ -888,7 +927,7 @@ then = datetime.datetime.now()
 root = Tk()
 splash = Toplevel()
 splash_width = 512
-splash_height = 300
+splash_height = 325
 splash.configure(bg='black')
 splash.overrideredirect(True)
 splash_img = ImageTk.PhotoImage(Image.open("SplashScreen.jpg"))
@@ -899,9 +938,11 @@ height_value=root.winfo_screenheight()
 splash_x = int((width_value / 2) - (splash_width / 2))
 splash_y = int((height_value / 2) - (splash_height / 2))
 splash.geometry(f'{splash_width}x{splash_height}+{splash_x}+{splash_y}')
-splash.update()
 print("Screen Width: " + str(width_value))
 print("Screen Height: " + str(height_value))
+splash_label2 = Label(splash, text="Detected screen dimensions: " + str(width_value) + " x " + str(height_value),anchor=NW, justify=LEFT,font=('Times',12), bg='black', fg = 'white')
+splash_label2.grid(row=2, column=0)
+splash.update()
 root.geometry("%dx%d+0+0" % (width_value, height_value))
 root.configure(bg='black', cursor= 'crosshair')
 root.attributes('-fullscreen', True)
