@@ -11,7 +11,7 @@ The dashboard indicators include:<br>
 <li> ATH Price turns green and bold if new ATH was reached in the same day. Green ATH date on same day. ATH Change turns green within 5% of ATH and red when 50% and below 
 <li>Block Height turns green when a new block is added and it remains green for 2 minutes thereafter.
 
-<img src="https://cypherhive.com/wp-content/uploads/2021/03/BTC-Dashboard2-scaled.jpg" border="1"><br>
+<img src="https://cypherhive.com/wp-content/uploads/2021/01/BTC-Dashboard8ATHBHgreen.jpg" border="1"><br>
 
 ## Minimum Hardware Requirements
 <li>A Raspberry Pi 0w, 1, 2, 3, 4+ (tested on 0w and 4) or you can also run on a computer with Python installed
@@ -57,8 +57,8 @@ python3 BTCDashboard.py
 To stop the program, click on the Bitcoin logo.
 
 ## Errors
-Error messages will appear in red below Lightning Capacity and above Last update time. <br>
-The associated indicators will still show the previous values but turn red letting you know that those indicators have been potentially affected by the error and may not be up to date. <br>
+Error messages will appear in purple below Lightning Capacity and above Last update time. <br>
+The associated indicators will still show the previous values but turn purple letting you know that those indicators have been potentially affected by the error and may not be up to date. <br>
 The associated indicators will turn back to normal colors when the error clears and connection to the associated data source is restored. <br>
 The program will keep running and attempt to reestablish connection at least once every 5 minutes depending on the free API limits.
 
