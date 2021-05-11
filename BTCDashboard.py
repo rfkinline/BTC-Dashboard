@@ -337,7 +337,7 @@ class BTCTicker:
 		low24_label.configure(text="Low 24hr: $" + str(currency), fg='white')
 		try:
 			today = datetime.datetime.now()
-			if today.strftime("%Y-%m-%d") == athdate[0:10]:
+			if today.strftime("%Y-%m-%d") <= athdate[0:10]:
 				color = "lightgreen"
 				athfnt = ('Helvetica', 20, 'bold')
 			else:
