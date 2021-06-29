@@ -43,7 +43,7 @@ Now you will have BTC-Dashboard directory under /home/pi/
 ## Start BTC Dashboard
 Open BTC-Dashboard folder and [copy](https://projects.raspberrypi.org/en/projects/rpi-gui-copying-files) btclauncher.sh to your desktop. (optional) <br>
 Double click or open btclauncher.sh and if prompted select "Execute" to run the program. <br>
-Select "Execute in Terminal" to run the program and have a terminal screen running in the background which shows you what the program is doing behind the scenes and is great for debugging if there are any errors. To see the terminal while the program is running use CTL + ESC.
+Select "Execute in Terminal" to run the program and have a terminal screen running in the background which shows you what the program is doing behind the scenes and is great for debugging if there are any errors. To see the terminal while the program is running use ALT + TAB or ALT + ESC
 <br>Enjoy the Dashboard!
 
 ## Why run btclauncher.sh and not just BTCDashboard.py?
