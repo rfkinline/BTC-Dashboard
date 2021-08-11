@@ -272,7 +272,7 @@ class BTCTicker:
 				color = "white"
 		currency = "{:,.0f}".format(hashrate24hr)
 		hash_label.configure(text=("Hashrate 24hr: " + str(currency) + " EH/s"), fg=color)
-		currency = "{:,.02%}".format(next_difficulty_estimate)
+		currency = "{:,.02%}".format(diffadj/100)
 		try:
 			date_time_obj = datetime.datetime.strptime(str(next_retarget_time_estimate), '%Y-%m-%d %H:%M:%S')
 			textadj = str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
@@ -283,7 +283,7 @@ class BTCTicker:
 				color = "lightcoral"
 		elif mempooldiff < dispmempooldiff * -1:
 				color = "lightgreen"
-		else:
+		else: 
 				color = "white"
 		currency = "{:,.0f}".format(mempool)
 		memp_label.configure(text=("Mempool: " + str(currency) + " transactions"), fg=color)
@@ -510,6 +510,7 @@ def mempoolspace():
 	global highfee
 	global mediumfee
 	global lowfee
+	global diffadj
 	global timestamp
 	global lasthash
 	
@@ -529,6 +530,10 @@ def mempoolspace():
 		lowfee
 	except NameError:
 		lowfee = 0
+	try:
+		diffadj
+	except NameError:
+		diffadj = 0
 	try:
 		newBlock
 	except NameError:
@@ -556,6 +561,10 @@ def mempoolspace():
 		highfee = float(loads(fees_api_request)['fastestFee'])
 		mediumfee = float(loads(fees_api_request)['halfHourFee'])
 		lowfee = float(loads(fees_api_request)['hourFee'])
+		difadj_url = 'https://mempool.space/api/v1/difficulty-adjustment'
+		difadj_api_request = urlopen(difadj_url).read()
+		diffadj = float(loads(difadj_api_request)['difficultyChange'])
+
 		if newBlock > oldblock:
 			blocks = newBlock
 			timestamp = 1
@@ -739,7 +748,6 @@ def blockchair():
 	global bcerror
 	global hashrate24hr
 	global market_dominance_percentage
-	global next_difficulty_estimate
 	global next_retarget_time_estimate
 	
 	#blocktime = time.time()
@@ -756,10 +764,6 @@ def blockchair():
 	except NameError:	
 		market_dominance_percentage = 0
 	try:
-		next_difficulty_estimate
-	except NameError:	
-		next_difficulty_estimate = 0
-	try:
 		next_retarget_time_estimate
 	except NameError:
 		next_retarget_time_estimate = 0
@@ -773,19 +777,11 @@ def blockchair():
 		average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
 		hashrate24hr = float(loads(blockchair_api_request)['data']['hashrate_24h'])
 		next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
-		next_difficulty_estimate = float(loads(blockchair_api_request)['data']['next_difficulty_estimate'])
-		difficulty = float(loads(blockchair_api_request)['data']['difficulty'])
 
 		market_dominance_percentage = market_dominance_percentage / 100
 		hashrate24hr = hashrate24hr / 1000000000000000000  # in EH/s
-		try:
-			next_difficulty_estimate = 1 - difficulty / next_difficulty_estimate
-			bcerror = 0
-		except ZeroDivisionError:
-			print("Zero Division Error While Calculating Next Difficulty Estimate")
-			bcerror = 1
 		print("Updated Blockchair Stats ") # + str(time.time() - blocktime))
-
+		bcerror = 0
 	except:
 		try:
 			urltest = requests.get(blockchair_url)
