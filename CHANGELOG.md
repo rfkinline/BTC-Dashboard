@@ -3,7 +3,8 @@
 ## Version 2.0.1
 
 ### Bug Fix
-- Settings menu icon bug fix
+- Settings menu icon
+- Settings menu GUI tweaks
 
 ## Version 2.0.0
 
