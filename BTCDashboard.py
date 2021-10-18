@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 from tkinter import *
+from tkinter import messagebox
 import requests
-import socket
 import sys
 import time
+import threading
 from time import strftime
 from time import gmtime
 import datetime
 from PIL import ImageTk,Image
 from urllib.request import urlopen
 from json import loads
-# This is where you set the refresh time in miliseconds. 1000 = 1 second. Do not go less than 100
-refreshtime = 1500
+
+version = "v2.0.0"
+refreshtime = 5000
 
 class BTCTicker:
 	def __init__(self, master):
@@ -21,6 +23,7 @@ class BTCTicker:
 		global dom_label
 		global sats_label
 		global mcap_label
+		global blockchain_label
 		global hash_label
 		global dif_label
 		global memp_label
@@ -114,8 +117,10 @@ class BTCTicker:
 		error_label4.grid(row=15, column=2, sticky=W)
 		update_label = Label(text=("Last Update: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',12), bg='black', fg='white')
 		update_label.grid(row=16, column=2, sticky=W)
+		self.settings_button = Button(image=settingsicon, borderwidth=0, highlightthickness = 0, command=lambda: threading.Thread(target=settingsMenu).start())
+		self.settings_button.grid(row=0, column=3)
+	
 	#Scale the output to the screen size
-		#Grid.columnconfigure(root,1,weight=1)
 		Grid.columnconfigure(root,2,weight=1)
 		Grid.rowconfigure(root,1,weight=1)
 		Grid.rowconfigure(root,2,weight=1)
@@ -141,7 +146,6 @@ class BTCTicker:
 		global athnew
 		global average_transaction_fee_usd_24hdiff
 		global average_transaction_fee_usd_24hsav
-		global interneterrormessage
 		global blocks
 		global hashrate24hrdiff
 		global hashrate24hrsav
@@ -151,10 +155,12 @@ class BTCTicker:
 		global mempoolsav
 		global oldblock
 		global onlyonce
+		global prevpricebtc
 		global pricebtc
 		global then
 		global timestamp
 		global refreshtime
+		global new_refreshtime
 		#### API Timers ####
 		global altstart
 		global bitstampstart
@@ -195,45 +201,88 @@ class BTCTicker:
 		global error_label4
 		global update_label	
 
-# Test Internet Connection
-		internet_on()
+		try:
+			new_refreshtime
+		except NameError:
+			new_refreshtime = refreshtime
+		refreshtime = new_refreshtime
 
-#Free API Request Limits Enforcement
-
+#Free API Requests Limit Enforcement
 	# Bitstamp allows 800 calls per minute	
 		if time.time() - bitstampstart > 0.1:
-			bitstamp()
+			bitstamp_thread = threading.Thread(target=bitstamp, name="Bitstamp")
+			bitstamp_thread.start()
 			#print(time.time() - bitstampstart)
 			bitstampstart = time.time()
 	# Coingecko allows 100 calls per minute
 		if time.time() - coingeckostart > 1:
-			coingecko()
+			coingecko_thread = threading.Thread(target=coingecko, name="CoinGecko")
+			coingecko_thread.start()
 			#print(time.time() - coingeckostart)
 			coingeckostart = time.time()
 	#Mempool allows 200 calls per minute
-		if time.time() - mempoolstart > 1:
-			mempoolspace()
+		if time.time() - mempoolstart > 2:
+			mempool_thread = threading.Thread(target=mempoolspace, name="Mempool")
+			mempool_thread.start()
 			#print(time.time() - mempoolstart)
 			mempoolstart = time.time()		
 	#Blockchair allows 1 call per minute
 		if time.time() - blockchairstart > 60:
-			blockchair()
+			blockchair_thread = threading.Thread(target=blockchair, name="BlockChair")
+			blockchair_thread.start()
+			#blockchair()
 			#print(time.time() - blockchairstart)
 			blockchairstart = time.time()
 			
 	# Alternative updates their data every 5 minutes
 	# However Alternative allows 60 calls per minute
 		if time.time() - altstart > 150:
-			alt()
+			alt_thread = threading.Thread(target=alt, name="Alternative")
+			alt_thread.start()
+			#alt()
 			#print(time.time() - altstart)
 			altstart = time.time()
 			
 	# 1ML unknown API Limit, set to 5 minutes to be safe
 		if time.time() - ml1start > 300:
-			ml1()
+			ml1_thread = threading.Thread(target=ml1, name="ML1")
+			ml1_thread.start()
+			#ml1()
 			ml1start = time.time()
 		
-		#print("Refreshing data on screen")
+	# Join threads so that all data is fetched before refreshing the screen
+		try:
+			if bitstamp_thread.is_alive() == True:
+				bitstamp_thread.join()
+		except NameError:
+			pass
+		try:
+			if coingecko_thread.is_alive() == True:
+				coingecko_thread.join()
+		except NameError:
+			pass
+		try:
+			if mempool_thread.is_alive() == True:	
+				mempool_thread.join()
+		except NameError:
+			pass
+		try:
+			if blockchair_thread.is_alive() == True:
+				blockchair_thread.join()
+		except NameError:
+			pass
+		try:
+			if alt_thread.is_alive() == True:
+				alt_thread.join()
+		except NameError:
+			pass
+		try:
+			if ml1_thread.is_alive() == True:
+				ml1_thread.join()
+		except NameError:
+			pass
+
+		print("Refreshing data on screen")
 		refreshtimer = time.time()
 		if pricebtc1hrchange >= disppricebtc1hrchangediff:
 				trend1hr = u'\u25B2'
@@ -241,6 +290,10 @@ class BTCTicker:
 				trend1hr = u'\u25BC'
 		else:
 				trend1hr = ""
+		try:
+			prevpricebtc
+		except NameError:
+			prevpricebtc = pricebtc			
 		if pricebtc > prevpricebtc:
 			color = 'lightgreen'
 		elif pricebtc < prevpricebtc:
@@ -249,6 +302,7 @@ class BTCTicker:
 			color = 'white'
 		currency = "{:,.2f}".format(pricebtc)
 		price_label.configure(text="Price: $" + str(currency) + " " + trend1hr, fg = color)
+		prevpricebtc = pricebtc
 		currency = "{:,.2%}".format(pricebtc24hrchange)
 		change24_label.configure(text="24hr change: " + str(currency), fg='white')
 		currency = "{:,.2%}".format(market_dominance_percentage)
@@ -390,47 +444,47 @@ class BTCTicker:
 		currency = "{:,.2f}".format(LNDCap)
 		lgtcap_label.configure(text=u'\u26A1' + " Network Capacity: " + str(currency) + u'\u20bf', fg='lightyellow')
 		
-		if interneterrormessage == "":
-			error_label1.configure(text=str(""))
-			error_label2.configure(text=str(""))
-			error_label3.configure(text=str(""))
-			error_label4.configure(text=str(""))
-			if bcerror == 1 or bserror == 1 or cgerror == 1 or alterror == 1 or mlerror == 1 or mempoolerror == 1: 
-				error_label3.configure(text=str("Error Reading " + bs1 + mp1 + cg1 + bc1 + alte1 + mle1))
-			if bcerror == 2 or bserror == 2 or cgerror == 2 or alterror == 2 or mlerror == 2 or mempoolerror == 2:
-				error_label4.configure(text=str(bs2 + mp2 + cg2 + bc2 + alte2 + mle2 + "Connection Refused!"))
-			if bcerror > 0:
-				dom_label.configure(fg='plum1')
-				avgfee_label.configure(fg='plum1')
-				hash_label.configure(fg='plum1')
-				dif_label.configure(fg='plum1')
-			if bserror > 0:
-				price_label.configure(fg='plum1')
-				sats_label.configure(fg='plum1')
-				athchg_label.configure(fg='plum1')
-			if cgerror > 0:
-				change24_label.configure(fg='plum1')
-				circ_label.configure(fg='plum1')
-				mcap_label.configure(fg='plum1')
-				high24_label.configure(fg='plum1')
-				low24_label.configure(fg='plum1')
-				ath_label.configure(fg='plum1')
-				athdate_label.configure(fg='plum1')
-			if alterror > 0:
-				fearindex_label.configure(fg='plum1')
-				fearvalue_label.configure(fg='plum1')
-			if mlerror > 0:
-				lnodes_label.configure(fg='plum1')
-				lgtcap_label.configure(fg='plum1')
-			if mempoolerror > 0:
-				block_label.configure(fg='plum1')
-				memp_label.configure(fg='plum1')
-				recfeeusd_label.configure(fg='plum1')
-				recfee_label.configure(fg='plum1')
-			error_label1.configure(text=str(""))
-			error_label2.configure(text=str(""))
-		else:
-			error_label1.configure(text=str(interneterrormessage), font=('Helvetica',16, 'bold'))
+		### Error Handling ###
+		error_label1.configure(text=str(""))
+		error_label2.configure(text=str(""))
+		error_label3.configure(text=str(""))
+		error_label4.configure(text=str(""))
+		if bcerror == 1 or bserror == 1 or cgerror == 1 or alterror == 1 or mlerror == 1 or mempoolerror == 1: 
+			error_label3.configure(text=str("Error Reading " + bs1 + mp1 + cg1 + bc1 + alte1 + mle1))
+		if bcerror == 2 or bserror == 2 or cgerror == 2 or alterror == 2 or mlerror == 2 or mempoolerror == 2:
+			error_label4.configure(text=str(bs2 + mp2 + cg2 + bc2 + alte2 + mle2 + "Connection Refused!"))
+		if bcerror > 0:
+			dom_label.configure(fg='plum1')
+			avgfee_label.configure(fg='plum1')
+			hash_label.configure(fg='plum1')
+			dif_label.configure(fg='plum1')
+		if bserror > 0:
+			price_label.configure(fg='plum1')
+			sats_label.configure(fg='plum1')
+			athchg_label.configure(fg='plum1')
+		if cgerror > 0:
+			change24_label.configure(fg='plum1')
+			circ_label.configure(fg='plum1')
+			mcap_label.configure(fg='plum1')
+			high24_label.configure(fg='plum1')
+			low24_label.configure(fg='plum1')
+			ath_label.configure(fg='plum1')
+			athdate_label.configure(fg='plum1')
+		if alterror > 0:
+			fearindex_label.configure(fg='plum1')
+			fearvalue_label.configure(fg='plum1')
+		if mlerror > 0:
+			lnodes_label.configure(fg='plum1')
+			lgtcap_label.configure(fg='plum1')
+		if mempoolerror > 0:
+			block_label.configure(fg='plum1')
+			memp_label.configure(fg='plum1')
+			recfeeusd_label.configure(fg='plum1')
+			recfee_label.configure(fg='plum1')
+		error_label1.configure(text=str(""))
+		error_label2.configure(text=str(""))
+		if bserror > 1 and cgerror > 1 and mempoolerror > 1:
+			error_label1.configure(text=str("No Internet Connection Available!"), font=('Helvetica',16, 'bold'))
 			error_label2.configure(text=str("Please Check Your Internet Connection"),font=('Helvetica',14, 'bold'))
 			error_label3.configure(text=str(""))
 			error_label4.configure(text=str(""))
@@ -464,6 +518,7 @@ class BTCTicker:
 		#print("Refresh time in seconds: " + str(time.time() - refreshtimer))
 
 #first time
+		#print("First Time Check")
 		if onlyonce == 0:
 			hashrate24hrsav = hashrate24hr
 			mempoolsav = mempool
@@ -472,6 +527,7 @@ class BTCTicker:
 			onlyonce = 1
 
 # to calculate the hourly differences
+		#print("Hourly Differences Check")
 		if duration_in_s > 300:
 			print("Calculating duration_in_s > 300")
 			hashrate24hrdiff =  hashrate24hr - hashrate24hrsav
@@ -495,12 +551,167 @@ class BTCTicker:
 				print("Zero Division Error Calculating Average Transaction Fee 24H diff")
 			average_transaction_fee_usd_24hsav = average_transaction_fee_usd_24h
 			then = datetime.datetime.now()
-			
 		update_label.after(refreshtime,BTCTicker.labels) 
+
 	def close(self):
 		root.destroy()
+	
+def settingsMenu():
+	# min 1 second, max 24 hours
+	minval = 1
+	maxval = 86400
+	# Validate Refresh Time Spin Box to ensure its numeric and within min/max value
+	def validate(user_input):
+		if user_input.isdigit():
+			if int(user_input) >= minval and int(user_input) <= maxval:
+				m, s = divmod(int(user_input), 60)
+				h, m = divmod(m, 60)
+				refresh_conv.configure(text=f'{h:d} hr {m:02d} min {s:02d} sec')
+				return user_input.isdigit()
+			else:
+				print("Out of Range")
+				return False
+		elif user_input == "":
+			return True
+		else:
+			print("Not a digit")
+			return False
+	def testConnection():
+		try:
+			e_url = ip_entry.get()
+			urltest = requests.get(e_url)
+			status = urltest.status_code
+			urltest.close()
+			print("Tried connecting to: " + e_url + " Status code: " + str(status))
+			#settings_label.configure(text="Tried connecting to: " + e_url + " Status code: " + str(status))
+			b_url = e_url + "api/blocks/tip/height"
+			urltest = requests.get(b_url)
+			status = urltest.status_code
+			urltest.close()
+			print("Tried connecting to: " + b_url + " Status code: " + str(status))
+			d_url = e_url + 'api/v1/difficulty-adjustment'
+			urltest = requests.get(b_url)
+			status = urltest.status_code
+			urltest.close()
+			print("Tried connecting to: " + d_url + " Status code: " + str(status))
+			f_url = e_url + 'api/v1/fees/recommended'
+			urltest = requests.get(f_url)
+			status = urltest.status_code
+			urltest.close()
+			print("Tried connecting to: " + f_url + " Status code: " + str(status))
+			print("Success on all node tests!")
+			messagebox.showinfo("Success!", "Success on all node tests!", parent=settings)
+		except:
+			print("Tried connecting to: " + e_url)
+			print("Error Connecting to Node!")
+			messagebox.showerror("Error!", "Error Connecting to Node!\nCheck your URL and try again.", parent=settings)
+
+	def nodeEnable():
+		choice = src.get()
+		if choice == 0:
+			ip_entry.configure(state=DISABLED)
+			test_button.configure(state=DISABLED)
+		else:
+			ip_entry.configure(state=NORMAL)
+			test_button.configure(state=NORMAL)
+
+	def connectToNode():
+		global node_connected
+		global ip_url
+		global new_refreshtime
+		rspin = refresh_spin.get()
+		print("RSPIN = " + rspin)
+		if rspin == "":
+			rspin = refreshtime / 1000
+			print("Reset refresh time to " + str(rspin))
+		new_refreshtime = int(rspin) * 1000
+		if int(rspin) == int(refreshtime / 1000):
+			refresh_msg = ""
+		else:
+			refresh_msg = "\nRefresh time set to " + str(rspin) + "\nNew refresh time will apply after next refresh"
+		if src.get() == 0:
+			try:
+				urltest = requests.get('https://mempool.space/')
+				status = urltest.status_code
+				urltest.close()
+				node_connected = 0
+				blockchain_label.configure(text="Mempool Data")
+				messagebox.showinfo("Success!", "Successfully connected to Mempool.Space!" + refresh_msg, parent=settings)
+				settings.destroy()
+			except:
+				messagebox.showerror("Error!", "Error Connecting to Mempool.Space!\nTry again later." + refresh_msg, parent=settings)
+		else:
+			try:
+				node_url = ip_entry.get()
+				urltest = requests.get(node_url)
+				status = urltest.status_code
+				urltest.close()
+				print("Tried connecting to: " + node_url + " Status code: " + str(status))
+				print("Successfully connected to custom node!")
+				node_connected = 1
+				ip_url = node_url
+				blockchain_label.configure(text=u'\u26A1' + " Mempool Data")
+				messagebox.showinfo("Success!", "Successfully connected to custom node!" + refresh_msg, parent=settings)
+				settings.destroy()
+			except:
+				print("Tried connecting to: " + node_url)
+				print("Error Connecting to Node!")
+				messagebox.showerror("Error!", "Error Connecting to Node!\nCheck your URL and try again." + refresh_msg, parent=settings)
+
+	global ip_entry
+	global ip_url
+	global src
+	spin_var = IntVar()
+	spin_var.set(new_refreshtime / 1000)
+	m, s = divmod(spin_var.get(), 60)
+	h, m = divmod(m, 60)
+	src = IntVar()
+	src.set(node_connected)
+	settings = Toplevel()
+	settings_width = 512
+	settings_height = 300
+	width_value=root.winfo_screenwidth()
+	height_value=root.winfo_screenheight()
+	settings_x = int((width_value / 2) - (settings_width / 2))
+	settings_y = int((height_value / 2) - (settings_height / 2))
+	settings.geometry(f'{settings_width}x{settings_height}+{settings_x}+{settings_y}')
+	settings.title('Settings')
+	settings.iconbitmap('btcicon.ico')
+	anchor_label = Label(settings, text="    ", font=('Helvetica',12))
+	anchor_label.grid(row=0, column=0)
+	range_validation = settings.register(validate)
+	refresh_label = Label(settings, text="Refresh Interval:", font=('Helvetica',12))
+	refresh_label.grid(row=0, column=1, sticky=E, ipady=20)
+	refresh_spin = Spinbox(settings, from_=minval, to=maxval, font=('Helvetica',12), width=5, textvariable=spin_var)
+	refresh_spin.grid(row=0, column=2, sticky=W)
+	refresh_spin.config(validate ="key", validatecommand =(range_validation, '%P'))
+	refresh_conv = Label(settings, text=f'{h:d} hr {m:02d} min {s:02d} sec', font=('Helvetica', 12))
+	refresh_conv.grid(row=0, column=2, columnspan=2)
+	top_label = Label(settings, text="Mempool Source", font=('Helvetica',16))
+	top_label.grid(row=1, column=1, columnspan=3)
+	r_memp = Radiobutton(settings, text="Default", variable=src, value=0, command=nodeEnable, font=('Helvetica',12))
+	r_memp.grid(row=2, column=1, columnspan=2, ipady=10)
+	r_custom = Radiobutton(settings, text="Custom Node", variable=src, value=1, command=nodeEnable, font=('Helvetica',12))
+	r_custom.grid(row=2, column=2, columnspan=2)
+	url_label = Label(settings, text="Custom Node URL", font=('Helvetica',12))
+	url_label.grid(row=3, column=1)
+	ip_entry = Entry(settings, font=('Helvetica',12), width=25)
+	ip_entry.grid(row=3, column=2)
+	test_button = Button(settings, text="Test Connection", command=testConnection)
+	test_button.grid(row=3, column=3)
+	connect_button = Button(settings, text="Apply", font=('Helvetica',12, 'bold'), bg='#f2a900', width=30, command=connectToNode)
+	connect_button.grid(row=5, column=0, columnspan=4, pady=30)
+	try:
+		ip_url
+	except NameError:
+		ip_url = "http://192.168.1.2:3006/"
+	ip_entry.insert(0, ip_url)
+	nodeEnable()
+	settings.update()
+	root.wait_window(settings)
 
 def mempoolspace():
+	#print("Fethcing from Mempool.space")
 	
 	global blocks
 	global oldblock
@@ -513,6 +724,7 @@ def mempoolspace():
 	global diffadj
 	global timestamp
 	global lasthash
+	global node_connected
 	
 	try:
 		mempool
@@ -545,23 +757,31 @@ def mempoolspace():
 	try:
 		lasthash
 	except NameError:
-		lasthash = "0"
+		lasthash = 0
+	try:
+		node_connected
+	except NameError:
+		node_connected = 0
 	status = 0
-	
 	try:
 		#mempooltime = time.time()
+		if node_connected != 1:
+			block_url = 'https://mempool.space/api/blocks/tip/height'
+			difadj_url = 'https://mempool.space/api/v1/difficulty-adjustment'
+			fees_url = 'https://mempool.space/api/v1/fees/recommended'
+		else:
+			block_url = ip_url + 'api/blocks/tip/height'
+			difadj_url = ip_url + 'api/v1/difficulty-adjustment'
+			fees_url = ip_url + 'api/v1/fees/recommended'
 		transaction_url = 'https://mempool.space/api/mempool'
 		transaction_api_request = urlopen(transaction_url).read()
 		mempool = float(loads(transaction_api_request)['count'])
-		block_url = 'https://mempool.space/api/blocks/tip/height'
 		block_api_request = urlopen(block_url).read()
 		newBlock = float(loads(block_api_request))
-		fees_url = 'https://mempool.space/api/v1/fees/recommended'
 		fees_api_request = urlopen(fees_url).read()
 		highfee = float(loads(fees_api_request)['fastestFee'])
 		mediumfee = float(loads(fees_api_request)['halfHourFee'])
 		lowfee = float(loads(fees_api_request)['hourFee'])
-		difadj_url = 'https://mempool.space/api/v1/difficulty-adjustment'
 		difadj_api_request = urlopen(difadj_url).read()
 		diffadj = float(loads(difadj_api_request)['difficultyChange'])
 
@@ -573,12 +793,18 @@ def mempoolspace():
 			blockh = (str(blockh)[1:100])
 			blockh = blockh.replace("'", "")
 			if blockh != lasthash:
-				blockh_url = "https://mempool.space/api/block/" + blockh
+				if node_connected != 1:
+					blockh_url = "https://mempool.space/api/block/" + blockh
+				else:
+					blockh_url = ip_url + "api/block/" + blockh
 				hash_api_request = urlopen(blockh_url).read()
 				timestamp = int(loads(hash_api_request)['timestamp'])
 				lasthash = blockh
 				oldblock = newBlock
-		print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
+		if node_connected != 1:
+			print("Mempool Stats Updated ") #+ str(time.time() - mempooltime))
+		else:
+			print("Node Mempool Stats Updated ")
 		mempoolerror = 0
 	except:
 		try:
@@ -599,8 +825,8 @@ def mempoolspace():
 	else:
 		mp1 = ""
 		mp2 = ""
+
 def ml1():
-	
 	global LNDCap
 	global lnodes
 	global mle1, mle2
@@ -644,8 +870,8 @@ def ml1():
 	else:
 		mle1 = ""
 		mle2 = ""
+
 def alt():
-	
 	global alte1, alte2
 	global alterror
 	global fearindex
@@ -689,11 +915,10 @@ def alt():
 	else:
 		alte1 = ""
 		alte2 = ""
+
 def bitstamp():
-	
 	global bs1, bs2
 	global bserror
-	global prevpricebtc
 	global pricebtc
 	global satsusd
 	
@@ -703,7 +928,6 @@ def bitstamp():
 		pricebtc
 	except NameError:
 		pricebtc = 0
-	prevpricebtc = pricebtc
 	try:
 		satsusd
 	except NameError:
@@ -741,8 +965,8 @@ def bitstamp():
 	else:
 		bs1 = ""
 		bs2 = ""
+
 def blockchair():
-	
 	global average_transaction_fee_usd_24h
 	global bc1, bc2
 	global bcerror
@@ -803,7 +1027,6 @@ def blockchair():
 		bc2 = ""
 
 def coingecko():
-
 	global ath
 	global athdate
 	global circulating_supply
@@ -888,27 +1111,7 @@ def coingecko():
 		cg1 = ""
 		cg2 = ""
 
-def internet_on(host="8.8.8.8", port=53, timeout=3):
-	global interneterrormessage
-	"""
-	Host: 8.8.8.8 (google-public-dns-a.google.com)
-	OpenPort: 53/tcp
-	Service: domain (DNS/TCP)
-	"""
-	try:
-		#print("Testing Internet Connection")
-		socket.setdefaulttimeout(timeout)
-		socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
-		interneterrormessage = ""
-		return True
-	except socket.error as ex:
-		interneterrormessage = "No Internet Connection Available!"
-		print(interneterrormessage)
-		print(ex)
-		return False
-
 exec(open(r"variables").read())
-interneterrormessage = ""
 ml1start = altstart = bitstampstart = blockchairstart = coingeckostart = mempoolstart = time.time()
 LNDBTC = 0
 hashrate24hrsav = 0
@@ -938,6 +1141,8 @@ print("Screen Width: " + str(width_value))
 print("Screen Height: " + str(height_value))
 splash_label2 = Label(splash, text="Detected screen dimensions: " + str(width_value) + " x " + str(height_value),anchor=NW, justify=LEFT,font=('Times',12), bg='black', fg = 'white')
 splash_label2.grid(row=2, column=0)
+splash_label3 = Label(splash, text= version,anchor=E, font=('Times',12, 'bold'), bg='black', fg = '#2B9B1B')
+splash_label3.grid(row=2, column=0, padx=(450,0))
 splash.update()
 root.geometry("%dx%d+0+0" % (width_value, height_value))
 root.configure(bg='black', cursor= 'crosshair')
@@ -970,8 +1175,8 @@ error_label3 = Label(root)
 error_label4 = Label(root)
 update_label = Label(root)
 btclogo = PhotoImage(file=r"btclogo.png")
+settingsicon = PhotoImage(file=r"settings.png")
 my_gui = BTCTicker(root)
-internet_on()
 bitstamp()
 coingecko()
 mempoolspace()

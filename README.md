@@ -1,5 +1,6 @@
 # BTC Dashboard
-BTC dashboard is a Python program that you can run on a Raspberry Pi or PC and displays the output on a LCD Screen. The program provides up-to-date tracking of key Bitcoin indicators. The program uses free API's online and automatically respects their free data request limits. <br>
+- v2.0.0
+BTC dashboard is a Python program that you can run on a Raspberry Pi or computer of your choice and displays the output on a screen. The program provides up-to-date tracking of key Bitcoin indicators. The program uses free API's online and automatically respects their free data request limits. <br>
 No accounts, API keys, or log-ins required<br>
 The dashboard indicators include:<br>
 <li> Market Data: Price, sats/USD, 24hr Change, BTC Dominance, Circulating Supply, and MarketCap.
@@ -24,14 +25,6 @@ Make sure everything is updated
 ```shell
 sudo apt-get update && sudo apt-get upgrade -y
 ```
-Install XTERM dependency to allow the screensaver to be suppressed
-```shell
-sudo apt-get install xterm
-```
-Install PILLOW dependecy
-```shell
-sudo apt-get install python3-pil python3-pil.imagetk
-```
 Clone this repository
 ```shell
 git clone https://github.com/ChuckinBits/BTC-Dashboard.git
@@ -40,8 +33,34 @@ Now you will have BTC-Dashboard directory under /home/pi/
 <br>Right mouse click btclauncher.sh and click properties
 <br>Click the "Permissions" tab and change Execute option to "Anyone" and click OK
 
+## Install Dependencies
+
+### Automatically Install All Dependencies 
+Navigate to the BTC-Dashboard directory in the terminal
+```shell
+cd BTC-Dashboard
+```
+Automatically install all of the required dependencies from the requirements.txt file
+```shell
+pip install -r requirements.txt
+```
+
+### Manually Install Dependencies
+Intall Requests dependency to allow requesting of the API data
+```shell
+pip install requests
+```
+Install XTERM dependency to allow the screensaver to be suppressed
+```shell
+sudo apt-get install xterm
+```
+Install PILLOW dependecy
+```shell
+sudo apt-get install python3-pil python3-pil.imagetk
+```
+
 ## Start BTC Dashboard
-Open BTC-Dashboard folder and [copy](https://projects.raspberrypi.org/en/projects/rpi-gui-copying-files) btclauncher.sh to your desktop. (optional) <br>
+Open BTC-Dashboard folder and [copy](https://projects.raspberrypi.org/en/projects/rpi-gui-copying-files) btclauncher.sh to your desktop. (optional) Also feel free to rename it to whatever you want <br>
 Double click or open btclauncher.sh and if prompted select "Execute" to run the program. <br>
 Select "Execute in Terminal" to run the program and have a terminal screen running in the background which shows you what the program is doing behind the scenes and is great for debugging if there are any errors. To see the terminal while the program is running use ALT + TAB or ALT + ESC
 <br>Enjoy the Dashboard!
@@ -52,6 +71,16 @@ If you already have your screensaver suppressed or prefer not to suppress the sc
 ```shell
 python3 BTCDashboard.py
 ```
+
+## How to connect your own Node for Mempool Data
+Open the settings menu by clicking on the settings button in the upper right hand corner of the Dashboard <br>
+Under Mempool Data there are to options: "Default" and "Custom Node" <br>
+Click "Custom Node" <br>
+In the Input box type or paste your Node's Mempool URL and port <br>
+The prefilled text in the Custom Node URL input box shows you an example of how this should look <br> 
+Click on "Test Connection" button <br>
+A messagebox will appear to let you know if the program is able to successfully connect to your node <br>
+If successful, click the "Apply" button
 
 ## To stop the program
 To stop the program, click on the Bitcoin logo.
@@ -66,6 +95,7 @@ The program will keep running and attempt to reestablish connection at least onc
 We continually try and improve the program on our spare time.<br>
 Be sure to update every once and a while for performance improvements, new features, and bug fixes. <br>
 <br>
+Version is now shown on the splash screen as of v2.0.0 <br>
 Navigate to the BTC-Dashboard directory in the terminal
 ```shell
 cd BTC-Dashboard
@@ -74,6 +104,5 @@ Once in the directory run this command
 ```shell
 git pull
 ```
-If there are any updates, it will download them.<br>
+If there are any updates, it will download and apply them.<br>
 Enjoy!
-
