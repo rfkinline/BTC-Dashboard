@@ -1,5 +1,5 @@
 # BTC Dashboard
-- v2.0.1
+#### v2.0.1
 BTC dashboard is a Python program that you can run on a Raspberry Pi or computer of your choice and displays the output on a screen. The program provides up-to-date tracking of key Bitcoin indicators. The program uses free API's online and automatically respects their free data request limits. <br>
 No accounts, API keys, or log-ins required<br>
 The dashboard indicators include:<br>
@@ -15,11 +15,12 @@ The dashboard indicators include:<br>
 <img src="https://cypherhive.com/wp-content/uploads/2021/01/BTC-Dashboard8ATHBHgreen.jpg" border="1"><br>
 
 ## Minimum Hardware Requirements
-<li>A Raspberry Pi 0w, 1, 2, 3, 4+ (tested on 0w and 4) or you can also run on a computer with Python installed
-<li>Constant internet connection
-<li>7 Inch Display Monitor 1024X600. Larger displays should also do the job.
+- A Raspberry Pi [0w](https://amzn.to/2RLVBFs), 1, 2, 3, 4+ (tested on 0w and 4) or you can also run on a computer with Python installed
+- Constant internet connection
+- [7 Inch Display Monitor](https://amzn.to/3fnSYCP) 1024X600. Larger displays should also work.
 
 ## Install on Raspberry Pi
+#### [Detailed Tutorial](https://cypherhive.com/bitcoindashboard/)
 Install [Raspberry Pi OS](https://www.raspberrypi.org/software/) on your Raspberry Pi<br>
 Make sure everything is updated
 ```shell

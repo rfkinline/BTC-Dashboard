@@ -12,7 +12,7 @@ from PIL import ImageTk,Image
 from urllib.request import urlopen
 from json import loads
 
-version = "v2.0.0"
+version = "v2.0.1"
 refreshtime = 5000
 
 class BTCTicker:
@@ -676,7 +676,6 @@ def settingsMenu():
 	settings_y = int((height_value / 2) - (settings_height / 2))
 	settings.geometry(f'{settings_width}x{settings_height}+{settings_x}+{settings_y}')
 	settings.title('Settings')
-	#settings.iconbitmap('btcicon.ico')
 	img = PhotoImage(file='btcicon.png')
 	settings.tk.call('wm', 'iconphoto', settings._w, img)
 	anchor_label = Label(settings, text="    ", font=('Helvetica',12))
