@@ -16,7 +16,7 @@
 - Reworked "No Internet Connection Available!" error detection
 - Added version to splashscreen
 - Added `CHANGELOG.md`
-- Added Licence
+- Added `Licence`
 
 ## Version 1.5.6
 
