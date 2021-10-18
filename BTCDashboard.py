@@ -687,7 +687,7 @@ def settingsMenu():
 	refresh_spin.grid(row=0, column=2, sticky=W)
 	refresh_spin.config(validate ="key", validatecommand =(range_validation, '%P'))
 	refresh_conv = Label(settings, text=f'{h:d} hr {m:02d} min {s:02d} sec', font=('Helvetica', 16))
-	refresh_conv.grid(row=0, column=2, sticky=E)
+	refresh_conv.grid(row=0, column=2, columnspan=2, padx=(100,0))
 	top_label = Label(settings, text="Mempool Source", font=('Helvetica',20, 'bold'))
 	top_label.grid(row=1, column=1, columnspan=3)
 	r_memp = Radiobutton(settings, text="Default", variable=src, value=0, command=nodeEnable, font=('Helvetica',14))
