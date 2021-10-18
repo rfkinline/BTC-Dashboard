@@ -1,5 +1,10 @@
 # Versions
 
+## Version 2.0.1
+
+### Bug Fix
+- Settings menu icon bug fix
+
 ## Version 2.0.0
 
 ### Major Update
