@@ -15,11 +15,12 @@ The dashboard indicators include:<br>
 <img src="https://cypherhive.com/wp-content/uploads/2021/01/BTC-Dashboard8ATHBHgreen.jpg" border="1"><br>
 
 ## Minimum Hardware Requirements
-<li>A Raspberry Pi 0w, 1, 2, 3, 4+ (tested on 0w and 4) or you can also run on a computer with Python installed
-<li>Constant internet connection
-<li>7 Inch Display Monitor 1024X600. Larger displays should also do the job.
+- A Raspberry Pi [0w](https://amzn.to/2RLVBFs), 1, 2, 3, 4+ (tested on 0w and 4) or you can also run on a computer with Python installed
+- Constant internet connection
+- [7 Inch Display Monitor](https://amzn.to/3fnSYCP) 1024X600. Larger displays should also do the job.
 
 ## Install on Raspberry Pi
+#### Detailed tutorial can also be found [here](https://cypherhive.com/bitcoindashboard/)
 Install [Raspberry Pi OS](https://www.raspberrypi.org/software/) on your Raspberry Pi<br>
 Make sure everything is updated
 ```shell
@@ -34,7 +35,7 @@ Now you will have BTC-Dashboard directory under /home/pi/
 <br>Click the "Permissions" tab and change Execute option to "Anyone" and click OK
 
 ## Install Dependencies
-
+You can either install dependencies automatically or manually 
 ### Automatically Install All Dependencies 
 Navigate to the BTC-Dashboard directory in the terminal
 ```shell
