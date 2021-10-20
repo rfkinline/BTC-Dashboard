@@ -1,5 +1,12 @@
 # Versions
 
+## Version 2.1.0
+
+### New Feature and Bug Fix
+- Taproot blocks until activation and estimated date added
+- Shortened Fear & Greed Labels to stop screen clipping
+- Code cleanup
+
 ## Version 2.0.1
 
 ### Bug Fix

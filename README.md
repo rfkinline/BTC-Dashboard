@@ -1,11 +1,11 @@
 # BTC Dashboard
-#### v2.0.1
+#### v2.1.0
 BTC dashboard is a Python program that you can run on a Raspberry Pi or computer of your choice and displays the output on a screen. The program provides up-to-date tracking of key Bitcoin indicators. The program uses free API's online and automatically respects their free data request limits. <br>
 No accounts, API keys, or log-ins required<br>
 The dashboard indicators include:<br>
 <li> Market Data: Price, sats/USD, 24hr Change, BTC Dominance, Circulating Supply, and MarketCap.
 <li> Mempool Data: Block Height - time since block added, # of Transactions in the Mempool, Average Fee 24hr($), Recommended Fees: Fast, Medium, Low ($ & sats/vByte), Hashrate/24hrs, and Next difficulty adjustment estimate.
-<li> Other Indicators: BTC High 24hr, BTC Low 24hr, ATH (All Time High), ATH change (%), ATH Date, Fear & Greed Index, Fear Value, # of Lightning Network Nodes, Lightning Network Capacity, Error messages, and Date/Time of Last update
+<li> Other Indicators: BTC High 24hr, BTC Low 24hr, ATH (All Time High), ATH change (%), ATH Date, Fear & Greed Index, Fear Value, Blocks until Taproot activation, Taproot date, Lightning Network Capacity + 30 day change, # of Lightning Nodes + 30 day change, # of Lightning Channels + 30 day change, Error messages, and Date/Time of Last update
 <li> Bitcoin Price trend arrow appears next to the price when Bitcoin price goes up or down 2%+ in an hour.
 <li> Colors: Green (up) or Red (down) depending on the change. Currently implemented in: BTC Price, Marketcap, and Hashrate.
 <li> Colors reversed for Mempool transactions. Green (down) and Red (up) show when # of transactions goes up or down 5% in 5 minutes
