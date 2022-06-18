@@ -12,7 +12,7 @@ from PIL import ImageTk,Image
 from urllib.request import urlopen
 from json import loads
 
-version = "v2.1.0"
+version = "v2.1.1"
 refreshtime = 5000
 
 class BTCTicker:
@@ -38,8 +38,7 @@ class BTCTicker:
 		global athdate_label
 		global circ_label
 		global fearindex_label
-		global fearvalue_label
-		global taproot_label
+		global lightning_label
 		global lgtcap_label
 		global lnodes_label
 		global lnchannels_label
@@ -101,16 +100,15 @@ class BTCTicker:
 		athdate_label.grid(row=7, column=2, sticky=W)
 		fearindex_label = Label(text=("F&G Index: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		fearindex_label.grid(row=8, column=2, sticky=W)
-		fearvalue_label = Label(text=("F&G Value: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		fearvalue_label.grid(row=9, column=2, sticky=W)
-		taproot_label = Label(text=("Taproot Activation: "),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		taproot_label.grid(row=10, column=2, sticky=W)
+		title4 = "Lightning Network"
+		lightning_label = Label(master, text=(title4),anchor=NW, justify=LEFT,font=('Helvetica',28, 'bold'), bg='black', fg='#f2a900')
+		lightning_label.grid(row=9, column=2, sticky=W)
 		lgtcap_label = Label(text=(u'\u26A1' + " Capacity: " + str(0) + u'\u20bf'),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		lgtcap_label.grid(row=11, column=2, sticky=W)
+		lgtcap_label.grid(row=10, column=2, sticky=W)
 		lnodes_label = Label(text=(u'\u26A1' + " Nodes: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		lnodes_label.grid(row=12, column=2, sticky=W)
+		lnodes_label.grid(row=11, column=2, sticky=W)
 		lnchannels_label = Label(text=(u'\u26A1' + " Channels: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		lnchannels_label.grid(row=13, column=2, sticky=W)
+		lnchannels_label.grid(row=12, column=2, sticky=W)
 		error_label1 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='hot pink')
 		error_label1.grid(row=14, column=2, sticky=W)
 		error_label2 = Label(text=(""),anchor=NW, justify=LEFT,font=('Helvetica',14), bg='black', fg='hot pink')
@@ -147,6 +145,7 @@ class BTCTicker:
 		global average_transaction_fee_usd_24hdiff
 		global average_transaction_fee_usd_24hsav
 		global blocks
+		global fearemoji
 		global hashrate24hrdiff
 		global hashrate24hrsav
 		global lnodes
@@ -402,20 +401,17 @@ class BTCTicker:
 		athchg_label.configure(text="ATH change: " + str(currency), fg=color)
 		currency = "{:,.0f}".format(circulating_supply)
 		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf', fg='white')
-		fearindex_label.configure(text="F&G index: " + str(fearindex), fg='white')
-		fearvalue_label.configure(text="F&G value: " + str(fearindexvalue), fg='white')
-
-		if tapblocks > 0 and blocks > 0:
-			taptime = datetime.datetime.now() + datetime.timedelta(minutes = (tapblocks * 10))
-			tapdate = taptime.strftime("%b-%d")
-			currency = "{:,.0f}".format(tapblocks)
-			taproot_label.configure(text="Taproot: " + str(currency) + " blocks " + tapdate, font=('Helvetica', 20), fg='white')
-		elif tapblocks == 0 and blocks > 0:
-			taproot_label.configure(text="Taproot: Activated!", font=('Helvetica', 20, 'bold'), fg='lightgreen')
-		elif tapblocks < 0:
-			taproot_label.configure(text="Taproot: Activated!", font=('Helvetica', 20), fg='lightgreen')
-		else:
-			taproot_label.configure(text="Taproot: 0", font=('Helvetica', 20))
+		if fearindex == "Extreme Greed":
+			fearemoji = "🤩"
+		elif fearindex == "Greed":
+			fearemoji = "🤤"
+		elif fearindex == "Neutral":
+			fearemoji = "😐"
+		elif fearindex == "Fear":
+			fearemoji = "😨"
+		elif fearindex == "Extreme Fear":
+			fearemoji = "😱"
+		fearindex_label.configure(text="F&G index: " + str(fearindexvalue)  + " - " + str(fearindex) + " " + str(fearemoji), fg='white')
 
 		if lndcap_chg > 0:
 			trend = "+"
@@ -465,7 +461,6 @@ class BTCTicker:
 			athdate_label.configure(fg='plum1')
 		if alterror > 0:
 			fearindex_label.configure(fg='plum1')
-			fearvalue_label.configure(fg='plum1')
 		if mlerror > 0:
 			lnodes_label.configure(fg='plum1')
 			lgtcap_label.configure(fg='plum1')
@@ -475,7 +470,6 @@ class BTCTicker:
 			memp_label.configure(fg='plum1')
 			recfeeusd_label.configure(fg='plum1')
 			recfee_label.configure(fg='plum1')
-			taproot_label.configure(fg='plum1')
 		if bserror > 1 and cgerror > 1 and mempoolerror > 1:
 			error_label1.configure(text=str("No Internet Connection Available!"), font=('Helvetica',16, 'bold'))
 			error_label2.configure(text=str("Please Check Your Internet Connection"),font=('Helvetica',14, 'bold'))
@@ -498,7 +492,6 @@ class BTCTicker:
 			athchg_label.configure(fg='plum1')
 			athdate_label.configure(fg='plum1')
 			fearindex_label.configure(fg='plum1')
-			fearvalue_label.configure(fg='plum1')
 			lnodes_label.configure(fg='plum1')
 			lgtcap_label.configure(fg='plum1')
 			lnchannels_label.configure(fg='plum1')
@@ -718,7 +711,6 @@ def mempoolspace():
 	global timestamp
 	global lasthash
 	global node_connected
-	global tapblocks
 	
 	try:
 		blocks
@@ -814,10 +806,6 @@ def mempoolspace():
 		except:
 			mempoolerror = 2
 			print("Mempool Connection Refused ")
-	if blocks == 0:
-		tapblocks = 0
-	else:
-		tapblocks = int(709632 - blocks)
 	if mempoolerror == 1:
 		mp1 = "Mempool "
 		mp2 = ""
