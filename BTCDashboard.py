@@ -145,7 +145,6 @@ class BTCTicker:
 		global average_transaction_fee_usd_24hdiff
 		global average_transaction_fee_usd_24hsav
 		global blocks
-		global fearemoji
 		global hashrate24hrdiff
 		global hashrate24hrsav
 		global lnodes
@@ -401,17 +400,7 @@ class BTCTicker:
 		athchg_label.configure(text="ATH change: " + str(currency), fg=color)
 		currency = "{:,.0f}".format(circulating_supply)
 		circ_label.configure(text="Circulating supply: " + str(currency) + u'\u20bf', fg='white')
-		if fearindex == "Extreme Greed":
-			fearemoji = "🤩"
-		elif fearindex == "Greed":
-			fearemoji = "🤤"
-		elif fearindex == "Neutral":
-			fearemoji = "😐"
-		elif fearindex == "Fear":
-			fearemoji = "😨"
-		elif fearindex == "Extreme Fear":
-			fearemoji = "😱"
-		fearindex_label.configure(text="F&G index: " + str(fearindexvalue)  + " - " + str(fearindex) + " " + str(fearemoji), fg='white')
+		fearindex_label.configure(text="F&G index: " + str(fearindexvalue)  + " - " + str(fearindex), fg='white')
 
 		if lndcap_chg > 0:
 			trend = "+"
