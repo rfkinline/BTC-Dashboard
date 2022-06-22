@@ -1,3 +1,4 @@
 requests
 xterm
 pillow
+customtkinter

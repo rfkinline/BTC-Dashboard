@@ -1,6 +1,6 @@
 # BTC Dashboard
 [![YouTube Video Views](https://img.shields.io/youtube/views/7Ui-3r9wZ64?style=social)](https://youtu.be/7Ui-3r9wZ64)
-#### v2.1.0
+#### v2.3.0
 BTC dashboard is a Python program that you can run on a Raspberry Pi or computer of your choice and displays the output on a screen. The program provides up-to-date tracking of key Bitcoin indicators. The program uses free API's online and automatically respects their free data request limits. <br>
 No accounts, API keys, or log-ins required<br>
 The dashboard indicators include:<br>
@@ -8,6 +8,7 @@ The dashboard indicators include:<br>
 <li> Mempool Data: Block Height - time since block added, # of Transactions in the Mempool, Average Fee 24hr($), Recommended Fees: Fast, Medium, Low ($ & sats/vByte), Hashrate/24hrs, and Next difficulty adjustment estimate.
 <li> Other Indicators: BTC High 24hr, BTC Low 24hr, ATH (All Time High), ATH change (%), ATH Date, Fear & Greed Index, Fear Value, Blocks until Taproot activation, Taproot date, Lightning Network Capacity + 30 day change, # of Lightning Nodes + 30 day change, # of Lightning Channels + 30 day change, Error messages, and Date/Time of Last update
 <li> Bitcoin Price trend arrow appears next to the price when Bitcoin price goes up or down 2%+ in an hour.
+<li> Change in Bitcoin Price since last refresh appears to the right of the Bitcoin Price. If no change price change occured it disappears.
 <li> Colors: Green (up) or Red (down) depending on the change. Currently implemented in: BTC Price, Marketcap, and Hashrate.
 <li> Colors reversed for Mempool transactions. Green (down) and Red (up) show when # of transactions goes up or down 5% in 5 minutes
 <li> ATH Price turns green and bold if new ATH was reached in the same day. Green ATH date on same day. ATH Change turns green within 5% of ATH and red when 50% and below 
@@ -59,6 +60,10 @@ sudo apt-get install xterm
 Install PILLOW dependecy
 ```shell
 sudo apt-get install python3-pil python3-pil.imagetk
+```
+Install Custom Tkinter dependecy
+```shell
+pip3 install customtkinter
 ```
 
 ## Start BTC Dashboard

@@ -1,5 +1,22 @@
 # Versions
 
+## Version 2.3.0
+
+### Visual Update and Code Reorganization
+Added new Custom Tkinter requirement - make sure to install CustomTkinter (pip3 install customtkinter)
+Overhauled Settings Menu with CustomTkinter
+Added slider for easier refresh time customizstion
+Added price change value that shows how much the price went up/down since last refresh
+Reorganized the code into multiple folders and files for easier readability, navigation, and customization
+Deleted variables file and replaced with config.py which now holds most of the variables used
+
+## Version 2.2.0
+
+### Visual Update
+Moved Fear & Greed Index to 1 line
+Removed Taproot activation indicator
+Added Lightning Network title
+
 ## Version 2.1.0
 
 ### New Feature and Bug Fix
