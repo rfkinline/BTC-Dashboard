@@ -10,11 +10,13 @@ def mempoolspace():
 			block_url = 'https://mempool.space/api/blocks/tip/height'
 			difadj_url = 'https://mempool.space/api/v1/difficulty-adjustment'
 			fees_url = 'https://mempool.space/api/v1/fees/recommended'
+			hashrate_url = 'https://mempool.space/api/v1/mining/hashrate/3d'
 			transaction_url = 'https://mempool.space/api/mempool'
 		else:
 			block_url = config.ip_url + 'api/blocks/tip/height'
 			difadj_url = config.ip_url + 'api/v1/difficulty-adjustment'
 			fees_url = config.ip_url + 'api/v1/fees/recommended'
+			hashrate_url = config.ip_url + 'api/v1/mining/hashrate/3d'
 			transaction_url = config.ip_url + 'api/mempool'
 		transaction_api_request = urlopen(transaction_url).read()
 		config.mempool = float(loads(transaction_api_request)['count'])
@@ -24,7 +26,11 @@ def mempoolspace():
 		config.highfee = float(loads(fees_api_request)['fastestFee'])
 		config.mediumfee = float(loads(fees_api_request)['halfHourFee'])
 		config.lowfee = float(loads(fees_api_request)['hourFee'])
+		hashrate_api_request = urlopen(hashrate_url).read()
+		config.currenthashrate = float(loads(hashrate_api_request)['currentHashrate'])
+		config.currentdifficulty = float(loads(hashrate_api_request)['currentDifficulty'])
 		difadj_api_request = urlopen(difadj_url).read()
+		config.next_retarget_time_estimate = float(loads(difadj_api_request)['remainingTime'])
 		config.diffadj = float(loads(difadj_api_request)['difficultyChange'])
 
 		if newBlock > config.oldblock:

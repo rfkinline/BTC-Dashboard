@@ -1,6 +1,6 @@
 # BTC Dashboard
 [![YouTube Video Views](https://img.shields.io/youtube/views/7Ui-3r9wZ64?style=social)](https://youtu.be/7Ui-3r9wZ64)
-#### v2.3.0
+#### v2.3.1
 BTC dashboard is a Python program that you can run on a Raspberry Pi or computer of your choice and displays the output on a screen. The program provides up-to-date tracking of key Bitcoin indicators. The program uses free API's online and automatically respects their free data request limits. <br>
 No accounts, API keys, or log-ins required<br>
 The dashboard indicators include:<br>

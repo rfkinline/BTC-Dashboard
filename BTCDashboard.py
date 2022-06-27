@@ -23,6 +23,7 @@ class BTCTicker:
 		global mcap_label
 		global blockchain_label
 		global hash_label
+		global difficulty_label
 		global dif_label
 		global memp_label
 		global block_label
@@ -74,14 +75,16 @@ class BTCTicker:
 		block_label.grid(row=10, column=1, sticky=W)
 		memp_label = Label(text=("Mempool: " + str(0) + " transactions"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		memp_label.grid(row=11, column=1, sticky=W)
-		avgfee_label = Label(text=("Average Fee 24hr: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		avgfee_label.grid(row=12, column=1, sticky=W)
+		#avgfee_label = Label(text=("Average Fee 24hr: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		#avgfee_label.grid(row=12, column=1, sticky=W)
+		recfee_label = Label(text=("Fees: " + str(0) + " sat/vB"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		recfee_label.grid(row=12, column=1, sticky=W)
 		recfeeusd_label = Label(text=("Fees: " + "$" + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		recfeeusd_label.grid(row=13, column=1, sticky=W)
-		recfee_label = Label(text=("Fees: " + str(0) + " sat/vB"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		recfee_label.grid(row=14, column=1, sticky=W)
-		hash_label = Label(text=("Hashrate 24hr: " + str(0) + " EH/s"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
-		hash_label.grid(row=15, column=1, sticky=W)
+		hash_label = Label(text=("Hashrate: " + str(0) + " EH/s"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		hash_label.grid(row=14, column=1, sticky=W)
+		difficulty_label = Label(text=("Difficulty: " + str(0) + " T"),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
+		difficulty_label.grid(row=15, column=1, sticky=W)
 		dif_label = Label(text=("Next difficulty estimate: " + str(0)),anchor=NW, justify=LEFT,font=('Helvetica',20), bg='black', fg='white')
 		dif_label.grid(row=16, column=1, sticky=W)
 		title3 = "More Data"
@@ -215,12 +218,15 @@ class BTCTicker:
 				color = "lightcoral"
 		else:
 				color = "white"
-		currency = "{:,.0f}".format(config.hashrate24hr)
-		hash_label.configure(text=("Hashrate 24hr: " + str(currency) + " EH/s"), fg=color)
+		currency = "{:,.2f}".format(config.currenthashrate/1000000000000000000)
+		hash_label.configure(text=("Hashrate: " + str(currency) + " EH/s"), fg=color)
+		currency = "{:,.2f}".format(config.currentdifficulty/1000000000000)
+		difficulty_label.configure(text=("Difficulty: " + str(currency) + " T"), fg='white')
+
 		currency = "{:,.02%}".format(config.diffadj/100)
 		try:
-			date_time_obj = datetime.datetime.strptime(str(config.next_retarget_time_estimate), '%Y-%m-%d %H:%M:%S')
-			textadj = str(date_time_obj.date()) #.strftime("%Y-%m-%d %H:%M")
+			date_time_obj = datetime.datetime.fromtimestamp(int(config.next_retarget_time_estimate)/1000)
+			textadj = str(date_time_obj.date())
 		except:
 			textadj = "Date Error"
 		dif_label.configure(text="Difficulty adjustment: " + textadj + " " + str(currency), fg='white')
@@ -255,8 +261,8 @@ class BTCTicker:
 				color = "lightgreen"
 		else:
 				color = "white"
-		currency = "${:,.2f}".format(config.average_transaction_fee_usd_24h)
-		avgfee_label.configure(text=("Average fee 24hr: " + str(currency)), fg=color)
+		#currency = "${:,.2f}".format(config.average_transaction_fee_usd_24h)
+		#avgfee_label.configure(text=("Average fee 24hr: " + str(currency)), fg=color)
 		hfee = "{:,.0f}".format(config.highfee)
 		mfee = "{:,.0f}".format(config.mediumfee)
 		lfee = "{:,.0f}".format(config.lowfee)
@@ -418,7 +424,7 @@ class BTCTicker:
 
 		#Runs only once
 		if onlyonce == 0:
-			hashrate24hrsav = config.hashrate24hr
+			hashrate24hrsav = config.currenthashrate
 			mempoolsav = config.mempool
 			average_transaction_fee_usd_24hsav = config.average_transaction_fee_usd_24h
 			config.splash.destroy()
@@ -427,12 +433,12 @@ class BTCTicker:
 		# to calculate the hourly differences
 		if duration_in_s > 300:
 			print("Calculating duration_in_s > 300")
-			hashrate24hrdiff =  config.hashrate24hr - hashrate24hrsav
+			hashrate24hrdiff =  config.currenthashrate - hashrate24hrsav
 			try:
 				hashrate24hrdiff =  hashrate24hrdiff / hashrate24hrsav * 100
 			except ZeroDivisionError:
 				print("Zero Division Error Calculating Hashrate 24H diff")
-			hashrate24hrsav = config.hashrate24hr
+			hashrate24hrsav = config.currenthashrate
 			if config.mempool == 0:
 				config.mempool = 1
 			mempooldiff = config.mempool  - mempoolsav 

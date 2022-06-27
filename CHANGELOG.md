@@ -1,5 +1,13 @@
 # Versions
 
+## Version 2.3.1
+
+### Mempool Data Indicators Changed
+Removed Average USD Fee / 24 hours
+Switched Hashrate source to Mempool Node
+Added Network Difficulty
+Switched Estimated Difficulty Retarget Source to Mempool Node 
+
 ## Version 2.3.0
 
 ### Visual Update and Code Reorganization

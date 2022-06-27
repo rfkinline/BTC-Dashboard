@@ -12,7 +12,6 @@ def blockchair():
 		config.market_dominance_percentage = float(loads(blockchair_api_request)['data']['market_dominance_percentage'])
 		config.average_transaction_fee_usd_24h = float(loads(blockchair_api_request)['data']['average_transaction_fee_usd_24h'])
 		config.hashrate24hr = float(loads(blockchair_api_request)['data']['hashrate_24h'])
-		config.next_retarget_time_estimate = str(loads(blockchair_api_request)['data']['next_retarget_time_estimate'])
 		config.market_dominance_percentage = config.market_dominance_percentage / 100
 		config.hashrate24hr = config.hashrate24hr / 1000000000000000000  # in EH/s
 		print("Updated Blockchair Stats ")

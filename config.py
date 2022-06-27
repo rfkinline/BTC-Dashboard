@@ -1,6 +1,6 @@
 from tkinter import *
 
-version = "v2.3.0"
+version = "v2.3.1"
 
 ### Default refresh time in seconds (change to your liking) ###
 default_refresh = 10
@@ -146,6 +146,14 @@ try:
 	lowfee
 except NameError:
 	lowfee = 0
+try:
+	currenthashrate
+except NameError:
+	currenthashrate = 0
+try:
+	currentdifficulty
+except NameError:
+	currentdifficulty = 0
 try:
 	diffadj
 except NameError:
