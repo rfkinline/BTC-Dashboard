@@ -65,21 +65,65 @@ bcerror = 0
 bc1 = ""
 bc2 = ""
 try:
+	average_transaction_fee_sats_24h
+except NameError:
+	average_transaction_fee_sats_24h = 0
+try:
 	average_transaction_fee_usd_24h
 except NameError:
 	average_transaction_fee_usd_24h = 0
+try:
+	blocks_24h
+except NameError:
+	blocks_24h = 0
 try:
 	hashrate24hr
 except NameError:
 	hashrate24hr = 0
 try:
+	hodling_addresses
+except NameError:
+	hodling_addresses = 0
+try:
 	market_dominance_percentage
 except NameError:	
 	market_dominance_percentage = 0
 try:
+	median_transaction_fee_sats_24h
+except NameError:
+	median_transaction_fee_sats_24h = 0
+try:
+	median_transaction_fee_usd_24h
+except NameError:
+	median_transaction_fee_usd_24h = 0
+try:
+	mempool_total_fee_usd
+except NameError:
+	mempool_total_fee_usd = 0
+try:
+	mempool_tps
+except NameError:
+	mempool_tps = 0
+try:
 	next_retarget_time_estimate
 except NameError:
 	next_retarget_time_estimate = 0
+try:
+	timechain_size
+except NameError:
+	timechain_size = 0
+try:
+	total_outputs
+except NameError:
+	total_outputs = 0
+try:
+	total_transactions
+except NameError:
+	total_transactions = 0
+try:
+	volume_24h
+except NameError:
+	volume_24h = 0
 
 ### CoinGecko API Variables ###
 cgerror = 0

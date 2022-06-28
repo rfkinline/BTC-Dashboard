@@ -27,7 +27,7 @@ class BTCTicker:
 		global dif_label
 		global memp_label
 		global block_label
-		global avgfee_label
+		#global avgfee_label
 		global recfee_label
 		global recfeeusd_label
 		global high24_label
@@ -364,9 +364,7 @@ class BTCTicker:
 			error_label2.configure(text=str(config.bs2 + config.mp2 + config.cg2 + config.bc2 + config.alte2 + config.mle2 + "Connection Refused!"), font=('Helvetica', 14))
 		if config.bcerror > 0:
 			dom_label.configure(fg='plum1')
-			avgfee_label.configure(fg='plum1')
-			hash_label.configure(fg='plum1')
-			dif_label.configure(fg='plum1')
+			#avgfee_label.configure(fg='plum1')
 		if config.bserror > 0:
 			price_label.configure(fg='plum1')
 			sats_label.configure(fg='plum1')
@@ -387,6 +385,9 @@ class BTCTicker:
 			lnchannels_label.configure(fg='plum1')
 		if config.mempoolerror > 0:
 			block_label.configure(fg='plum1')
+			difficulty_label.configure(fg='plum1')
+			dif_label.configure(fg='plum1')
+			hash_label.configure(fg='plum1')
 			memp_label.configure(fg='plum1')
 			recfeeusd_label.configure(fg='plum1')
 			recfee_label.configure(fg='plum1')
@@ -401,10 +402,11 @@ class BTCTicker:
 			mcap_label.configure(fg='plum1')
 			block_label.configure(fg='plum1')
 			memp_label.configure(fg='plum1')
-			avgfee_label.configure(fg='plum1')
+			#avgfee_label.configure(fg='plum1')
 			recfeeusd_label.configure(fg='plum1')
 			recfee_label.configure(fg='plum1')
 			hash_label.configure(fg='plum1')
+			difficulty_label.configure(fg='plum1')
 			dif_label.configure(fg='plum1')
 			high24_label.configure(fg='plum1')
 			low24_label.configure(fg='plum1')
